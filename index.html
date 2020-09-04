@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>云笔记</title>
+    <link rel="stylesheet" href="css/note/index.css">
+    <link rel="stylesheet" href="css/note/note_bar.css">
+    <link rel="stylesheet" href="css/note/note_dir.css">
+    <link rel="stylesheet" href="css/note/note_list.css">
+    <link rel="stylesheet" href="css/note/note_text.css">
+
+    <link rel="stylesheet" href="css/note/loadinganim.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script type="text/javascript" src="script/jquery.min.js"></script>
+    <!-- jquery.cookie-1.4.1.min.js https://github.com/carhartl/jquery-cookie -->
+    <script type="text/javascript" src="script/jquery.cookie-1.4.1.min.js"></script>
+
+  </head>
+  <body>
+    <!-- 下面为加载动画的部分 -->
+    <div class="loading" style="display:none"><span></span></div>
+
+    <!-- 以下为笔记界面布局 -->
+    <div class="note">
+      <div class="bar">
+        <div class="bardoing">
+          <!--头像区 空间占用较大-->
+          <div class="logo">
+            <!-- 空间占用贴近内部组件元素 -->
+            <div class="logoinside">
+              <div class="logoimgbox" title="用户头像">
+                <img src="img/akari.jpg" alt="用户头像" width="100%" height="100%">
+              </div>
+              <div class="Username">
+                <span>用户名</span><i class="fa fa-angle-down" aria-hidden="true"></i>
+                <div class="setupselect">
+                  <div class="selectback"></div>
+                  <div class="selectbtn">
+                    <ul>
+                      <li id="UserSetup">账户设置</li>
+                      <li id="Logout">退出登录</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notedir">
+        <!-- 新键笔记按钮总box -->
+        <div class="newnotebox">
+          <!-- 加号和文字 hover变色 -->
+          <div class="literal">
+            <div class="hover_color">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              <span>新键笔记</span>
+            </div>
+          </div>
+          <div class="createnotebtn">
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </div>
+        </div>
+        <p class="text_gerenbiji">个人笔记</p>
+        <div class="dirlist">
+          <!-- 近期笔记 -->
+          <div class="recent list_hover">
+            <div class="recent1 list">
+              <div class="clock listicon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+              <span class="listtext">近期笔记</span>
+            </div>
+          </div>
+          <!-- 我的分享 -->
+          <div class="myshare list_hover">
+            <div class="myshare1 list">
+              <div class="share listicon"><i class="fa fa-share-square" aria-hidden="true"></i></div>
+              <span class="listtext">我的分享</span>
+            </div>
+          </div>
+          <!-- 文件夹 -->
+          <div class="folder list_hover">
+            <div class="folder1 list">
+              <div class="file listicon"><i class="fa fa-file-text" aria-hidden="true"></i></div>
+              <span class="listtext">文件夹</span>
+              <div class="selecttag">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+          <!-- 标签 -->
+          <div class="note_tag list_hover">
+            <div class="note_tag1 list">
+              <div class="tag listicon"><i class="fa fa-tag" aria-hidden="true"></i></div>
+              <span class="listtext">标签</span>
+              <div class="selecttag">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+          <!-- 回收站 -->
+          <div class="trash list_hover">
+            <div class="trash1 list">
+              <div class="trashicon listicon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+              <span class="listtext">回收站</span>
+              <div class="selecttag">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="notelist">
+        <!-- 笔记详情页搜索box -->
+        <div class="search">
+          <div class="search2">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <div class="inputbox">
+              <input type="search" name="" aria-invalid="false" placeholder="请输入搜索内容" value="">
+            </div>
+          </div>
+        </div>
+        <!-- 显示笔记数目与排序按钮 -->
+        <div class="notezap">
+          <p>0 篇笔记</p>
+          <div style="flex:1"></div>
+          <span>
+            <span>
+              <svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 1024 1024" width="20" height="20" aria-hidden="true" role="presentation">
+                <path d="M611.983,162.025H61.999C34.384,162.025,12,184.409,12,212.023c0,27.614,22.384,49.999,49.999,49.999h549.985c27.614,0,49.999-22.384,49.999-49.999C661.982,184.409,639.598,162.025,611.983,162.025z M611.983,462.016h-99.997c-27.614,0-49.999,22.384-49.999,49.999c0,27.614,22.384,49.999,49.999,49.999h99.997c27.614,0,49.999-22.384,49.999-49.999C661.982,484.401,639.598,462.016,611.983,462.016z M61.999,562.014h249.993c27.614,0,49.999-22.384,49.999-49.999c0-27.614-22.384-49.999-49.999-49.999H61.999C34.384,462.016,12,484.401,12,512.015C12,539.629,34.384,562.014,61.999,562.014zM611.983,762.008H61.999C34.384,762.008,12,784.392,12,812.007s22.384,49.999,49.999,49.999h549.985c27.614,0,49.999-22.384,49.999-49.999S639.598,762.008,611.983,762.008z M997.533,637.187c-19.734-19.799-51.729-19.264-70.928,0l-64.613,63.123l0.655-488.012c0-27.829-22.399-50.304-50.129-50.304c-27.734,0-50.129,22.474-50.129,50.304v598.873c0,20.869,12.265,39.064,31.464,47.089c5.865,2.68,12.265,3.745,18.664,3.745c13.33,0,38.629-5.35,48.229-14.98L998.068,708.89C1016.732,689.09,1016.732,656.986,997.533,637.187z">
+                </path>
+              </svg>
+            </span>
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </div>
+        <!-- 笔记标题裂表 -->
+        <div class="notetitlelist scrollbar">
+          <ul>
+
+            <li>
+              <!-- noteTitleBox1用于在项目中缩进 -->
+              <div class="noteTitleBox">
+                <div class="noteTitleText">
+                  <p>JavaScript中.prototype用法</p>
+                  <div class="shareanddel">
+                    <div class="shareicon" title="分享"><i class="fa fa-share-square" aria-hidden="true"></i></div>
+                    <div class="deleteicon" title="删除"><i class="fa fa-trash" aria-hidden="true"></i></div>
+                  </div>
+                </div>
+                <!-- 整体预览信息 -->
+                <div class="PreviewinfoBox">
+                  <!-- 预览文本 -->
+                  <div class="PreviewinfoBox2">
+                    <!-- 修改时间 及所属文件夹 -->
+                    <div class="timedirinfo">
+                      <p class="note_time font2">2019/08/26</p>
+                      <p class="note_sort font2">HTML+CSS+JS</p>
+                    </div>
+                    <div class="Previewinfo">
+                      <p class="font2">
+                        插件名称：naranja.js演示HTML代码：!DOCTYPE html html lang="zh" head metacharset="UTF-8" meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" meta name="viewport" content="width=device-width,
+                      </p>
+                    </div>
+                  </div>
+                  <!-- 预览图片 如果没有图片则这个div不显示 -->
+
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <!-- noteTitleBox1用于在项目中缩进 -->
+              <div class="noteTitleBox">
+                <div class="noteTitleText">
+                  <p>JavaScript中.prototype用法666666</p>
+                  <div class="shareanddel">
+                    <div class="shareicon" title="分享"><i class="fa fa-share-square" aria-hidden="true"></i></div>
+                    <div class="deleteicon" title="删除"><i class="fa fa-trash" aria-hidden="true"></i></div>
+                  </div>
+                </div>
+                <!-- 整体预览信息 -->
+                <div class="PreviewinfoBox">
+                  <!-- 预览文本 -->
+                  <div class="PreviewinfoBox2">
+                    <!-- 修改时间 及所属文件夹 -->
+                    <div class="timedirinfo">
+                      <p class="note_time font2">2019/08/26</p>
+                      <p class="note_sort font2">HTML+CSS+JS</p>
+                    </div>
+                    <div class="Previewinfo">
+                      <p class="font2">
+                        插件名称：naranja.js演示HTML代码：!DOCTYPE html html lang="zh" head metacharset="UTF-8" meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" meta name="viewport" content="width=device-width,
+                      </p>
+                    </div>
+                  </div>
+                  <!-- 预览图片 如果没有图片则这个div不显示 -->
+                  <div class="PreviewImg">
+                    <img width="56px" src="https://kshttps0.wiz.cn/ks/note/abstract/7dc5e240-c737-11e9-8e38-4f4aade711f2/38010cc0-c7e2-11e9-a7bd-1bd14b54fa6e?clientType=web&amp;clientVersion=3.0.0&amp;apiVersion=10&amp;lang=zh-cn&amp;1596530226076" alt="">
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      
+      <!-- 笔记内容显示编辑部分 -->
+      <div class="notetext">
+
+
+      </div>
+    </div>
+
+
+    <script type="text/javascript" src="script/note/loading.js"></script>
+    <script type="text/javascript" src="script/note/change.js"></script>
+  </body>
+</html>

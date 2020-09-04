@@ -1,0 +1,10 @@
+.notetext{
+  position: absolute;
+  right: 0;
+  width:calc(100% - 240px - 320px - 60px);
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  flex-direction: column;/*让内部元素垂直排列*/
+  background: white;
+}
