@@ -37,10 +37,10 @@
             <div class="autologin">
               <span>
                 <span>
-                  <input type="checkbox" name="autologin" value="authlogin" checked="">
+                  <input type="checkbox" id="autologin"  name="autologin" value="authlogin" checked="">
                 </span>
               </span>
-              <span class="authlogintext font">两周内自动登录</span>
+              <span class="authlogintext font"><label for="autologin">两周内自动登录</label></span>
               <span class="font forgetpw"><a href="#">忘记密码?</a></span>
             </div>
           </div>
@@ -52,12 +52,12 @@
 
           <!--第三方登录按钮 -->
           <div class="loginbtn2">
-            <div class="qqlogin" title="使用QQ登录">
+            <button type="button" class="qqlogin" name="button" title="使用QQ登录">
               <i class="fa fa-qq" aria-hidden="true"></i>
-            </div>
-            <div class="githublogin" title="使用GitHub登录">
+            </button>
+            <button type="button" class="githublogin" name="button" title="使用GitHub登录">
               <i class="fa fa-github" aria-hidden="true"></i>
-            </div>
+            </button>
           </div>
 
           <!-- 注册提示信息 -->

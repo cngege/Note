@@ -130,6 +130,7 @@ body{
 /* 取消忘记密码的超链接的下划线 */
 .forgetpw a{
   text-decoration:none;
+  color: #00a8ff;
 }
 
 /* 登录按钮 */
@@ -162,23 +163,47 @@ body{
 }
 
 .qqlogin,.githublogin{
-  display:inline;
-  margin: 15px;
-  /* background-color: #090; */
+  display:inline-block;
+  margin: auto 10px;
+  background-color: transparent;  /*btn按钮背景颜色设置透明*/
+  border: 0;                      /*清除btn按钮边框*/
+  width: 30px;
+  height: 30px;
+  padding: 0;                    /*btn内容文字图标居中*/
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+              box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+              border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .qqlogin:hover,.githublogin:hover{
   cursor: pointer;
+  background-color: #e6e9ed;
+}
+
+.qqloginc::before,.githubloginc::before{
+  display: block;
+  content: '';
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  z-index: -1;
+
+}
+
+.qqloginc:hover::before,.githubloginc:hover::before{
+  background-color: #e6e9ed;
 }
 
 .qqlogin .fa-qq{
   color: #60B9FF;
-  font-size: 23px;
+  font-size: 19px;
 }
 
 .githublogin .fa-github{
   color: #000;
-  font-size: 25px;
+  font-size: 21px;
 }
 
 /*  创建账号提示信息*/
@@ -190,4 +215,5 @@ body{
 
 .regtitle a{
   text-decoration:none;
+  color: #00a8ff;
 }
