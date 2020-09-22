@@ -48,3 +48,22 @@ $(".notelist ul li .noteTitleBox").hover(function(){
     $(this).find(".shareanddel").css("display","none");
     $(this).find(".noteTitleText p").css("width","100%");
 });
+
+//笔记内容可编辑页
+//笔记设置下拉框点击弹出菜单
+$(".notetext header .titlebtn .notecontrolbtn .notemorebtn button").click(function(event) {
+  /* Act on the event */
+  //1. 弹出菜单
+  $('.notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform').show();//那么就显示div
+  //$(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform").css("display","inline");
+  //2. 重新修改下拉菜单的位置
+$(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfosetup").css("top",$(this).offset().top+$(this).outerHeight()+"px")
+
+});
+
+//笔记设置下拉框点击外围消失
+$(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform .close").click(function(event) {
+  /* Act on the event */
+  $('.notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform').hide();//就隐藏div
+  //$(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform").css("display","none");
+});

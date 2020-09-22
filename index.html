@@ -2,6 +2,9 @@
 <html lang="zh" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="theme-color" content="#000000">
     <title>云笔记</title>
     <link rel="stylesheet" href="css/note/index.css">
     <link rel="stylesheet" href="css/note/note_bar.css">
@@ -18,6 +21,7 @@
 
   </head>
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <!-- 下面为加载动画的部分 -->
     <div class="loading" style="display:none"><span></span></div>
 
@@ -75,7 +79,7 @@
           <!-- 我的分享 -->
           <div class="myshare list_hover">
             <div class="myshare1 list">
-              <div class="share listicon"><i class="fa fa-share-square" aria-hidden="true"></i></div>
+              <div class="share listicon"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
               <span class="listtext">我的分享</span>
             </div>
           </div>
@@ -146,7 +150,7 @@
                 <div class="noteTitleText">
                   <p>JavaScript中.prototype用法</p>
                   <div class="shareanddel">
-                    <div class="shareicon" title="分享"><i class="fa fa-share-square" aria-hidden="true"></i></div>
+                    <div class="shareicon" title="分享"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
                     <div class="deleteicon" title="删除"><i class="fa fa-trash" aria-hidden="true"></i></div>
                   </div>
                 </div>
@@ -177,7 +181,7 @@
                 <div class="noteTitleText">
                   <p>JavaScript中.prototype用法666666</p>
                   <div class="shareanddel">
-                    <div class="shareicon" title="分享"><i class="fa fa-share-square" aria-hidden="true"></i></div>
+                    <div class="shareicon" title="分享"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
                     <div class="deleteicon" title="删除"><i class="fa fa-trash" aria-hidden="true"></i></div>
                   </div>
                 </div>
@@ -210,8 +214,108 @@
 
       <!-- 笔记内容显示编辑部分 -->
       <div class="notetext">
+        <header>
+          <div class="titlebtn">
+            <p>我就是标题了</p>
+            <div class="kongwei"></div>
+            <div class="notecontrolbtn">
+              <!-- 开启笔记编辑功能按钮 -->
+              <div class="editbtn">
+                <button class="btnBase-root btn-root" type="button" name="button">
+                  <span class="btn-label">
+                    <i class="fa fa-pencil icon-root" aria-hidden="true"></i>
+                    <span>编辑</span>
+                  </span>
+                </button>
+              </div>
+              <!-- 全屏图标按钮 -->
+              <div class="fullsBox">
+                <button  class="btnBase-root btn-root" type="button" name="button">
+                  <span class="btn-label">
+                    <i class="fa fa-arrows-alt icon-root" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <!-- 分析图标按钮 -->
+              <div class="notesharebtn">
+                <button  class="btnBase-root btn-root" type="button" name="button">
+                  <span class="btn-label">
+                    <i class="fa fa-share-alt icon-root" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <!-- 附件图标按钮 -->
+              <div class="noteannexbtn">
+                <button  class="btnBase-root btn-root" type="button" name="button">
+                  <span class="btn-label">
+                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                    <p>1</p>
+                  </span>
+                </button>
+              </div>
+              <!-- 更多按钮图标按钮 -->
+              <div class="notemorebtn">
+                <button  class="btnBase-root btn-root" type="button" name="button">
+                  <span class="btn-label">
+                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+                <div class="noteinfoform">
+                  <div class="close"></div>
+                  <div class="noteinfosetup">
+                      <ul>
+                        <div class="btnBase-root listitem-root listli-root">
+                          <div class="listli-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></div>
+                          <div class="listli-text"><span>笔记历史</span></div>
+                        </div>
+                        <div class="btnBase-root listitem-root listli-root">
+                          <div class="listli-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></div>
+                          <div class="listli-text"><span>附件历史</span></div>
+                        </div>
+                        <div class="btnBase-root listitem-root listli-root">
+                          <div class="listli-icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+                          <div class="listli-text"><span style="color:red">删除笔记</span></div>
+                        </div>
+                      </ul>
+                    <div class="noteinfobox">
+                      <div class="noteinfo">
+                        <div class="dirpath noteinfofont">
+                          <span>文件夹:</span>
+                          <a class="gotodirpathsrc" href="javascript:void(0)">游戏/我的世界</a>
+                        </div>
+                        <p class="noteinfofont">
+                          <span>来源:</span>
+                          <span>无</span>
+                        </p>
+                        <p class="noteinfofont">
+                          <span>最近修改：2020/09/22</span>
+                        </p>
+                        <p class="noteinfofont">
+                          <span>字数：000字（不含空格，标点）</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <!-- 添加笔记标签最外box -->
+          <div class="addtagbox">
+            <div class="singleaddtag">
+              <div class="addtagicon">
+                <button class="btnBase-root btn-root" type="button" name="button"><i class="fa fa-tag" aria-hidden="true"></i></button>
+
+              </div>
+              <p><span>添加标签</span></p>
+            </div>
+          </div>
 
 
+        </header>
+        <div class="notetextbody">
+
+        </div>
       </div>
     </div>
 
