@@ -1,0 +1,215 @@
+/* 富文本编辑区样式： */
+.notetext header .editbtnbox{
+  flex-wrap: nowrap;
+  min-height: 0;
+  align-items: baseline;
+  padding-left: 0;
+  padding-right: 30px;
+  display: flex;
+  position: relative;
+}
+
+.notetext header .editbtnbox .editbtnbox2{
+  flex: 1 1;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 0;
+  align-items: center;
+  padding-left: 30px;
+  margin-bottom: 0;
+  padding-right: 30px;
+  position: relative;
+}
+
+/* 各按钮设置 */
+
+/* 公共设置 */
+.addrightborder{
+  border-right: 1px solid #e6e9ed;
+  margin-right: 4px;
+  padding-right: 8px;
+}
+
+.notetext header .editbtnbox .btnbox{
+  margin-top: 4px;
+  padding-left: 4px;
+  margin-bottom: 4px;
+  padding-right: 4px;
+}
+
+.notetext header .editbtnbox .btnbox2{
+  width: 100%;
+  display: block;
+  margin: 0;
+  position: relative;
+  line-height: 1;
+}
+
+.notetext header .editbtnbox .btnbox2 button{
+  box-shadow: none;
+  height: 24px;
+  display: block;
+  font-size: 14px;
+  padding: 2px;
+  min-width: 24px;
+  min-height: 24px;
+  border-radius: 3px;
+  /* background-color: transparent !important; */
+  color: #a7afbc !important;
+  margin: 0;
+  line-height: 1;
+}
+
+.notetext header .editbtnbox .btnbox2 .allowhover:hover{
+  background-color: #e6e9ed;
+}
+
+.notetext header .editbtnbox .btnbox2 .allowhover:active{
+  background-color: #d1e6ff;
+}
+
+/*样式选择Box&按钮*//* 字体选择Box&按钮 */
+.notetext header .editbtnbox .stylebtnbox{
+  width: 72px;
+}
+
+
+.notetext header .editbtnbox .fontbtnbox{
+  width: 82px;
+}
+
+.notetext header .editbtnbox .fsizebtnbox{
+  width: 48px;
+}
+
+.notetext header .editbtnbox .codebtnbox{
+  width: 42px;
+}
+
+.notetext header .editbtnbox .stylebtnbox button,
+.notetext header .editbtnbox .fontbtnbox button,
+.notetext header .editbtnbox .fsizebtnbox button,
+.notetext header .editbtnbox .codebtnbox button{
+  min-height: 24px;
+  padding:0 4px;
+  max-width: 100%;
+  width: 100%;
+  min-width: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1;
+  display: inline-flex;
+}
+
+.notetext header .editbtnbox .stylebtnbox .style-textbox,
+.notetext header .editbtnbox .fontbtnbox .font-textbox,
+.notetext header .editbtnbox .fsizebtnbox .fsize-textbox,
+.notetext header .editbtnbox .codebtnbox .code-textbox{
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  line-height: 1.4;
+  justify-content: inherit;
+
+}
+
+.notetext header .editbtnbox .stylebtnbox .style-textbox2,
+.notetext header .editbtnbox .fontbtnbox .font-textbox2,
+.notetext header .editbtnbox .fsizebtnbox .fsize-textbox2,
+.notetext header .editbtnbox .codebtnbox .code-textbox2{
+  max-width: calc(100% - 20px);
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+
+.notetext header .editbtnbox .stylebtnbox .style-text,
+.notetext header .editbtnbox .fontbtnbox .font-text,
+.notetext header .editbtnbox .fsizebtnbox .fsize-text{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* .notetext header .editbtnbox .stylebtnbox .style-textbox .fa-angle-down,
+.notetext header .editbtnbox .fontbtnbox .font-textbox .fa-angle-down,
+.notetext header .editbtnbox .fsizebtnbox .fsize-textbox .fa-angle-down */
+.notetext header .editbtnbox .fa-angle-down
+{
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+/* 开始 修改字体文本颜色 范围 */
+.notetext header .editbtnbox .btnbox2 .colorselectbox,
+.notetext header .editbtnbox .btnbox2 .alignbox{
+  display: inline-flex;
+  border-radius: 4px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+}
+
+.notetext header .editbtnbox .btnbox2 .colorselectbox:hover,
+.notetext header .editbtnbox .btnbox2 .alignbox:hover{
+  background-color: #e4e7d9;
+}
+
+.notetext header .editbtnbox .btnbox2 .colorselectbox button{
+  position: relative;
+}
+
+.notetext header .editbtnbox .btnbox2 .colortagbox{
+  position: relative;
+  top: -1px;
+}
+
+.notetext header .editbtnbox .btnbox2 .colorbox{
+  position: absolute;
+  left: 2.5px;
+  top: 8px;
+}
+
+
+/* 对齐选项 */
+.notetext header .editbtnbox .align-btnbox{
+  width: 42px;
+}
+
+.notetext header .editbtnbox .alignbox{
+  display: inline-flex;
+}
+
+.notetext header .editbtnbox .alignbox button{
+  min-height: 24px;
+  padding:0 2px;
+  max-width: 100%;
+  width: 100%;
+  min-width: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1;
+  display: inline-flex;
+}
+
+.notetext header .editbtnbox .alignbox .alignicon{
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  line-height: 1.4;
+  justify-content: inherit;
+
+}
+
+.notetext header .editbtnbox .alignbox .alignicon{
+  max-width: calc(100% - 20px);
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}

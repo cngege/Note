@@ -460,11 +460,10 @@
 
 .notetext header .addtagbox .singleaddtag p{
   cursor: pointer;
-  margin-left: 4px;
   white-space: nowrap;
   color: #172b4d;
   line-height: 1.6;
   align-self: center;
   word-break: break-word;
-  margin: 0;
+  margin: 0 0 0 4px;
 }

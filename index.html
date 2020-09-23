@@ -6,15 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="theme-color" content="#000000">
     <title>云笔记</title>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="css/note/index.css">
     <link rel="stylesheet" href="css/note/note_bar.css">
     <link rel="stylesheet" href="css/note/note_dir.css">
     <link rel="stylesheet" href="css/note/note_list.css">
     <link rel="stylesheet" href="css/note/note_text.css">
+    <!-- 富文本编辑器CSS样式 -->
+    <link rel="stylesheet" href="css/note/edit.css">
 
     <link rel="stylesheet" href="css/note/loadinganim.css">
-    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <script type="text/javascript" src="script/jquery.min.js"></script>
     <!-- jquery.cookie-1.4.1.min.js https://github.com/carhartl/jquery-cookie -->
     <script type="text/javascript" src="script/jquery.cookie-1.4.1.min.js"></script>
@@ -257,7 +259,7 @@
               <div class="notemorebtn">
                 <button  class="btnBase-root btn-root" type="button" name="button">
                   <span class="btn-label">
-                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                   </span>
                 </button>
                 <div class="noteinfoform">
@@ -302,15 +304,242 @@
           </div>
             <!-- 添加笔记标签最外box -->
           <div class="addtagbox">
+
             <div class="singleaddtag">
               <div class="addtagicon">
                 <button class="btnBase-root btn-root" type="button" name="button"><i class="fa fa-tag" aria-hidden="true"></i></button>
-
               </div>
               <p><span>添加标签</span></p>
             </div>
-          </div>
 
+          </div>
+          <!-- 笔记编辑按钮最外层Box -->
+          <div class="editbtnbox">
+            <div class="editbtnbox2">
+              <!-- 撤销 -->
+              <div class="btnbox undobtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="撤销">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 恢复 -->
+              <div class="addrightborder btnbox redobtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="恢复">
+                    <i class="fa fa-repeat" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 格式刷 -->
+              <div class="btnbox painterbtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="格式刷">
+                    <i class="fa fa-paint-brush" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 清除格式 -->
+              <div class="addrightborder btnbox eraserbtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="清除格式">
+                    <i class="fa fa-eraser" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 标题正文：样式 -->
+              <div class="btnbox stylebtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="样式">
+                    <span class="style-textbox">
+                      <span class="style-textbox2">
+                        <span class="style-text">正文</span>
+                      </span>
+                      <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <!-- 字体 -->
+              <div class="btnbox fontbtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="字体">
+                    <span class="font-textbox">
+                      <span class="font-textbox2">
+                        <span class="font-text">默认字体</span>
+                      </span>
+                      <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <!-- 字号 -->
+              <div class="addrightborder btnbox fsizebtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="字号">
+                    <span class="fsize-textbox">
+                      <span class="fsize-textbox2">
+                        <span class="fsize-text">12</span>
+                      </span>
+                      <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <!-- 加粗 -->
+              <div class="btnbox bold-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="加粗">
+                    <i class="fa fa-bold" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 斜体 -->
+              <div class="btnbox italic-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="斜体">
+                    <i class="fa fa-italic" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 下划线 -->
+              <div class="btnbox underline-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="下划线">
+                    <i class="fa fa-underline" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 删除线 -->
+              <div class="addrightborder btnbox strikethrough-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="删除线">
+                    <i class="fa fa-strikethrough" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 文本颜色 -->
+              <div class="btnbox tcolor-btnbox">
+                <div class="btnbox2">
+                  <div class="colorselectbox">
+                    <button class="allowhover btnBase-root btn-root btn" type="button" name="button">
+                      <span class="colortagbox"><i class="icon-root fa fa-font" aria-hidden="true"></i></span>
+                      <span class="colorbox"><i class="icon-root fa fa-window-minimize" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="文本颜色">
+                        <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- 背景颜色 -->
+              <div class="addrightborder btnbox tcolor-btnbox">
+                <div class="btnbox2">
+                  <div class="colorselectbox">
+                    <button class="allowhover btnBase-root btn-root btn" type="button" name="button">
+                      <span class="colortagbox"><i class="icon-root fa fa-tint" aria-hidden="true"></i></span>
+                      <span class="colorbox"><i class="icon-root fa fa-window-minimize" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="背景颜色">
+                        <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- 无序列表 -->
+              <div class="btnbox underline-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="无序列表">
+                    <i class="fa fa-list-ul" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 有序列表 -->
+              <div class="btnbox underline-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="有序列表">
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 插入清单 -->
+              <div class="btnbox underline-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="插入清单">
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 插入表格 -->
+              <div class="btnbox underline-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="插入表格">
+                    <i class="fa fa-table" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 插入图片 -->
+              <div class="btnbox underline-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="插入图片">
+                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 插入代码 -->
+              <div class="addrightborder btnbox codebtnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="插入代码">
+                    <span class="code-textbox">
+                      <span class="code-textbox2">
+                        <span class="code-text"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                      </span>
+                      <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <!-- 增加缩进 -->
+              <div class="btnbox indent-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="增加缩进">
+                    <i class="fa fa-indent" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 减少缩进 -->
+              <div class="btnbox outdent-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="减少缩进">
+                    <i class="fa fa-outdent" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- 对齐 -->
+              <div class="btnbox align-btnbox">
+                <div class="btnbox2">
+                  <div class="alignbox">
+                    <button class="allowhover btnBase-root btn-root btn" type="button" name="button">
+                      <span class="alignicon"><i class="fa fa-align-left" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="对齐">
+                        <i class="icon-root fa fa-angle-down" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- 行间距 -->
+              <div class="btnbox lspacing-btnbox">
+                <div class="btnbox2">
+                  <button class="allowhover btnBase-root btn-root btn" type="button" name="button" title="行间距">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
 
         </header>
         <div class="notetextbody">
