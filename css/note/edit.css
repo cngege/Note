@@ -218,6 +218,7 @@
 /* Iframe */
 .notetext .notetextbody{
   position: absolute;
+  width: 100%;
   inset: 0;
   height: 100%;
   overflow-x: hidden;
