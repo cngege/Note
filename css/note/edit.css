@@ -213,3 +213,115 @@
   display: flex;
   align-items: center;
 }
+
+/* Iframe */
+.notetext .notetextbody .editor-iframe{
+  border: 0;                              /*清除iframe的边框*/
+  margin:20px 30px;
+}
+
+/* 备注 */
+.notetext .notetextbody .remark{
+  border-top: 1px solid #e6e9ed;
+  margin: 30px;
+}
+
+.notetext .notetextbody .remark .remark-p{
+  margin: 40px 0;
+  color: #172b4d;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.notetext .notetextbody .remark .remark-inputbox{
+  display: flex;
+  margin-top: 32px;
+  align-items: flex-start;
+  border-bottom: 1px solid #e6e9ed;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-userimg{
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  position: static;
+  overflow: hidden;
+  flex-shrink: 0;
+  border-radius: 50%;
+  justify-content: center;
+  -moz-user-select: none;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-userimg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  text-align: center;
+}
+
+/* 备注部分 头像框结束 */
+/* 备注部分 输入框开始 */
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input{
+  flex-grow: 1;
+  margin-left: 32px;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input .textinput{
+  border-radius: 4px;
+  min-height: 35px;
+  position: relative;
+  overflow-y: visible;
+  display: block;
+  top: 0px;
+  left: 0px;
+  box-sizing: border-box;
+  background-color: rgb(255, 255, 255);
+  width: inherit;
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: inherit;
+  height: 100%;
+  bottom: 0px;
+  overflow: hidden;
+  resize: none;
+  margin: 0px;
+  padding: 7px;
+  outline: currentcolor none 0px;
+  line-height: 1.4;
+  appearance: none;
+  color: transparent;
+  /* white-space: pre-wrap; */
+  overflow-wrap: break-word;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input .applebtnbox{
+  display: flex;
+  align-items: center;
+  padding-top: 16px;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input .applebtnbox .applebtn{
+  margin: 0 0 8px 0;
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+  background-color: #78e08f;
+  border-radius: 4px;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input .applebtnbox .applebtn button{
+ color: #505f79;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input .applebtnbox .applebtn button:hover{
+  background-color: #e6e9ed;
+}
+
+.notetext .notetextbody .remark .remark-inputbox .remark-input .applebtnbox .applebtn button:active{
+  background-color: #d1e6ff;
+}
