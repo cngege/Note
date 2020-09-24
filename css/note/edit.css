@@ -5,7 +5,8 @@
   align-items: baseline;
   padding-left: 0;
   padding-right: 30px;
-  display: flex;
+  /* display: flex; */
+  display: none;
   position: relative;
 }
 
@@ -215,9 +216,42 @@
 }
 
 /* Iframe */
+.notetext .notetextbody{
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-color: transparent transparent;
+  scrollbar-track-color: transparent;
+  -ms-scrollbar-track-color: transparent;
+}
+
+/*滚动条*/
+.notetext .notetextbody::-webkit-scrollbar
+{
+  width: 5px;
+  height: 1px;
+}
+/* 滚动条里面的小方块 */
+.notetext .notetextbody::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  box-shadow   : inset 0 0 2px rgba(0, 0, 0, 0.2);
+  background   : #535353;
+}
+  /*滚动条里面轨道*/
+.notetext .notetextbody::-webkit-scrollbar-track {
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background   : #ededed;
+}
+
 .notetext .notetextbody .editor-iframe{
-  border: 0;                              /*清除iframe的边框*/
-  margin:20px 30px;
+  margin:20px 35px;
+  min-height: 300px;
+  /* height: 100%; */
+  outline: 0;
 }
 
 /* 备注 */
