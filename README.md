@@ -1,2 +1,2 @@
 # Note
- 一款仅依靠php的云笔记项目
+ 一款依靠nodejs + mysql的web云笔记项目
