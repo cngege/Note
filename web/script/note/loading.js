@@ -17,20 +17,49 @@ if(loading.css('display') != "none"){
   if(isAtom()){
     loading.css('display', 'none');
   }
+}
 
 
  //没有登录信息 直接跳转到登录页面
- if($.cookie("Userkeys") == undefined && !isAtom()){
-   goto("login.html");
- }else{
-   //向服务器请求笔记和用户数据
-   GetNoteData();
- }
+ // if($.cookie("Userkeys") == undefined && !isAtom()){
+ //   goto("login.html");
+ // }else{
+ //   //向服务器请求笔记和用户数据
+ //   GetNoteData();
+ // }
+
+ //向服务器请求用户和笔记的数据，如果登录信息不对 则跳转到登录页面
+ $.ajax({
+   url: '/get',
+   type: 'POST',
+   dataType: 'json',
+   data: {"type":"getInfo"},
+   success:function(e){
+     switch (e.code) {
+       case code.Success:     //登录成功
+         $(".bardoing .logo .logoinside .Username span").text(e.value.username);
+
+         // TODO 获取笔记信息 并关掉加载div
+         loading.css('display', 'none');
+         break;
+       case code.NotInstall://没有安装
+         goto("install.html");
+         break;
+       case code.NoLogin:
+         goto("login.html");
+         break;
+       default:
+         alert("错误:["+ e.msg +"]");
+         console.log(code);
+     }
+   },
+   error: function (textStatus) {
+     if(!isAtom)
+        alert("错误["+textStatus.status+"]:"+textStatus.statusText);
+   }
+ })
 
 
-
-
-}
 
 //跳转到其他页面
 function goto(html){
@@ -42,11 +71,4 @@ function goto(html){
 //判断是否在Atom编辑器中运行
 function isAtom(){
   return (navigator.userAgent.indexOf("Atom") > -1);
-}
-
-//向服务器请求用户和笔记的数据，如果登录信息不对 则跳转到登录页面
-function GetNoteData(){
-  $.post('/path/to/file', {"type":"GetNoteData"}, function(data) {
-    /*optional stuff to do after success */
-  });
 }

@@ -19,11 +19,50 @@ var isinstall = false;
 var connection = null;
 
 //笔记API接口 前端与后端通信接口
-/*
 app.post("/get",(req, resp, next)=>{
+	if(!isinstall){
+		resp.json({code:code.NotInstall,msg:"没有安装"});
+		return;
+	}
+	const {type = ""} = req.body;
+	//检测是否登录
+	if(!req.cookies.token || req.cookies.token.indexOf("|") < 0){
+		//json 发送没有登录
+		resp.json({code:code.NoLogin,msg:"没有登录"});
+		return;
+	}
+	let token = req.cookies.token.split("|");
+	let thisuser = null;
+	connection.query("select * from Users where username = ? AND password = ?",[Buffer.from(token[0], 'base64').toString(),token[1]],(err0,result0)=>{
+		if(err0){
+			//数据库出错
+			resp.json({code:code.SqlError,msg:err0.message});
+			return;
+		}
+		if(result0.length == 0){
+			//数据库没有找到这个用户
+			resp.json({code:code.NoLogin,msg:"没有登录"});
+			return;
+		}
+		thisuser = result0[0];
+
+		//这里开始 处理所有的 请求
+		if(type == "getInfo"){		//获取当前用户的基本信息
+			resp.json({code:code.Success,msg:"Success",value:{
+				id:thisuser.id,
+				username:thisuser.username,
+				email:thisuser.email,
+				userface:thisuser.userface,
+				isadmin:thisuser.isadmin,
+				regtime:thisuser.regtime
+			}});
+			return;
+		}
+
+	})
 
 })
-*/
+
 app.post("/install",(req, resp, next)=>{
 	if(isinstall){
 		//已经安装过了
@@ -95,8 +134,8 @@ app.post("/login",(req,resp,next)=>{
 				return;
 			}
 			let md5pass = md5(password);
-			if(md5pass == result[0].password){
-				resp.cookie("token",new Buffer(username).toString('base64')+"|"+md5pass, { expires: new Date(Date.now() + 1000*60*60*24*(autologin?14:1)), httpOnly: true })
+			if(result.length > 0 && md5pass == result[0].password){
+				resp.cookie("token",Buffer.from(username).toString('base64')+"|"+md5pass, { expires: new Date(Date.now() + 1000*60*60*24*(autologin?14:1)), httpOnly: true })
 				//resp.cookie("user",username);
 				//resp.cookie("token",md5pass, { expires: new Date(Date.now() + 1000*60*60*24*(autologin?14:1)), httpOnly: true })
 				resp.json({code:code.Login.Success,msg:"登录成功"});

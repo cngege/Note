@@ -11,5 +11,8 @@
     "Success":6,
     "PasswordFail":7
   },
-  "NotInstall":8
+  "Success":8,
+  "NotInstall":9,
+  "NoLogin":10,
+  "SqlError":11
 }

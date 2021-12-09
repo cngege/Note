@@ -1,8 +1,3 @@
-var code = {};
-$.get("code.json",function(data,status){
-  code = data;
-})
-
 //除了输入框 其他的一律禁止右键事件
 oncontextmenu=(e)=>{
   //参数传进来的是鼠标位置 e.x
