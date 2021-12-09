@@ -1,0 +1,28 @@
+{
+  "name": "note",
+  "version": "1.0.0",
+  "description": "依赖nodejs+mysql 后台 H5前台的在线云笔记项目",
+  "main": "main.js",
+  "scripts": {
+    "note": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cngege/Note.git"
+  },
+  "author": "cngege",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cngege/Note/issues"
+  },
+  "homepage": "https://github.com/cngege/Note#readme",
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.1",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "mysql": "^2.18.1"
+  }
+}

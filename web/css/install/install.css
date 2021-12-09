@@ -1,0 +1,158 @@
+html{
+  width: 100%;
+  height: 100%;
+}
+
+body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+  background: #fff;
+}
+
+.bg{
+  width: 100%;
+  height: 100%;
+}
+
+.font{
+  font-family: "Open Sans",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Microsoft Yahei",Arial,sans-serif;
+  color: #000;
+}
+
+.install_box{
+  z-index: 1;
+  width: 352px;
+  /* max-width: 90%; */
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.28);
+  min-height: 430px;
+  border-radius: 0;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #fff;
+
+  margin: 0 auto;
+  position: fixed;
+  top:50%;
+  left: 50%;
+  margin-left:-125px;
+  transform:translateY(-50%);
+  border-radius: 5px;
+}
+
+.install{
+  width: 322px;
+  height: 100%;
+  min-height: 300px;
+  margin: 0 auto;
+}
+
+.install_box .install .title{
+  text-align: center;
+  /* margin-top: 20px; */
+  line-height: 4;
+  font-size: 20px;
+}
+
+
+/* 输入框样式 */
+.input{
+  font-weight: "黑体";
+  font-size: 15px;
+  border: 0;
+  width: 95%;
+  height: auto;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  padding-top: 5px;
+  border-color: #d6d9dd;
+  border-style: solid;
+  border-width: 1px;
+  padding-left: 7px;
+  border-radius: 4px;
+  padding-right: 7px;
+  padding-bottom: 5px;
+}
+
+/* 设置输入框带标题整体外样式 */
+.install_box .sqladdr_box,.install_box .sqlport_box,.install_box .sqlUser_box,.install_box .sqlPassword_box,.install_box .sqldb_box, .install_box .User_box, .install_box .Password_box,
+.install_box .Rides_address, .install_box .Rides_prot, .install_box .Rides_id,.install_box .Rides_passwd
+{
+  width: 100%;
+  margin-bottom: 8px;
+  /* background-color: #055; */
+  color: #000;
+}
+
+/* 输入框标题的样式 */
+.install_box .sqladdr_box span,.install_box .sqlport_box span,.install_box .sqlUser_box span,.install_box .sqlPassword_box span,.install_box .sqldb_box span, .install_box .User_box span, .install_box .Password_box span,
+.install_box .Rides_address span, .install_box .Rides_prot span, .install_box .Rides_id span,.install_box .Rides_passwd span
+{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 3;
+}
+
+/* 输入框外样式 */
+.install_box .sqladdr,.install_box .sqlport,.install_box .sqlusername,.install_box .sqlpassword,.install_box .sqldb, .install_box .username, .install_box .password,
+.install_box .RAddress, .install_box .RPort, .install_box .RId, .install_box .RPasswd
+{
+  width: 100%;
+  height: 25px;
+}
+
+/* 输入框获取焦点时的样式 */
+.install_box .sqladdr .input:focus,.install_box .sqlport .input:focus,.install_box .sqlusername .input:focus,.install_box .sqlpassword .input:focus,.install_box .sqldb .input:focus, .install_box .username .input:focus, .install_box .password .input:focus,
+.install_box .RAddress .input:focus, .install_box .RPort .input:focus, .install_box .RId .input:focus, .install_box .RPasswd .input:focus
+{
+    outline: none;
+    border: 1px solid #58b195;
+    background-color: #d5ddff;
+}
+
+/* 请求安装之后 服务器的回传信息显示处 */
+.install_box .callmsg{
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  margin-top: 15px;
+}
+
+.install_box .callmsg p{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25px;
+  color: red;
+}
+
+/* 安装按钮 */
+.install_box .installbtnbox{
+  line-height: 5;
+  text-align: center;
+
+  /* background-color: #000; */
+}
+
+.install_box .installbtn{
+  width: 100%;
+  border: 0;
+  background-color: #448AFF;
+  color: #fff;
+  height: 35px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.install_box .installbtn:hover{
+  cursor: pointer;
+  background-color: #448A99;
+}
+
+.install_box .installbtn[disabled]{
+  cursor: default;
+  background-color: #7f8fa6;
+}
+
+/* Rides_input */

@@ -1,0 +1,14 @@
+{
+  "Install":{
+    "AlreadyInstalled":0,
+    "Success":1,
+    "ConnectSqlError":2,
+    "SqlFail":3,
+    "Fail":4
+  },
+  "Login":{
+    "SqlFail":5,
+    "Success":6
+  },
+  "NotInstall":7
+}
