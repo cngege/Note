@@ -24,5 +24,8 @@
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "mysql": "^2.18.1"
+  },
+  "dependencies": {
+    "md5": "^2.3.0"
   }
 }

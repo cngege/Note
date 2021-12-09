@@ -3,6 +3,7 @@ const cookie = require('cookie-parser');
 const app = express();
 const http = require('http');
 const fs = require('fs');
+const md5 = require('md5');
 const url = require('url');
 const server = http.Server(app);
 const mysql  = require('mysql');
@@ -90,10 +91,18 @@ app.post("/login",(req,resp,next)=>{
 		let sql_login = "select password from Users where username = ?";
 		connection.query(sql_login,[username],(err,result)=>{
 			if(err){
-				resp.json({code:code.SqlFail.SqlFail,msg:err.message});
+				resp.json({code:code.Login.SqlFail,msg:err.message});
 				return;
 			}
-			console.log(result);
+			let md5pass = md5(password);
+			if(md5pass == result[0].password){
+				resp.cookie("token",new Buffer(username).toString('base64')+"|"+md5pass, { expires: new Date(Date.now() + 1000*60*60*24*(autologin?14:1)), httpOnly: true })
+				//resp.cookie("user",username);
+				//resp.cookie("token",md5pass, { expires: new Date(Date.now() + 1000*60*60*24*(autologin?14:1)), httpOnly: true })
+				resp.json({code:code.Login.Success,msg:"登录成功"});
+			}else{
+				resp.json({code:code.Login.PasswordFail,msg:"登录失败,账号或密码错误"});
+			}
 		})
 	}
 })

@@ -8,7 +8,8 @@
   },
   "Login":{
     "SqlFail":5,
-    "Success":6
+    "Success":6,
+    "PasswordFail":7
   },
-  "NotInstall":7
+  "NotInstall":8
 }

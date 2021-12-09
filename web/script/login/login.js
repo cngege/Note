@@ -20,21 +20,24 @@ oncontextmenu=(e)=>{
 $(".loginbtnbox .loginbtn").click(function(event) {
   /* Act on the event */
   $.ajax({
-    url: 'login',
+    url: '/login',
     type: 'POST',
     dataType: 'json',
     data: {
       username: $("#username").val(),
       password: $("#password").val(),
-      autologin: $("#autologin").is(":checked");
+      autologin: $("#autologin").is(":checked")
     },
     success:function(e){
       switch (e.code) {
-        case expression:
-
+        case code.Login.Success://登录成功
+          window.location.href = "index.html";
+          break;
+        case code.Login.PasswordFail://账号或密码验证失败
+          alert("账户或密码验证失败,请重试");
           break;
         default:
-
+          alert("错误:["+ e.msg +"]");
       }
     },
     error: function (textStatus) {
