@@ -38,7 +38,9 @@ if(loading.css('display') != "none"){
      switch (e.code) {
        case code.Success:     //登录成功
          $(".bardoing .logo .logoinside .Username span").text(e.value.username);
-
+         if(e.value.isadmin){
+           $("#WebSetup").css('display','');
+         }
          // TODO 获取笔记信息 并关掉加载div
          loading.css('display', 'none');
          break;
