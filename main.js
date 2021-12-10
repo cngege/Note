@@ -7,8 +7,8 @@ const md5 = require('md5');
 const url = require('url');
 const server = http.Server(app);
 const mysql  = require('mysql');
-//const path = require('path');
-const bodyparser = require('body-parser');//body-parser.urlencoded({ extended: false })
+const path = require('path');
+const bodyparser = require('body-parser');
 const code = require("./web/code.json")
 
 app.use(bodyparser.urlencoded({extended:false}));
@@ -63,12 +63,13 @@ app.post("/get",(req, resp, next)=>{
 
 })
 
+//安装界面后台接收处理
 app.post("/install",(req, resp, next)=>{
 	if(isinstall){
 		//已经安装过了
 		resp.json({code:code.Install.AlreadyInstalled,msg:"已经是安装状态,无法重复安装"});
 	}else{
-		const {sqladdr = "",sqlport = "",sqluser = "",sqlpasswd = "",sqldb = "",adminuser = "",adminpasswd = ""} = req.body;
+		const {sqladdr = "",sqlport = "",sqluser = "",sqlpasswd = "",sqldb = "",datasave = "",adminuser = "",adminpasswd = ""} = req.body;
 		//将前端的安装信息写入到配置文件 后 isinstall = true
 		setup.host = sqladdr;
 		setup.port = sqlport;
@@ -76,7 +77,22 @@ app.post("/install",(req, resp, next)=>{
 		setup.password = sqlpasswd;
 		setup.database = sqldb;
 
-		connection = mysql.createConnection(setup);
+		if(datasave.length == 1 || datasave[1] != ":")
+		{
+			setup.datasave = path.join(__dirname, datasave);
+		}
+		else if(datasave[0] == "/" || datasave[1] == ":")
+		{
+			setup.datasave = datasave;
+		}
+
+		connection = mysql.createConnection({
+			host:setup.host,
+			port:setup.port,
+			user:setup.user,
+			password:setup.password,
+			database:setup.database
+		});
 		connection.connect(function (err) {
 				if (err) {//数据库连接发生错误
 						resp.json({code:code.Install.ConnectSqlError,msg:err.message});
@@ -114,6 +130,8 @@ app.post("/install",(req, resp, next)=>{
 						}
 						//这里插入账户信息成功
 						fs.writeFileSync(__dirname+"/setup.json",JSON.stringify(setup,null,2),{encoding:"utf-8"});
+						fs.mkdirSync(setup.datasave);
+						isinstall = true;
 						resp.json({code:code.Install.Success,msg:"安装完成"})
 					})
 					//console.log(JSON.stringify(result));
@@ -122,6 +140,7 @@ app.post("/install",(req, resp, next)=>{
 	}
 })
 
+//登录页面后台接受处理
 app.post("/login",(req,resp,next)=>{
 	if(!isinstall){
 		resp.json({code:code.NotInstall,msg:"没有安装"});
@@ -152,7 +171,13 @@ fs.exists(__dirname + '/setup.json',exists=>{
 		isinstall = true;
 		//读取配置;并连接数据库
 		setup = JSON.parse(fs.readFileSync(__dirname + '/setup.json'));
-		connection = mysql.createConnection(setup);
+		connection = mysql.createConnection({
+			host:setup.host,
+			port:setup.port,
+			user:setup.user,
+			password:setup.password,
+			database:setup.database
+		});
 		connection.connect(function (err) {
 				if (err) {//数据库连接发生错误
 						console.log("数据库连接发生错误:",err);
@@ -166,54 +191,8 @@ fs.exists(__dirname + '/setup.json',exists=>{
 	}
 })
 
-
+//请求静态文件直接转发
 app.get("/*",express.static(__dirname + '/web'));
 
-/*
-app.get("/:request?/*",(req, resp, next)=>{
-	//console.log(req.header("User-Agent"));
-	console.log(req.params);
-	const { request = '' } = req.params;
-	if(request != "request"){
-		//静态文件请求
-		if(request==""){
-			//主页 判断有没有安装登录等
-			//TODO
-			if(req.params[0] == "" || req.params[0] == "index.html"){
-				fs.access('setup.json', fs.constants.F_OK, (err) => {
-					//console.log(err);
-					if(err){//没有配置文件
-						//resp.statusCode = 302;
-						//resp.header({"Location":"install.html"});
-						resp.redirect(302,"install.html");
-						resp.end();
-					}
-				});
-				return;
-			}
-		}
-		express.static(__dirname + '/web')(req, resp, next);
-	}else{
-		resp.end("错误");
-	}
-});
-*/
-
+//开启服务监听
 server.listen(+8080);
-
-//判断配置文件是否存在,不存在则安装
-/*
-fs.access('setup.json', fs.constants.F_OK, (err) => {
-	console.log(err);
-});
-
-
-fs.readFile("mime.json",(err,data)=>{//将mine.json文件数据读取到data中
-	if(err){
-		console.error(err);
-		return;
-	}
-	mime = JSON.parse(data.toString());//将json数据转化为一个对象
-})
-
-*/

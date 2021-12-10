@@ -19,6 +19,7 @@ $(".install_box .installbtnbox .installbtn").click(function(event) {
       sqluser:$("#sqlusername").val(),
       sqlpasswd:$("#sqlpassword").val(),
       sqldb:$("#sqldb").val(),
+      datasave:$("#datasave").val(),
       adminuser:$("#username").val(),
       adminpasswd:$("#password").val()
     },
