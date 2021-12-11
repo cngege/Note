@@ -111,7 +111,7 @@ app.post("/install",(req, resp, next)=>{
 					email varchar(20),\
 					userface varchar(20),\
 					isadmin tinyint NOT NULL default 0,\
-					regtime timestamp default CURRENT_TIMESTAMP\
+					regtime bigint NOT NULL\
 				) AUTO_INCREMENT = 100;"
 				connection.query(sql_createtable,(err,result)=>{
 					if(err)
@@ -121,8 +121,8 @@ app.post("/install",(req, resp, next)=>{
 						return;
 					}
 					//创建表成功 接下来就是将管理员账户写入到表中
-					let sql_insertadmin = "insert into users(username,password,isadmin) values(?,MD5(?),1)";
-					connection.query(sql_insertadmin,[adminuser,adminpasswd],(err2,result2)=>{
+					let sql_insertadmin = "insert into users(username,password,isadmin,regtime) values(?,MD5(?),1,?)";
+					connection.query(sql_insertadmin,[adminuser,adminpasswd,Date.now()],(err2,result2)=>{
 						//这里面是 插入管理员用户信息到表时的内部处理
 						if(err2){
 							resp.json({code:code.Install.SqlFail,msg:"插入管理员用户信息时出错:"+err2.message})
@@ -130,7 +130,10 @@ app.post("/install",(req, resp, next)=>{
 						}
 						//这里插入账户信息成功
 						fs.writeFileSync(__dirname+"/setup.json",JSON.stringify(setup,null,2),{encoding:"utf-8"});
-						fs.mkdirSync(setup.datasave);
+						fs.exists(setup.datasave,exists=>{
+							if(!exists) fs.mkdirSync(setup.datasave);
+						})
+
 						isinstall = true;
 						resp.json({code:code.Install.Success,msg:"安装完成"})
 					})
