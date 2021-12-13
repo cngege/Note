@@ -130,9 +130,17 @@ app.post("/install",(req, resp, next)=>{
 						}
 						//这里插入账户信息成功
 						fs.writeFileSync(__dirname+"/setup.json",JSON.stringify(setup,null,2),{encoding:"utf-8"});
+
+						//创建安装时填写的用户数据目录
 						fs.exists(setup.datasave,exists=>{
 							if(!exists) fs.mkdirSync(setup.datasave);
-						})
+						});
+
+						//创建 文件上传时的临时上传目录
+						setup.upload = path.join(__dirname, "upload/");	//上传文件临时目录(绝对路径)
+						fs.exists(setup.upload,exists=>{
+							if(!exists) fs.mkdirSync(setup.upload);
+						});
 
 						isinstall = true;
 						resp.json({code:code.Install.Success,msg:"安装完成"})
@@ -188,6 +196,13 @@ fs.exists(__dirname + '/setup.json',exists=>{
 						connection = null;
 		    }
 		});
+
+		if(!setup.upload){
+			setup.upload = path.join(__dirname, "upload/");	//上传文件临时目录(绝对路径)
+			fs.exists(setup.upload,exists=>{
+				if(!exists) fs.mkdirSync(setup.upload);
+			});
+		}
 	}else{
 		isinstall = false;
 
