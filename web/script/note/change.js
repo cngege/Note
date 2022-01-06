@@ -15,12 +15,16 @@ $(".bardoing .Username .setupselect .selectback").click(function(event) {
 $(".bardoing .Username .setupselect ul #UserSetup").click(function(event) {
   /* Act on the event */
   //alert("账户设置");
+  $(".bardoing .Username .setupselect").css('display', 'none');
+  $("div.account_setup_box").css("display","inline");
 });
 
 //退出登录按钮被点击
 $(".bardoing .Username .setupselect ul #Logout").click(function(event) {
   /* Act on the event */
   //alert("退出登录");
+  $(".bardoing .Username .setupselect").css('display', 'none');
+
 });
 
 
@@ -66,4 +70,12 @@ $(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform .close"
   /* Act on the event */
   $('.notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform').hide();//就隐藏div
   //$(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform").css("display","none");
+});
+
+
+
+// 和 账户设置窗口有关的动态交互
+$("#account_close").click(function(event) {
+  /* 关闭 */
+  $("div.account_setup_box").css("display","none");
 });
