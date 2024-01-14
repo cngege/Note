@@ -24,7 +24,12 @@ $(".bardoing .Username .setupselect ul #Logout").click(function(event) {
   /* Act on the event */
   //alert("退出登录");
   $(".bardoing .Username .setupselect").css('display', 'none');
-
+  $.post('/Index/logout',{}, function(data, textStatus, xhr) {
+    /*optional stuff to do after success */
+    if(data.code == 0){
+      goto(data.goto);
+    }
+  });
 });
 
 

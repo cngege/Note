@@ -37,19 +37,18 @@ if(loading.css('display') != "none"){
    success:function(e){
      switch (e.code) {
        case 0:     //登录成功
-         $(".bardoing .logo .logoinside .Username span").text(e.value.username);
-         if(e.value.isadmin){
+         $(".bardoing .logo .logoinside .Username span").text(e.user.nickname);
+         if(e.user.is_admin){
            $("#WebSetup").css('display','');
          }
          // TODO 获取笔记信息 并关掉加载div
          loading.css('display', 'none');
          break;
        case 1:
-         console.log(e.goto)
-         //goto(e.goto);
+         e.goto && goto(e.goto);
          break;
        case 2://没有安装
-         goto("install.html");
+         e.goto && goto(e.goto);
          break;
        default:
          alert("错误:["+ e.msg +"]");
@@ -61,17 +60,3 @@ if(loading.css('display') != "none"){
         alert("错误["+textStatus.status+"]:"+textStatus.statusText);
    }
  })
-
-
-
-//跳转到其他页面
-function goto(html){
-  if(html != null && html != "" && html != undefined){
-      window.location.href=html;
-  }
-}
-
-//判断是否在Atom编辑器中运行
-function isAtom(){
-  return (navigator.userAgent.indexOf("Atom") > -1);
-}

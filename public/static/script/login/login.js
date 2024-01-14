@@ -15,7 +15,7 @@ oncontextmenu=(e)=>{
 $(".loginbtnbox .loginbtn").click(function(event) {
   /* Act on the event */
   $.ajax({
-    url: '/login',
+    url: '/Login/login',
     type: 'POST',
     dataType: 'json',
     data: {
@@ -25,11 +25,15 @@ $(".loginbtnbox .loginbtn").click(function(event) {
     },
     success:function(e){
       switch (e.code) {
-        case code.Login.Success://登录成功
-          window.location.href = "index.html";
+        case 0://登录成功
+          if(e.msg) alert(e.msg);
+          e.goto && goto(e.goto);
           break;
-        case code.Login.PasswordFail://账号或密码验证失败
-          alert("账户或密码验证失败,请重试");
+        case 1://已登录
+          e.goto && goto(e.goto);
+          break;
+        case 2:
+          alert(e.msg);
           break;
         default:
           alert("错误:["+ e.msg +"]");
@@ -39,4 +43,12 @@ $(".loginbtnbox .loginbtn").click(function(event) {
       alert("错误["+textStatus.status+"]:"+textStatus.statusText);
     }
   })
+});
+
+/* 点击 去创建 创建账号 */
+$(".regtitle a").click(function(event) {
+  /* Act on the event */
+  $(".login").hide();
+  $(".register").show();
+  return false;
 });

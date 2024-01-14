@@ -10,8 +10,8 @@ $(".install_box .installbtnbox .installbtn").click(function(event) {
 
   $(".install_box .callmsg p").html("");
   $(".install_box .installbtnbox .installbtn").attr("disabled","disabled");
-  $.ajax({  //告诉服务器离线下载
-    url: "install",
+  $.ajax({
+    url: "/Index/install",
     type: 'POST',
     data: {
       sqladdr:$("#sqladdr").val(),
@@ -26,25 +26,28 @@ $(".install_box .installbtnbox .installbtn").click(function(event) {
     //timeout: 500,
     success:function(ve){
       switch (ve.code) {
-        case code.Install.AlreadyInstalled:     //已经安装过了
+        case 2:     //已经安装过了
           $(".install_box .callmsg p").html(ve.msg);
           $(".install_box .installbtnbox .installbtn").attr("disabled","");
           setTimeout(function () {
             // TODO: 跳转到登录后页面(主页)
-            window.location.href = "index.html";
+            goto(ve.goto);
           }, 2000);
           break;
-        case code.Install.Success:              //请求任务成功 这里指安装成功
+        case 0:              //请求任务成功 这里指安装成功
           $(".install_box .callmsg p").html(ve.msg);
           $(".install_box .installbtnbox .installbtn").attr("disabled","");
           setTimeout(function () {
             // TODO: 跳转到登录后页面
-            window.location.href = "login.html";
+            goto(ve.goto);
           }, 2000);
           break;
-        case code.Install.ConnectSqlError:
-          $(".install_box .callmsg p").html("连接数据库出错:"+ve.msg);
+        case 1:
+          $(".install_box .callmsg p").html("错误:"+ve.msg);
           $(".install_box .installbtnbox .installbtn").attr("disabled","");
+          setTimeout(function(){
+              $(".install_box .installbtnbox .installbtn").removeAttr("disabled");
+          },2000);
           break;
         default:
           $(".install_box .installbtnbox .installbtn").removeAttr("disabled");
@@ -62,9 +65,7 @@ $(".install_box .installbtnbox .installbtn").click(function(event) {
 
 /*
 code:
-0. 未知错误
-1. 成功
-2. 参数不全
-3. 已安装过了
-4. 错误 某扩展未安装
+0. 成功
+1. 失败
+2. 已安装
 */

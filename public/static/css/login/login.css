@@ -22,7 +22,7 @@ body{
   color: #000;
 }
 
-.login{
+.login,.register{
   z-index: 1;
   width: 352px;
   /* max-width: 90%; */
@@ -43,14 +43,15 @@ body{
   border-radius: 5px;
 }
 
-.login2{
+.login2,.register2{
   width: 322px;
   height: 100%;
   min-height: 300px;
   margin: 0 auto;
 }
 
-.login .login2 .title{
+.login .login2 .title,
+.register .register2 .title{
   text-align: center;
   /* margin-top: 20px; */
   line-height: 4;
@@ -126,13 +127,15 @@ body{
 }
 
 /* 登录按钮 */
-.loginbtnbox{
+.loginbtnbox,
+.registerbtnbox{
   line-height: 5;
   text-align: center;
   /* background-color: #000; */
 }
 
-.loginbtn{
+.loginbtn,
+.regbtn{
   width: 100%;
   border: 0;
   background-color: #448AFF;
@@ -142,7 +145,8 @@ body{
   outline: none;
 }
 
-.loginbtn:hover{
+.loginbtn:hover,
+.regbtn:hover{
   cursor: pointer;
   background-color: #448A99;
 }

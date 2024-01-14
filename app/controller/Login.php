@@ -12,14 +12,11 @@ namespace app\controller;
 
 use app\BaseController;
 use app\model\user;
-use think\facade\Db;
 
 class Login extends BaseController
 {
-    public function __construct()
+    public function initialize(): void
     {
-        $user0 = new User();
-        session('login_auth', $user0->find(0));
         // 登陆检查,登陆成功拿到UID
         if(session('?login_auth')){
             /** @var boolean $isLogin 登陆状态是否有效 */
@@ -28,47 +25,99 @@ class Login extends BaseController
             $login = session('login_auth');
             if(!defined("UID")){
                 define("UID",$login["id"]);
+                $isLogin = true;
             }
             /**
              * 检查是否登陆失效
              */
-            if(!empty($login('end_time'))){
+            if(!empty($login['end_time'])){
                 if($login["end_time"] < time()){
                     $isLogin = false;
                 }
             }
 
-            $user = new User();
-            $status = $user->findOne(['id'=>UID],'status');
+            $status = User::find(UID)->value("status");
             if(!defined("STATUS")){
                 define("STATUS",$status);
+                if($status != 0){
+                    $isLogin = false;
+                }
             }
-            $isLogin = STATUS == 0;
-
             if(!defined("LOGIN")){
                 define("LOGIN",$isLogin);
             }
         }
-
+        if(!defined("LOGIN")){
+            define("LOGIN",false);
+        }
     }
 
 
     public function register()
     {
-
+        //拿到用户名，密码
+        $data = input("post.");
+        if(!empty($data["regUsername"]) && !empty($data["regPassword"])){
+            $user = new User();
+            /*如果将要注册的用户名已存在*/
+            if($user->where("nickname" , $data["regUsername"])->count()){
+                return json(["code"=>1,"msg"=>"注册的用户已存在"]);
+            }
+            /*插入数据*/
+            $salt = mt_randStr();
+            $regData = [
+                "nickname" => $data["regUsername"],
+                "password" => thinkUcenterMd5($data["regPassword"],$salt),
+                "salt"     => $salt,
+                "reg_ip" => request()->ip(),
+                "login_ip" => request()->ip(),
+            ];
+            if($user->save($regData)){
+                session('login_auth', $user->getData());
+                return json(["code"=>0,"msg"=>"注册成功","goto"=>url("index")->build()]);
+            }
+            return json(["code"=>1,"msg"=>"注册失败"]);
+        }
+        return json(["code"=>1,"msg"=>"用户名或密码不能为空"]);
     }
 
     /**
-     * 登陆状态检查
+     * 登陆
      *
      * @return \think\response\Json
-     * @Json{}
-     * code: 0 已登陆,也没过期
-     * code: 1 未登录,或者过期
+     * @json: 0 登陆成功
+     * @json: 1 已登录 直接跳转
+     * @json: 2 登陆失败
      */
-    public function check()
+    public function login()
     {
+        if(LOGIN){
+            return json(["code" => 1, "goto"=>url("/index")->build()]);
+        }
+        $data = input("post.");
+        $username = $data["username"];
 
-        return json(["code"=>1,"goto"=>url("\static\page\login.html")]);
+        $userdata = new User();
+        $userdata = User::getByNickname($username);
+        if(!$userdata){
+           return json(["code"=>2,"msg"=>"用户不存在"]);
+        }
+
+        $password = thinkUcenterMd5($data["password"], $userdata["salt"]);
+        if($password == $userdata["password"]){
+            session('login_auth', $userdata);
+            return json(["code"=>0,"msg"=>"","goto"=>url("/index")->build()]);
+        }
+        //密码不对
+        return json(["code"=>2,"msg"=>"密码不正确"]);
+    }
+
+    public function logout()
+    {
+        if(LOGIN){
+            session("login_auth",null);
+            return json(["code"=>0,"goto"=>url("/page/login")->build()]);
+        }
+        return json(["code"=>0,"goto"=>url("/page/login")->build()]);
     }
 }
