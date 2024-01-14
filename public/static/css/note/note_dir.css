@@ -1,0 +1,149 @@
+.notedir{
+  display: flex;
+  flex-direction:column;/*让内部元素垂直排列*/
+  position: relative;
+  flex-direction: column;
+  width: 240px;
+  height: 100%;
+  background: white;
+  line-height: 1.6;
+  color: #000;
+}
+
+/* 新键笔记栏最上方box */
+.notedir .newnotebox{
+  box-shadow: 1px 1.7px 10px 0px rgba(28, 99, 220, 0.15);
+  height: auto;
+  padding: 0;
+  margin-top: 24px;
+  margin-left: 32px;
+  margin-right: 32px;
+  border-bottom: none;
+  margin-bottom: 24px;
+
+  overflow: hidden;/*溢出隐藏*/
+  position: relative;
+  color: white;
+  background: #448AFF;
+  border-radius: 5px;
+}
+
+/* 加号与新键笔记文字hover变色区 */
+.notedir .newnotebox .literal{
+  float: left;
+  width: 80%;
+}
+
+.notedir .newnotebox .literal:hover{
+  background: #69A1FF;
+  cursor: pointer;
+}
+
+.notedir .newnotebox .literal .hover_color{
+  line-height: 2.2;
+  /* margin: 0 5px; */
+  position: relative;
+  left: 10px;
+}
+
+.notedir .newnotebox .literal i{
+  padding: 5px;
+  /* line-height: 2; */
+}
+
+.notedir .newnotebox .createnotebtn{
+  text-align: center;
+  line-height: 2.2;
+  position: absolute;
+  right: 0;
+  width: 20%;
+}
+
+.notedir .newnotebox .createnotebtn:hover{
+  background: #69A1FF;
+  cursor: pointer;
+}
+
+.notedir .newnotebox .createnotebtn i{
+  font-weight: 600;
+}
+
+/* 个人笔记 */
+
+.notedir .text_gerenbiji{
+  color: #a7afbc;
+  padding: 10px 16px 10px 32px;
+  overflow: hidden;
+  align-self: auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 近期笔记1 外层box */
+.notedir .dirlist .recent:hover{
+  background: #F4F6F9;
+}
+
+/* 所有笔记名称列表的共同特征 */
+.list{
+  padding-left: 32px;
+  padding-right: 16px;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  text-align: left;
+  align-items: center;
+  padding-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  justify-content: flex-start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.listicon{
+  font-size: 16px;
+}
+
+.list_hover:hover{
+  background: #F4F6F9;
+}
+
+.listtext{
+  padding-left: 10px;
+}
+
+.notedir .dirlist .recent .clock{
+  color: #cb90fd;
+}
+
+.notedir .dirlist .myshare .myshare1 .share{
+  color: #28d17b;
+}
+
+.notedir .dirlist .folder .folder1 .file{
+  color: #88b5ff;
+}
+
+
+.selecttag{
+  line-height: 2.5;
+  position: absolute;
+  text-align: center;
+  width: 40px;
+  right: 0;
+}
+
+.selecttag i{
+  font-weight: bold;
+}
+
+.notedir .dirlist .note_tag .note_tag1 .tag{
+  color: #88b5ff;
+}
+
+.notedir .dirlist .trash .trash1 .trashicon{
+  color: #fec75c;
+}
