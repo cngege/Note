@@ -33,6 +33,8 @@ $(".bardoing .Username .setupselect ul #Logout").click(function(event) {
 });
 
 
+
+
 //笔记详情页
 //搜索框 获取焦点时修改样式效果
 $(".notelist .search .search2 .inputbox input").focus(function(){

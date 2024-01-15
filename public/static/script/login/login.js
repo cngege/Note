@@ -52,3 +52,32 @@ $(".regtitle a").click(function(event) {
   $(".register").show();
   return false;
 });
+
+
+
+$(".register .register2 .registerbtnbox .regbtn").click(function(event) {
+  /* Act on the event */
+  //注册按钮
+  let email = $("#regusername").val();
+  let password = $("#regpassword").val();
+  if(!email){
+    return Toast.error("邮箱不能为空");
+  }
+  if(!password){
+    return Toast.error("密码不能为空");
+  }
+  $.post('/Login/registeremail', {
+    regEmail: email,
+    regPassword: password
+  }, function(data, textStatus, xhr) {
+    /*optional stuff to do after success */
+    if(data.code == 0){
+      Toast.success("成功",data.msg || "完成",function(){
+        data.goto && goto(data.goto);
+      })
+    }
+    else if(data.code == 1){
+      Toast.error("失败",data.msg || "错误");
+    }
+  });
+});
