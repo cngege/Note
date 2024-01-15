@@ -11,7 +11,7 @@ $(".install_box .installbtnbox .installbtn").click(function(event) {
   $(".install_box .callmsg p").html("");
   $(".install_box .installbtnbox .installbtn").attr("disabled","disabled");
   $.ajax({
-    url: "/Index/install",
+    url: "/Install/install",
     type: 'POST',
     data: {
       sqladdr:$("#sqladdr").val(),
