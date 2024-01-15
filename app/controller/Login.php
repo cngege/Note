@@ -81,7 +81,7 @@ class Login extends BaseController
                 "login_ip" => request()->ip(),
             ];
             if($user->save($regData)){
-                session('login_auth', $user->getData());
+                session('login_auth', $user);
                 return json(["code"=>0,"msg"=>"注册成功","goto"=>url("index")->build()]);
             }
             return json(["code"=>1,"msg"=>"注册失败"]);
@@ -125,7 +125,7 @@ class Login extends BaseController
                 "login_ip" => request()->ip(),
             ];
             if($user->save($regData)){
-                session('login_auth', $user->getData());
+                session('login_auth', $user);
                 return json(["code"=>0,"msg"=>"注册成功","goto"=>url("/index")->build()]);
             }
             return json(["code"=>1,"msg"=>"注册失败"]);
@@ -158,6 +158,9 @@ class Login extends BaseController
         $password = thinkUcenterMd5($data["password"], $userdata["salt"]);
         if($password == $userdata["password"]){
             session('login_auth', $userdata);
+            // 修改保存最新登录ip
+            $userdata->login_ip = request()->ip();
+            $userdata->save();
             return json(["code"=>0,"msg"=>"","goto"=>url("/index")->build()]);
         }
         //密码不对
