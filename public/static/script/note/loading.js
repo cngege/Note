@@ -44,19 +44,18 @@ if(loading.css('display') != "none"){
          // TODO 获取笔记信息 并关掉加载div
          loading.css('display', 'none');
          break;
-       case 1:
-         e.goto && goto(e.goto);
+       case 1://未登录
+         Toast.noLogin(e.goto);
          break;
        case 2://没有安装
          e.goto && goto(e.goto);
          break;
        default:
-         alert("错误:["+ e.msg +"]");
-         console.log(code);
+         Toast.error("错误",e.msg);
      }
    },
    error: function (textStatus) {
      if(!isAtom)
-        alert("错误["+textStatus.status+"]:"+textStatus.statusText);
+        Toast.error("错误","["+textStatus.status+"]:"+textStatus.statusText);
    }
  })

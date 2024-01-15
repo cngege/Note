@@ -15,10 +15,13 @@ window.isAtom = function(){
 // toast
 
 window.Toast = {
-  show : function($text){
-    $.toast($text);
+  show : function($text, $fun = null){
+    $.toast({
+      text: $text,
+      afterHidden: $fun
+    });
   },
-  "NoLogin":function($goto){
+  "noLogin":function($goto){
     $.toast({
       text: "没有登陆,正在跳转...",
       afterHidden:function(){
@@ -27,15 +30,17 @@ window.Toast = {
     });
   },
   "success":function($title,$test,$fun = null){
+    if(!$test) return ($fun && $fun());
     $.toast({
-    heading: $title,
-    text: $test,
-    showHideTransition: 'slide',
-    icon: 'success',
-    afterHidden: $fun
+      heading: $title,
+      text: $test,
+      showHideTransition: 'slide',
+      icon: 'success',
+      afterHidden: $fun
     })
   },
   "error":function($title,$test,$fun = null){
+    if(!$test) return ($fun && $fun());
     $.toast({
         heading: $title,
         text: $test,
