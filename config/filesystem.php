@@ -20,5 +20,11 @@ return [
             'visibility' => 'public',
         ],
         // 更多的磁盘配置信息
+        'userData' => [
+          'type'        => 'local',
+          'root'        => app()->getRootPath() . 'public/userData',
+          'url'         => '/userData',
+          'visibility'  => 'public',
+        ],
     ],
 ];

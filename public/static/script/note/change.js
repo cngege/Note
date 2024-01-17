@@ -91,7 +91,7 @@ $("#account_close").click(function(event) {
 $("#ceshibtn").click(function(event) {
   /* Act on the event */
   var formData = new FormData();
-  formData.append("file",$("#ceshi")[0].files[0]);
+  formData.append("userface",$("#ceshi")[0].files[0]);
   $.ajax({
     url: "/User/updateFace",
     type: "POST",
@@ -101,10 +101,12 @@ $("#ceshibtn").click(function(event) {
     success: function(response) {
       // 在这里处理上传成功后的逻辑，例如显示成功消息等。
       alert('文件上传成功');
+      console.log(response.code);
+      console.log(response.msg);
     },
     error: function(jqXHR, textStatus, errorThrown) {
       // 在这里处理上传失败的情况。
-      alert('文件上传失败');
+      alert('上传失败，服务器网络不可达');
     }
   })
 });
