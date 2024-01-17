@@ -26,21 +26,22 @@ $(".loginbtnbox .loginbtn").click(function(event) {
     success:function(e){
       switch (e.code) {
         case 0://登录成功
-          if(e.msg) alert(e.msg);
-          e.goto && goto(e.goto);
+          Toast.success("成功",e.msg,function(){
+            goto(e.goto);
+          })
           break;
         case 1://已登录
           e.goto && goto(e.goto);
           break;
-        case 2:
-          alert(e.msg);
+        case 2:// 登录失败
+          Toast.error("失败",e.msg);
           break;
         default:
-          alert("错误:["+ e.msg +"]");
+          Toast.error("错误",e.msg);
       }
     },
     error: function (textStatus) {
-      alert("错误["+textStatus.status+"]:"+textStatus.statusText);
+      Toast.error("错误","["+textStatus.status+"]:"+textStatus.statusText);
     }
   })
 });
