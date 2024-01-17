@@ -237,3 +237,27 @@ div.account_setup_box .optionbar .optionbar_padd ul .List .ListItem_Text span{
   line-height: 1.5;
   letter-spacing: 0.00938em;        /* 文字间距 */
 }
+
+.hide{
+  display: none;
+}
+
+/* 账号页面 内容区 */
+/* 先放一个总div到外面限制区域，已经定位原始点 */
+div.account_setup_box .account_setup .bodybar{
+  position: absolute;
+  left: 190px;          /* 这个190px 是左侧的宽度 */
+  top: 0;
+  width: calc(100% - 190px);
+  height: 100%;
+}
+
+/* 账号设置和其他所有的内容页 */
+div.account_setup_box .account_setup .bodybar .body_account_setup,
+div.account_setup_box .account_setup .bodybar .body_preference_setup,
+div.account_setup_box .account_setup .bodybar .body_storage_setup,
+div.account_setup_box .account_setup .bodybar .body_deploy_setup{
+  margin: 40px;
+  width: calc(100% - 80px);
+  height: calc(100% - 80px);
+}

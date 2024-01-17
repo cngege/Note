@@ -86,3 +86,25 @@ $("#account_close").click(function(event) {
   /* 关闭 */
   $("div.account_setup_box").css("display","none");
 });
+
+// 用作测试
+$("#ceshibtn").click(function(event) {
+  /* Act on the event */
+  var formData = new FormData();
+  formData.append("file",$("#ceshi")[0].files[0]);
+  $.ajax({
+    url: "/User/updateFace",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+      // 在这里处理上传成功后的逻辑，例如显示成功消息等。
+      alert('文件上传成功');
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      // 在这里处理上传失败的情况。
+      alert('文件上传失败');
+    }
+  })
+});

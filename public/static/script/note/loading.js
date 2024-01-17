@@ -14,7 +14,7 @@ let loading = $(".loading");
 
 //如果加载动画没有消失
 if(loading.css('display') != "none"){
-  if(isAtom()){
+  if(isAtom() || document.URL.indexOf("file://")==0){
     loading.css('display', 'none');
   }
 }
