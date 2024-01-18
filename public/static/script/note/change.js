@@ -100,13 +100,22 @@ $("#ceshibtn").click(function(event) {
     contentType: false,
     success: function(response) {
       // 在这里处理上传成功后的逻辑，例如显示成功消息等。
-      alert('文件上传成功');
-      console.log(response.code);
-      console.log(response.msg);
+      if(response.code == 0){
+        $(".bardoing .logo .logoimgbox img").attr("src",response.updataUrl+"?"+now.getTime());
+        $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",response.updataUrl + "?" + now.getTime());
+        Toast.success("成功",response.msg);
+      }
+      else if(response.code == 1){
+        Toast.noLogin(response.goto);
+      }
+      else if(response.code == 2){
+        Toast.error("错误",response.msg);
+      }
+
     },
     error: function(jqXHR, textStatus, errorThrown) {
       // 在这里处理上传失败的情况。
-      alert('上传失败，服务器网络不可达');
+      Toast.error("上传失败","服务器网络不可达");
     }
   })
 });

@@ -38,6 +38,11 @@ if(loading.css('display') != "none"){
      switch (e.code) {
        case 0:     //登录成功
          $(".bardoing .logo .logoinside .Username span").text(e.user.nickname);
+
+         // 设置头像
+         $(".bardoing .logo .logoimgbox img").attr("src",e.user.userface);
+         $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",e.user.userface);
+
          if(e.user.is_admin){
            $("#WebSetup").css('display','');
          }
