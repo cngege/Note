@@ -50,3 +50,11 @@ window.Toast = {
     })
   }
 }
+
+window.console.httpdebug = function($res){
+  if(typeof $res === 'object' && !Array.isArray($res)){
+    if($res.debug){
+      console.debug($res);
+    }
+  }
+}

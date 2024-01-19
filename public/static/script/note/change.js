@@ -100,9 +100,12 @@ $("#ceshibtn").click(function(event) {
     contentType: false,
     success: function(response) {
       // 在这里处理上传成功后的逻辑，例如显示成功消息等。
+      console.httpdebug(response);
       if(response.code == 0){
-        $(".bardoing .logo .logoimgbox img").attr("src",response.updataUrl+"?"+now.getTime());
-        $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",response.updataUrl + "?" + now.getTime());
+        if(response.updataUrl){
+          $(".bardoing .logo .logoimgbox img").attr("src",response.updataUrl+"?"+(new Date).getTime());
+          $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",response.updataUrl + "?" + (new Date).getTime());
+        }
         Toast.success("成功",response.msg);
       }
       else if(response.code == 1){
