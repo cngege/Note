@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\BaseController;
 use app\model\User;
+use think\facade\Filesystem;
 
 class Index extends Login
 {
@@ -21,6 +22,12 @@ class Index extends Login
         }
         //TODO: 已登录
         $userData = $user->find(UID);
+        if(is_null($userData["userface"])){
+            $userData["userface"] = "/static/img/akari.jpg";//默认图片url
+        }else{
+            $userData["userface"] = Filesystem::disk("userData")->url($userData["userface"]);
+        }
+
         return json(["code"=>0,"user"=>$userData,"note"=>array()]);
     }
 

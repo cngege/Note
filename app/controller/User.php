@@ -39,11 +39,18 @@ class User extends Login
         $file = $this->request->file("userface");
         //return json(["code"=>0,"debug"=>"debug","data"=>$file->getMime()]);
         // 检查上传的文件是否违规
+        if(is_array($file)){
+            return json(["code"=>2,"msg"=>"仅上传单个文件"]);
+        }
         if(!in_array(strtolower($file->extension()), array("jpg","png","gif","jpeg"))){
             return json(["code"=>2,"msg"=>"只允许上传图片"]);
         }
-        // 要不要将已有的图片删掉
+        // 不能 > 10MB
+        if($file->getSize() !== false && $file->getSize() > 1024 * 1024 * 10){
+            return json(["code"=>2,"msg"=>"图片不能大于 10Mb"]);
+        }
 
+        // 要不要将已有的图片删掉
 
         $info = Filesystem::disk('userData')->putFile(strval(UID),$file);
         //$info = Filesystem::putFile("topic",$file);
@@ -60,7 +67,7 @@ class User extends Login
         //}
         //Filesystem::disk("local")->delete($info);
         $user = \app\model\User::find(UID);
-        $user["userface"] = Filesystem::disk("userData")->url($info);
+        $user["userface"] = $info; //Filesystem::disk("userData")->url($info);
         $user->save();
         return json(["code"=>0,"msg"=>"完成","updataUrl"=>Filesystem::disk("userData")->url($info)]);
         //return json(["code"=>2,"msg"=>"上传错误,移动文件错误"]);
