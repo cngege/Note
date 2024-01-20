@@ -59,15 +59,20 @@ $(".regtitle a").click(function(event) {
 $(".register .register2 .registerbtnbox .regbtn").click(function(event) {
   /* Act on the event */
   //注册按钮
-  let email = $("#regusername").val();
+  let username = $("#regusername").val();
+  let email = $("#regemail").val();
   let password = $("#regpassword").val();
+  if(!username){
+    return Toast.error("用户名不能为空");
+  }
   if(!email){
     return Toast.error("邮箱不能为空");
   }
   if(!password){
     return Toast.error("密码不能为空");
   }
-  $.post('/Login/registeremail', {
+  $.post('/Login/register', {
+    regUsername: username,
     regEmail: email,
     regPassword: password
   }, function(data, textStatus, xhr) {

@@ -15,10 +15,16 @@ use think\Validate;
 class User extends Validate
 {
     protected $rule = [
-        'email' =>  'email',
+        'regEmail' =>  'email',
+        'regUsername' => 'require|max:25',
+        'regPassword' => 'require|max:50',
     ];
 
     protected $message = [
-        'email' =>  '邮箱格式错误',
+        'regEmail' =>  '邮箱格式错误',
+        'regUsername.require' => "用户名不能为空",
+        'regUsername.max' => "用户名不能大于25字符",
+        'regPassword.require' => "密码不能为空",
+        'regPassword.max' => "密码不能大于50字符",
     ];
 }

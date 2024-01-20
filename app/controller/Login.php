@@ -52,42 +52,6 @@ class Login extends BaseController
         }
     }
 
-    /**
-     * 注册用户
-     *
-     * @return \think\response\Json
-     * @throws \think\db\exception\DbException
-     * @Json:
-     * 0 成功,goto跳转主页
-     * 1 失败
-     */
-    public function register()
-    {
-        //拿到用户名，密码
-        $data = input("post.");
-        if(!empty($data["regUsername"]) && !empty($data["regPassword"])){
-            $user = new User();
-            /*如果将要注册的用户名已存在*/
-            if($user->where("nickname" , $data["regUsername"])->count()){
-                return json(["code"=>1,"msg"=>"注册的用户已存在"]);
-            }
-            /*插入数据*/
-            $salt = mt_randStr();
-            $regData = [
-                "nickname" => $data["regUsername"],
-                "password" => thinkUcenterMd5($data["regPassword"],$salt),
-                "salt"     => $salt,
-                "reg_ip" => request()->ip(),
-                "login_ip" => request()->ip(),
-            ];
-            if($user->save($regData)){
-                session('login_auth', $user);
-                return json(["code"=>0,"msg"=>"注册成功","goto"=>url("index")->build()]);
-            }
-            return json(["code"=>1,"msg"=>"注册失败"]);
-        }
-        return json(["code"=>1,"msg"=>"用户名或密码不能为空"]);
-    }
 
     /**
      * 注册用户
@@ -98,18 +62,22 @@ class Login extends BaseController
      * 0 成功,goto跳转主页
      * 1 失败
      */
-    public function registeremail(){
+    public function register(){
         //拿到邮箱密码
         $data = input("post.");
-        if(!empty($data["regEmail"]) && !empty($data["regPassword"])){
+        if(!empty($data["regUsername"]) && !empty($data["regEmail"]) && !empty($data["regPassword"])){
             // 验证邮箱格式
             $validate = new \app\validate\User();
-            if(!$validate->check(array("email"=>$data["regEmail"]))){
+            if(!$validate->check($data)){
                 return json(["code"=>1,"msg"=>$validate->getError()]);
             }
 
             // 验证用户是否存在
             $user = new User();
+            /*如果将要注册的用户已存在*/
+            if($user->where("nickname" , $data["regUsername"])->count()){
+                return json(["code"=>1,"msg"=>"注册的用户已存在"]);
+            }
             /*如果将要注册的邮箱已存在*/
             if($user->where("email" , $data["regEmail"])->count()){
                 return json(["code"=>1,"msg"=>"注册的用户已存在"]);
@@ -117,7 +85,7 @@ class Login extends BaseController
             /*插入数据*/
             $salt = mt_randStr();
             $regData = [
-                "nickname" => $data["regEmail"],
+                "nickname" => $data["regUsername"],
                 "email"    => $data["regEmail"],
                 "password" => thinkUcenterMd5($data["regPassword"],$salt),
                 "salt"     => $salt,
@@ -130,7 +98,7 @@ class Login extends BaseController
             }
             return json(["code"=>1,"msg"=>"注册失败"]);
         }
-        return json(["code"=>1,"msg"=>"邮箱或密码不能为空"]);
+        return json(["code"=>1,"msg"=>"用户名、邮箱或密码不能为空"]);
     }
 
     /**

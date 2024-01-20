@@ -78,26 +78,33 @@ body{
   padding-bottom: 5px;
 }
 
-.login .usernamebox, .login .passwordbox{
+.login .usernamebox, .login .passwordbox,
+.register .emailbox, .register .usernamebox, .register .passwordbox    /* 注册区 box样式 */
+{
   width: 100%;
   margin-bottom: 8px;
   /* background-color: #055; */
   color: #000;
 }
 
-.login .usernamebox span, .login .passwordbox span{
+.login .usernamebox span, .login .passwordbox span,
+.register .emailbox span, .register .usernamebox span, .register .passwordbox span  /* 注册区 box 文字样式 */
+{
   font-size: 14px;
   font-weight: 400;
   line-height: 3;
 }
 
-.login .username, .login .password{
+.login .username, .login .password,
+.register .email, .register .username, .register .password      /* 注册区 输入框外box样式 */
+{
   width: 100%;
   height: 25px;
-
 }
 
-.login .username .input:focus, .login .password .input:focus{
+.login .username .input:focus, .login .password .input:focus,
+.register .email .input:focus, .register .username .input:focus, .register .password .input:focus
+{
     outline: none;
     border: 1px solid #58b195;
     background-color: #d5ddff;
@@ -111,7 +118,6 @@ body{
   font-size: 13px;
   margin: 0;
   letter-spacing: 0.01071em;
-
 }
 
 .forgetpw{
@@ -185,7 +191,6 @@ body{
   height: 25px;
   position: absolute;
   z-index: -1;
-
 }
 
 .qqloginc:hover::before,.githubloginc:hover::before{

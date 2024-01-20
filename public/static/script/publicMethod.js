@@ -21,7 +21,7 @@ window.Toast = {
       afterHidden: $fun
     });
   },
-  "noLogin":function($goto,$msg = null){
+  noLogin:function($goto,$msg = null){
     $.toast({
       text: $msg || "没有登陆,正在跳转...",
       afterHidden:function(){
@@ -29,8 +29,8 @@ window.Toast = {
       }
     });
   },
-  "success":function($title,$test,$fun = null){
-    if(!$test) return ($fun && $fun());
+  success:function($title,$test,$fun = null){
+    if(!$title) return ($fun && $fun());
     $.toast({
       heading: $title,
       text: $test,
@@ -39,8 +39,8 @@ window.Toast = {
       afterHidden: $fun
     })
   },
-  "error":function($title,$test,$fun = null){
-    if(!$test) return ($fun && $fun());
+  error:function($title,$test,$fun = null){
+    if(!$title) return ($fun && $fun());
     $.toast({
         heading: $title,
         text: $test,
