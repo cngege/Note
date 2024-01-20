@@ -208,13 +208,16 @@ body{
 }
 
 /*  创建账号提示信息*/
-.regtitle{
+.regtitle,
+.gotologintitle
+{
   text-align: center;
   font-size: 12px;
   line-height: 3.5;
 }
 
-.regtitle a{
+.regtitle a,
+.gotologintitle a{
   text-decoration:none;
   color: #00a8ff;
 }

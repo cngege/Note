@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `note_user` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新信息的更新时间',
   `delete_time` timestamp NULL DEFAULT NULL COMMENT '软删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='基础用户账号信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='基础用户账号信息表';
 
 -- 数据导出被取消选择。
 

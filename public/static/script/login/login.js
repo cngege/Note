@@ -54,6 +54,14 @@ $(".regtitle a").click(function(event) {
   return false;
 });
 
+/* 点击 去登录 */
+$(".gotologintitle a").click(function(event) {
+  /* Act on the event */
+  $(".login").show();
+  $(".register").hide();
+  return false;
+});
+
 
 
 $(".register .register2 .registerbtnbox .regbtn").click(function(event) {

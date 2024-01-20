@@ -12,6 +12,7 @@ namespace app\controller;
 
 use app\BaseController;
 use app\model\user;
+use app\validate\ValidateRegUser;
 
 class Login extends BaseController
 {
@@ -67,7 +68,7 @@ class Login extends BaseController
         $data = input("post.");
         if(!empty($data["regUsername"]) && !empty($data["regEmail"]) && !empty($data["regPassword"])){
             // 验证邮箱格式
-            $validate = new \app\validate\User();
+            $validate = new ValidateRegUser();
             if(!$validate->check($data)){
                 return json(["code"=>1,"msg"=>$validate->getError()]);
             }
