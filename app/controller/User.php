@@ -52,6 +52,11 @@ class User extends Login
 
         // 要不要将已有的图片删掉
 
+        $user = \app\model\User::find(UID);
+        if(!is_null($user["userface"])){
+            Filesystem::disk("userData")->delete($user["userface"]);
+        }
+
         $info = Filesystem::disk('userData')->putFile(strval(UID),$file);
         //$info = Filesystem::putFile("topic",$file);
         // 移动上传的文件到用户文件夹
@@ -66,7 +71,7 @@ class User extends Login
 
         //}
         //Filesystem::disk("local")->delete($info);
-        $user = \app\model\User::find(UID);
+
         $user["userface"] = $info; //Filesystem::disk("userData")->url($info);
         $user->save();
         return json(["code"=>0,"msg"=>"完成","updataUrl"=>Filesystem::disk("userData")->url($info)]);
