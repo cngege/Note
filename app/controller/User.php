@@ -50,27 +50,15 @@ class User extends Login
             return json(["code"=>2,"msg"=>"图片不能大于 10Mb"]);
         }
 
-        // 要不要将已有的图片删掉
-
-        $user = \app\model\User::find(UID);
-        if(!is_null($user["userface"])){
-            Filesystem::disk("userData")->delete($user["userface"]);
-        }
-
+        // 上传新头像
         $info = Filesystem::disk('userData')->putFile(strval(UID),$file);
-        //$info = Filesystem::putFile("topic",$file);
-        // 移动上传的文件到用户文件夹
-        // 检查目标文件夹是否存在，如果不存在则创建
-//        if (!Filesystem::disk('userData')->fileExists(UID."/userFace")) {
-//            Filesystem::disk('userData')->createDirectory(UID."/userFace");
-//        }
-        // 移动文件
-        //$move = rename(Filesystem::disk("local")->path($info),Filesystem::disk("userData")->path(UID."/userFace/userface.".$file->extension()));
-        //if($move){
-            /* 在数据库中添加字段记录头像位置 */
 
-        //}
-        //Filesystem::disk("local")->delete($info);
+        // 删掉旧头像
+        $user = \app\model\User::find(UID);
+        $userface = $user["userface"];
+        if(!is_null($userface)){
+            Filesystem::disk("userData")->delete($userface);
+        }
 
         $user["userface"] = $info; //Filesystem::disk("userData")->url($info);
         $user->save();
