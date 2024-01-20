@@ -80,6 +80,40 @@ $(".notetext header .titlebtn .notecontrolbtn .notemorebtn .noteinfoform .close"
 });
 
 
+/* 账号设置区域 */
+// 点击按钮 切换到当前页
+$("div.account_setup_box .optionbar .optionbar_padd ul .select_account_setup").click(function(event) {
+  /* Act on the event */
+  if(!$(this).hasClass('selected')){
+    $(this).addClass('selected');
+    $("div.account_setup_box .optionbar .optionbar_padd ul .select_account_setup").removeClass('selected')
+
+
+
+  }
+});
+
+/* 账号设置 切换 */
+$("div.account_setup_box .optionbar .optionbar_padd ul div.List").click(function(event) {
+  /* 先将右边的内容全都隐藏 */
+  $("div.account_setup_box .account_setup .bodybar").children("div").each(function(index, el) {
+    if(!$(el).hasClass('hide')){
+      $(el).addClass('hide');
+    }
+  });
+  /* 将左边的列表都取消选择 */
+  var current = this;
+  $("div.account_setup_box .optionbar .optionbar_padd ul div.List").each(function(index, el) {
+    if($(el).hasClass('selected')){
+      $(el).removeClass('selected');
+    }
+    if(el == current){
+      $($("div.account_setup_box .account_setup .bodybar").children("div")[index]).removeClass('hide')
+    }
+  });
+  /* 选择当前的选项 */
+  $(this).addClass('selected');
+});
 
 // 和 账户设置窗口有关的动态交互
 $("#account_close").click(function(event) {
@@ -87,11 +121,19 @@ $("#account_close").click(function(event) {
   $("div.account_setup_box").css("display","none");
 });
 
-// 用作测试
-$("#ceshibtn").click(function(event) {
+
+// 点击上传头像部分时，将点击传递到 input中
+$("div.account_setup_box .account_setup .bodybar .body_account_setup .editface .uploadface").click(function(event) {
+  /* Act on the event */
+  $("div.account_setup_box .account_setup .bodybar .body_account_setup .editface input").click();
+});
+
+// 用户选择了头像文件之后
+$("div.account_setup_box .account_setup .bodybar .body_account_setup .editface input").change(function(event) {
+  /* Act on the event */
   /* Act on the event */
   var formData = new FormData();
-  formData.append("userface",$("#ceshi")[0].files[0]);
+  formData.append("userface",$(this)[0].files[0]);
   $.ajax({
     url: "/User/updateFace",
     type: "POST",
@@ -103,8 +145,9 @@ $("#ceshibtn").click(function(event) {
       console.httpdebug(response);
       if(response.code == 0){
         if(response.updataUrl){
-          $(".bardoing .logo .logoimgbox img").attr("src",response.updataUrl+"?"+(new Date).getTime());
-          $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",response.updataUrl + "?" + (new Date).getTime());
+          $(".bardoing .logo .logoimgbox img").attr("src",response.updataUrl);
+          $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",response.updataUrl);
+          $("div.account_setup_box .account_setup .bodybar .body_account_setup .editface img").attr("src",response.updataUrl);
         }
         Toast.success("成功",response.msg);
       }

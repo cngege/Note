@@ -8,7 +8,6 @@ use think\facade\Filesystem;
 
 class Index extends Login
 {
-
     public function getNoteInfo()
     {
         //检查安装状态

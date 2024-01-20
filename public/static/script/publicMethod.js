@@ -21,9 +21,9 @@ window.Toast = {
       afterHidden: $fun
     });
   },
-  "noLogin":function($goto){
+  "noLogin":function($goto,$msg = null){
     $.toast({
-      text: "没有登陆,正在跳转...",
+      text: $msg || "没有登陆,正在跳转...",
       afterHidden:function(){
         $goto && goto($goto);
       }

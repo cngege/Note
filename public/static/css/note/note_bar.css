@@ -261,3 +261,43 @@ div.account_setup_box .account_setup .bodybar .body_deploy_setup{
   width: calc(100% - 80px);
   height: calc(100% - 80px);
 }
+
+/* 上传头像区 */
+div.account_setup_box .account_setup .bodybar .body_account_setup .editface{
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  background: #1fb;
+  right: calc(40px + 50px);  /* 40px是 外层box与外边的边距 */
+  border-radius: 50%;
+  overflow: hidden;/*溢出隐藏*/
+}
+
+div.account_setup_box .account_setup .bodybar .body_account_setup .editface img{
+  width: 100px;
+  height: 100px;
+}
+
+
+
+div.account_setup_box .account_setup .bodybar .body_account_setup .editface .uploadface{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0px;
+  color:#fff;
+  background: rgba(0, 0, 0, .15);
+  transition: height .2s;
+}
+
+div.account_setup_box .account_setup .bodybar .body_account_setup .editface .uploadface i{
+  display: block;
+  text-align: center;
+  width: 100%;
+  line-height: 20px;
+}
+
+div.account_setup_box .account_setup .bodybar .body_account_setup .editface:hover > .uploadface{
+  cursor: pointer;
+  height: 20px;
+}
