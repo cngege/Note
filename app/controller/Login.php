@@ -118,7 +118,6 @@ class Login extends BaseController
         $data = input("post.");
         $username = $data["username"];
 
-        $userdata = new User();
         $userdata = User::getByNickname($username);
         if(!$userdata){
            return json(["code"=>2,"msg"=>"用户不存在"]);
@@ -140,7 +139,6 @@ class Login extends BaseController
     {
         if(LOGIN){
             session("login_auth",null);
-            return json(["code"=>0,"goto"=>url("/page/login")->build()]);
         }
         return json(["code"=>0,"goto"=>url("/page/login")->build()]);
     }

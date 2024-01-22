@@ -10,7 +10,6 @@
 
 namespace app\controller;
 
-use app\controller\Login;
 use think\facade\Filesystem;
 
 /**
