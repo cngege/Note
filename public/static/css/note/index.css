@@ -10,6 +10,11 @@ body{
   background: #f1f1f1;
 }
 
+
+.hide{
+  display: none;
+}
+
 *{
   font-family: "Open Sans",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Microsoft Yahei",Arial,sans-serif;
   font-size: 14px;
@@ -41,7 +46,87 @@ body{
   line-height: 1.6;
 }
 
+.font3{
+  color: #a7afbc;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
 
 .kongwei{
   flex: 1;
+}
+
+.text_btn{
+  color: #448aff;
+  cursor: pointer;
+  font-size: 12px;
+  border: 0;
+  background-color: transparent;
+}
+
+.text_btn:hover{
+  text-decoration: underline;
+  color: rgba(68, 138, 255, 0.8);
+}
+
+.text_btn:focus{
+  outline: none;
+}
+
+/*===============以上是超链接型按钮部分==============*/
+
+.input_text_box{
+  display: flex;
+  border-radius: 5px;
+  cursor: text;
+  border: 1px solid #d6d9dd;
+  /* width: 200px; */
+  height: 31px;
+  transition: background .5s;
+}
+
+.input_text_box:hover{
+  border-color: #d1e6ff;
+  background-color: #e8f2ff;
+}
+
+.input_text_box:focus-within{    /* :focus-within 当内部的input获取焦点，相当于此元素获取焦点*/
+  border-color: #448aff;
+  background-color: #f4f6f9;
+}
+
+.input_text_box .text_input{
+  border: none;
+  width: 90%;
+  margin: auto auto;
+  height: 18px;
+  background-color: transparent;
+}
+
+.input_text_box .text_input:focus{
+  outline: none;
+}
+
+/*================以上为文字输入框样式==========================*/
+
+
+
+/* 滚动条 样式 */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background-color: #99a9bf;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    background-color: #d3dce6;
 }

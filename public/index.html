@@ -625,13 +625,41 @@
         <div class="bodybar">
           <!-- 账号设置 的内容页面 -->
           <div class="body_account_setup">
+            <!-- 高度超出后可以上下滚动 -->
+            <!-- <div class="scroll"> -->
             <div class="editface">
-              <img src="" alt="头像" />
+              <img src="static/img/akari.jpg" alt="头像" />
               <div class="uploadface">
                 <i class="fa fa-camera" aria-hidden="true"></i>
               </div>
               <input type="file" accept="image/jpg, image/png, image/gif, image/jpeg" name="userface" style="display: none">
             </div>
+            <!-- 账户设置内部详细的设置选项 -->
+            <div class="account_setup_box">
+              <div class="setup_email_box">
+                <span class="font3 emailtitle">邮箱</span><br/>
+                <div class="check_email_box">
+                  <span class="font emailtext">未设置</span>
+                  <button type="button" class="text_btn">更换邮箱</button>
+                </div>
+              </div>
+              <div class="setup_nickname_box">
+                <span class="font3 nametitle">昵称</span><br/>
+                <div class="check_input_box">
+                  <!-- 下面这个div以后就当作一个模板了 和 input结合在一起 -->
+                  <div class="input_text_box">
+                    <input class="text_input" type="text">
+                  </div>
+
+                  <div class="input_yesorno_box" style="display: none">
+                    <div class="input_yes"><i class="fa fa-check" aria-hidden="true"></i></div>
+                    <div class="input_no"><i class="fa fa-times" aria-hidden="true"></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+
           </div>
           <!-- 偏好设置的内容页面 -->
           <div class="body_preference_setup hide">

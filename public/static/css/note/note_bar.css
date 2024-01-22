@@ -238,10 +238,6 @@ div.account_setup_box .optionbar .optionbar_padd ul .List .ListItem_Text span{
   letter-spacing: 0.00938em;        /* 文字间距 */
 }
 
-.hide{
-  display: none;
-}
-
 /* 账号页面 内容区 */
 /* 先放一个总div到外面限制区域，已经定位原始点 */
 div.account_setup_box .account_setup .bodybar{
@@ -257,10 +253,102 @@ div.account_setup_box .account_setup .bodybar .body_account_setup,
 div.account_setup_box .account_setup .bodybar .body_preference_setup,
 div.account_setup_box .account_setup .bodybar .body_storage_setup,
 div.account_setup_box .account_setup .bodybar .body_deploy_setup{
+  position: relative;
   margin: 40px;
   width: calc(100% - 80px);
   height: calc(100% - 80px);
+  overflow-y: auto;
 }
+
+/* 标题 邮箱两个字 */
+.body_account_setup .account_setup_box .setup_email_box .emailtitle{
+  /* display: flex; */
+  /* line-height: 12px; */
+  margin: 0;
+}
+
+/* 邮箱 xx@aa.com + btn*/
+.body_account_setup .account_setup_box .setup_email_box .check_email_box{
+  display: flex;
+  margin: 8px 0 0 0;
+}
+
+.body_account_setup .account_setup_box .setup_email_box .emailtext{
+  margin-right: 8px;
+  max-width: 200px;
+  white-space: nowrap;      /* 防止换行 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* =================以上邮箱部分=================*/
+/*让此部分与邮箱部分拉开距离*/
+.body_account_setup .account_setup_box .setup_nickname_box{
+  margin-top: 40px;
+}
+
+.body_account_setup .account_setup_box .setup_nickname_box .nametitle{
+  margin: 0;
+}
+
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box{
+  position: absolute;
+  margin: 8px 0 0 0;
+  width: 200px;
+}
+
+/* 勾 和 叉的box */
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box{
+  position: absolute;
+  display: flex;
+  margin-top: 5px;
+  right: 0;
+  width: 70px;
+  height: 30px;
+}
+/*勾*/
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_yes{
+  width: 30px;
+  height: 30px;
+}
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_yes i{
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  line-height: 30px;
+  font-size: 20px;
+  color: white;
+  background: #448aff;
+}
+/*悬浮时候的背景样式*/
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_yes i:hover{
+  background-color: rgba(68, 138, 255, 0.8);
+}
+
+/*叉*/
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_no{
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_no i{
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  line-height: 30px;
+  font-size: 20px;
+  color: white;
+  background: #448aff;
+}
+/*悬浮时候的背景样式*/
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_yes i:hover,
+.body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box .input_no i:hover{
+  background-color: rgba(68, 138, 255, 0.8);
+}
+
+
+/* =================以上昵称部分=================*/
+
 
 /* 上传头像区 */
 div.account_setup_box .account_setup .bodybar .body_account_setup .editface{
@@ -268,7 +356,7 @@ div.account_setup_box .account_setup .bodybar .body_account_setup .editface{
   width: 96px;
   height: 96px;
   background: #1fb;
-  right: calc(40px + 50px);  /* 40px是 外层box与外边的边距 */
+  right: 50px;
   border-radius: 50%;
   overflow: hidden;/*溢出隐藏*/
 }

@@ -32,6 +32,18 @@ $(".bardoing .Username .setupselect ul #Logout").click(function(event) {
   });
 });
 
+// 账号设置 -昵称 里面的对勾和叉在输入框获取失去焦点时显示隐藏
+$(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").focus(function(event) {
+  /* Act on the event */
+  $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box").show();
+});
+$(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").blur(function(event) {
+  /* Act on the event */
+  setTimeout(()=>{
+    $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_yesorno_box").hide();
+  },100)
+
+});
 
 
 

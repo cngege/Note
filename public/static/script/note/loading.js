@@ -44,6 +44,12 @@ if(loading.css('display') != "none"){
          $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",e.user.userface);
          $("div.account_setup_box .account_setup .bodybar .body_account_setup .editface img").attr("src",e.user.userface);
 
+         //在账号设置里面填上邮箱
+         $(".body_account_setup .account_setup_box .setup_email_box .emailtext").text(e.user.email || "未设置")
+         //在昵称输入框里填上昵称
+         $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").val(e.user.nickname);
+         $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").data("username", e.user.nickname);
+         
          if(e.user.is_admin){
            $("#WebSetup").css('display','');
          }
