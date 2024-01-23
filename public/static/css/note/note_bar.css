@@ -359,6 +359,7 @@ div.account_setup_box .account_setup .bodybar .body_account_setup .editface{
   right: 50px;
   border-radius: 50%;
   overflow: hidden;/*溢出隐藏*/
+  z-index: 101;
 }
 
 div.account_setup_box .account_setup .bodybar .body_account_setup .editface img{
