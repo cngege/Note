@@ -41,6 +41,7 @@ class Login extends BaseController
              */
             if(!empty($login['end_time'])){
                 if($login["end_time"] < time()){
+                    session('login_auth',null);
                     $isLogin = false;
                 }
             }
@@ -133,6 +134,12 @@ class Login extends BaseController
 
         $password = thinkUcenterMd5($data["password"], $userdata["salt"]);
         if($password == $userdata["password"]){
+            $sess = $userdata;
+            if($data["autologin"] === true){
+                $sess["end_time"] = time() + 14*24*60*60;
+            }else{
+                $sess["end_time"] = time() + 24*60*60;
+            }
             session('login_auth', $userdata);
             // 修改保存最新登录ip
             $userdata->login_ip = request()->ip();
