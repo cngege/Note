@@ -49,7 +49,7 @@ if(loading.css('display') != "none"){
          //在昵称输入框里填上昵称
          $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").val(e.user.nickname);
          $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").data("username", e.user.nickname);
-         
+
          if(e.user.is_admin){
            $("#WebSetup").css('display','');
          }
@@ -66,8 +66,7 @@ if(loading.css('display') != "none"){
          Toast.error("错误",e.msg);
      }
    },
-   error: function (textStatus) {
-     if(!isAtom)
-        Toast.error("错误","["+textStatus.status+"]:"+textStatus.statusText);
+   error: function (jqXHR) {
+     console.htmldebug(jqXHR);
    }
  })

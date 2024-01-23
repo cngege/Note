@@ -173,7 +173,7 @@ $("div.account_setup_box .account_setup .bodybar .body_account_setup .editface i
     },
     error: function(jqXHR, textStatus, errorThrown) {
       // 在这里处理上传失败的情况。
-      Toast.error("上传失败","服务器网络不可达");
+      console.htmldebug(jqXHR);
     }
   })
 });

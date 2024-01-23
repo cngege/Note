@@ -40,8 +40,8 @@ $(".loginbtnbox .loginbtn").click(function(event) {
           Toast.error("错误",e.msg);
       }
     },
-    error: function (textStatus) {
-      Toast.error("错误","["+textStatus.status+"]:"+textStatus.statusText);
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
     }
   })
 });

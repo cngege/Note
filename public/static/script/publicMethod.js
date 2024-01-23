@@ -58,3 +58,11 @@ window.console.httpdebug = function($res){
     }
   }
 }
+
+window.console.htmldebug = function($data){
+  if($data.getResponseHeader('Content-Type').startsWith("text/html")){
+      $("html").html($data.responseText);
+  }else{
+    Toast.error("请求错误","["+$data.status+"]:"+$data.statusText);
+  }
+}
