@@ -15,7 +15,10 @@
     <link rel="stylesheet" href="static/css/note/note_text.css">
     <!-- 富文本编辑器CSS样式 -->
     <link rel="stylesheet" href="static/css/note/edit.css">
+    <!-- 账户设置部分所有样式 -->
+    <link rel="stylesheet" href="static/css/note/note_bar_account.css">
 
+    <!-- 加载动画的样式 -->
     <link rel="stylesheet" href="static/css/note/loadinganim.css">
     <script type="text/javascript" src="static/script/jquery.min.js"></script>
     <!-- jquery.cookie-1.4.1.min.js https://github.com/carhartl/jquery-cookie -->
@@ -636,6 +639,7 @@
             </div>
             <!-- 账户设置内部详细的设置选项 -->
             <div class="account_setup_box">
+              <!-- 邮箱部分 -->
               <div class="setup_email_box">
                 <span class="font3 emailtitle">邮箱</span><br/>
                 <div class="check_email_box">
@@ -643,6 +647,7 @@
                   <button type="button" class="text_btn">更换邮箱</button>
                 </div>
               </div>
+              <!-- 用户名部分 -->
               <div class="setup_nickname_box">
                 <span class="font3 nametitle">昵称</span><br/>
                 <div class="check_input_box">
@@ -656,6 +661,36 @@
                     <div class="input_no"><i class="fa fa-times" aria-hidden="true"></i></div>
                   </div>
                 </div>
+              </div>
+              <!-- 手机部分 -->
+              <div class="setup_phone_box">
+                <span class="font3 phonetitle">手机</span><br/>
+                <div class="check_phone_box">
+                  <span class="font phonetext">未设置</span>
+                  <button type="button" class="text_btn">更换</button>
+                  <button type="button" class="text_btn">删除</button>
+                </div>
+              </div>
+              <!-- 提示注册时间 -->
+              <div class="setup_regtime_box">
+                <span class="font3 regtimetitle">注册时间</span><br/>
+                <div class="check_regtime_box">
+                  <span class="font regtimetext">未设置</span>
+                </div>
+              </div>
+              <!-- 修改密码按钮 -->
+              <div class="setup_editpassword_box">
+                <button type="button">修改密码</button>
+              </div>
+              <!-- 删除账户部分 -->
+              <div class="setup_deleteaccess_box">
+                <div class="morebtn_box">
+                  <button type="button" class="font morebtn">
+                    <span>更多</span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <button type="button" class="deleteaccess_btn hide">删除账号</button>
               </div>
             </div>
             <!-- </div> -->

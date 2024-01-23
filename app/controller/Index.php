@@ -19,13 +19,6 @@ class Index extends Login
             //检查登陆状态
             return json(array("code" => 1, "goto"=>url("page/login")->build()));    // 1:未登录
         }
-        //TODO: 已登录
-//        $userData = $user->find(UID);
-//        if(is_null($userData["userface"])){
-//            $userData["userface"] = "/static/img/akari.jpg";//默认图片url
-//        }else{
-//            $userData["userface"] = Filesystem::disk("userData")->url($userData["userface"]);
-//        }
         $userData = getUser(UID);
         return json(["code"=>0,"user"=>$userData,"note"=>array()]);
     }

@@ -38,7 +38,7 @@ if(loading.css('display') != "none"){
      switch (e.code) {
        case 0:     //登录成功
          $(".bardoing .logo .logoinside .Username span").text(e.user.nickname);
-
+         $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("title",e.user.nickname);
          // 设置头像
          $(".bardoing .logo .logoimgbox img").attr("src",e.user.userface);
          $(".notetext .notetextbody .remark .remark-inputbox .remark-userimg img").attr("src",e.user.userface);
@@ -49,6 +49,12 @@ if(loading.css('display') != "none"){
          //在昵称输入框里填上昵称
          $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").val(e.user.nickname);
          $(".body_account_setup .account_setup_box .setup_nickname_box .check_input_box .input_text_box input").data("username", e.user.nickname);
+         //填充手机信息
+         $(".body_account_setup .account_setup_box .setup_phone_box .phonetext").text(e.user.phone || "未设置");
+         //设置注册时间文字
+         let regtimeDate = (new Date(e.user.create_time));
+         let regtime = regtimeDate.getFullYear() + "/" + (regtimeDate.getMonth() + 1) + "/" + regtimeDate.getDate();
+         $(".body_account_setup .account_setup_box .setup_regtime_box .regtimetext").text(regtime);
 
          if(e.user.is_admin){
            $("#WebSetup").css('display','');

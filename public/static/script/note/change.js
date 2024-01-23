@@ -177,3 +177,19 @@ $("div.account_setup_box .account_setup .bodybar .body_account_setup .editface i
     }
   })
 });
+
+// 点击账号设置 - 更多按钮
+$(".body_account_setup .account_setup_box .setup_deleteaccess_box .morebtn").click(function(event) {
+  /* Act on the event */
+  let i = $(".body_account_setup .account_setup_box .setup_deleteaccess_box .morebtn i");
+  let delbtn = $(".body_account_setup .account_setup_box .setup_deleteaccess_box .deleteaccess_btn");
+  if(i.hasClass('fa-angle-down')){
+    i.removeClass('fa-angle-down').addClass('fa-angle-up')
+    delbtn.removeClass('hide');
+  }else{
+    i.removeClass('fa-angle-up').addClass('fa-angle-down')
+    delbtn.addClass('hide');
+  }
+
+
+});

@@ -125,13 +125,10 @@ class Login extends BaseController
             return json(["code" => 1, "goto"=>url("/index")->build()]);
         }
         $data = input("post.");
+
         $username = $data["username"];
-
         $userdata = User::getByNickname($username);
-        if(!$userdata){
-           return json(["code"=>2,"msg"=>"用户不存在"]);
-        }
-
+        if(!$userdata){return json(["code"=>2,"msg"=>"用户不存在"]);}
         $password = thinkUcenterMd5($data["password"], $userdata["salt"]);
         if($password == $userdata["password"]){
             $sess = $userdata;
