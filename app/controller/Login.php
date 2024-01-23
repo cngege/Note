@@ -11,11 +11,19 @@
 namespace app\controller;
 
 use app\BaseController;
-use app\model\user;
+use app\model\User;
 use app\validate\ValidateRegUser;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 class Login extends BaseController
 {
+    /**
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
+     * @throws DbException
+     */
     public function initialize(): void
     {
         // 登陆检查,登陆成功拿到UID
