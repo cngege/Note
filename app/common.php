@@ -47,6 +47,7 @@ function getUser(int $id)
     }else{
         $ret["userface"] = think\facade\Filesystem::disk("userData")->url($user["userface"]);
     }
+    $ret["uuid"] = $user->folder_uuid;
     $ret["is_admin"] = $user->is_admin;
     $ret["status"] = $user->status;
     $ret["create_time"] = $user->create_time;
