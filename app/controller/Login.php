@@ -45,14 +45,20 @@ class Login extends BaseController
                     $isLogin = false;
                 }
             }
-
-            $status = User::find(UID)->value("status");
-            if(!defined("STATUS")){
-                define("STATUS",$status);
-                if($status != 0){
-                    $isLogin = false;
+            // 检查存储到会话的这个用户是否存在，是否拉黑（拉黑=未登录）
+            $user = User::find(UID);
+            if($user){
+                $status = $user->value("status");
+                if(!defined("STATUS")){
+                    define("STATUS",$status);
+                    if($status != 0){
+                        $isLogin = false;
+                    }
                 }
+            }else{
+                $isLogin = false;
             }
+
             if(!defined("LOGIN")){
                 define("LOGIN",$isLogin);
             }
@@ -137,6 +143,11 @@ class Login extends BaseController
             }else{
                 $sess["end_time"] = time() + 24*60*60;
             }
+            // 检查是否拉黑
+            if($sess["status"] != 0){
+                return json(["code"=>2,"msg"=>"此用户已被禁用"]);
+            }
+
             session('login_auth', $userdata);
             // 修改保存最新登录ip
             $userdata->login_ip = request()->ip();
