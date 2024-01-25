@@ -4,6 +4,7 @@ if(document.URL.indexOf("file://")==0){
   //serveraddr="http://192.168.10.10/wget/";
 }
 
+
 $(function(){
 
 })
