@@ -66,3 +66,46 @@ window.console.htmldebug = function($data){
     Toast.error("请求错误","["+$data.status+"]:"+$data.statusText);
   }
 }
+
+// 用户管理器
+window.userData = {};
+(function($){
+  $.extend({
+    User:function(user){
+      window.userData = user;
+    }
+  });
+  $.User.getId = function(){
+    return window.userData.id;
+  }
+  $.User.getName = function(){
+    return window.userData.nickname;
+  }
+  $.User.getEmail = function(){
+    return window.userData.email;
+  }
+  $.User.getPhone = function(){
+    return window.userData.phone;
+  }
+  $.User.getUserFace = function(){
+    return window.userData.userface;
+  }
+  $.User.getUuid = function(){
+    return window.userData.uuid;
+  }
+  $.User.getIsadmin = function(){
+    return window.userData.is_admin;
+  }
+  $.User.getStatus = function(){
+    return window.userData.status;
+  }
+  $.User.getIsBan = function(){
+    return window.userData.status != 0;
+  }
+  $.User.getCreateTime = function(){
+    return window.userData.create_time;
+  }
+  $.User.getUpdateTime = function(){
+    return window.userData.update_time;
+  }
+})(jQuery)
