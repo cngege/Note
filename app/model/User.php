@@ -14,5 +14,13 @@ use think\Model;
 
 class User extends Model
 {
+    public function Folder()
+    {
+        return $this->hasMany(Folder::class,"uid", 'id');
+    }
 
+    public function Notes()
+    {
+        return $this->hasMany(Notes::class,"uid", 'id');
+    }
 }
