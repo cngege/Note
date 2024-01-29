@@ -11,11 +11,14 @@
 namespace app\controller;
 
 use app\BaseController;
+use app\model\Folder;
 use app\model\User;
 use app\validate\ValidateRegUser;
+use Ramsey\Uuid\Uuid;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\facade\Db;
 
 class Login extends BaseController
 {
@@ -96,23 +99,68 @@ class Login extends BaseController
             }
             /*如果将要注册的邮箱已存在*/
             if($user->where("email" , $data["regEmail"])->count()){
-                return json(["code"=>1,"msg"=>"注册的用户已存在"]);
+                return json(["code"=>1,"msg"=>"注册的邮箱已存在"]);
             }
             /*插入数据*/
             $salt = mt_randStr();
+            $uuid = UUID::uuid4()->toString();
             $regData = [
+                "id"=>4,
                 "nickname" => $data["regUsername"],
                 "email"    => $data["regEmail"],
                 "password" => thinkUcenterMd5($data["regPassword"],$salt),
                 "salt"     => $salt,
+                "folder_uuid" => $uuid,
                 "reg_ip" => request()->ip(),
                 "login_ip" => request()->ip(),
             ];
-            if($user->save($regData)){
+            Db::startTrans();
+            try {
+                if(!$user->save($regData)){
+                    Db::rollback();
+                    return json(["code"=>1,"msg"=>"注册失败 - 用户数据写入失败"]);
+                }
+
+                /* 向 Folder 模型中写入默认文件夹结构 */
+                /* 生成uuid */
+                $mynote_uuid = UUID::uuid4()->toString();
+                $folderData = [
+                    "uid" => $user["id"],
+                    "uuid"=> $uuid,
+                    "name"=> "根目录",
+                    "subfolder" => json_encode([
+                        ["uuid"=>$mynote_uuid],
+                    ]),
+                ];
+                // 创建默认笔记文件夹（保存）
+                $folder = new Folder();
+                if(!$folder->save($folderData)){
+                    Db::rollback();
+                    return json(["code"=>1,"msg"=>"注册失败 - 创建默认笔记文件夹失败"]);
+                }
+
+                $folderData2 = [
+                    "uid" => $user["id"],
+                    "parent_uuid"=> $uuid,
+                    "uuid"=> $mynote_uuid,
+                    "name"=> "我的笔记",
+                    "subfolder" => "[]",
+                ];
+                $folder2 = new Folder();
+                if(!$folder2->save($folderData2)){
+                    // 创建默认笔记文件夹（保存）失败
+                    Db::rollback();
+                    return json(["code"=>1,"msg"=>"注册失败 - 创建默认笔记文件夹失败"]);
+                }
+
+                Db::commit();
                 session('login_auth', $user);
                 return json(["code"=>0,"msg"=>"注册成功","goto"=>url("/index")->build()]);
+
+            }catch (\Exception $e){
+                Db::rollback();
+                return json(["code"=>1,"msg"=>"注册失败","error"=>array("msg"=>$e->getMessage(),"line"=>$e->getLine())]);
             }
-            return json(["code"=>1,"msg"=>"注册失败"]);
         }
         return json(["code"=>1,"msg"=>"用户名、邮箱或密码不能为空"]);
     }
@@ -148,7 +196,7 @@ class Login extends BaseController
                 return json(["code"=>2,"msg"=>"此用户已被禁用"]);
             }
 
-            session('login_auth', $userdata);
+            session('login_auth', $sess);
             // 修改保存最新登录ip
             $userdata->login_ip = request()->ip();
             $userdata->save();

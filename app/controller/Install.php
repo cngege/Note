@@ -43,35 +43,50 @@ class Install extends BaseController
             ];
             Db::startTrans();
             try {
-                if($user->save($InsData)){
-                    /* 向 Folder 模型中写入默认文件夹结构 */
-                    $folder = new Folder();
-                    // 编写一条数据 笔记文件夹下 我的笔记 这个文件夹的uuid
-                    $mynote_uuid = UUID::uuid4()->toString();
-                    $folderData = [
-                        "uid" => $user["id"],
-                        "uuid"=> $uuid,
-                        "name"=> "根目录",
-                        "subfolder" => json_encode([
-                            ["uuid"=>$mynote_uuid, "name"=>"我的笔记"],
-                        ]),
-                    ];
-                    if(!$folder->save($folderData)){
-                        // 创建默认笔记文件夹（保存）失败
-                        Db::rollback();
-                        return json(["code"=>1,"msg"=>"安装失败"]);
-                    }
-                    Db::commit();
-                    // 创建用户和创建默认文件夹都成功
-                    session('login_auth', $user->getData());
-                    return json(["code"=>0,"msg"=>"安装完成","goto"=>url("/index")->build()]);
+                if(!$user->save($InsData)){
+                    Db::rollback();
+                    return json(["code"=>1,"msg"=>"安装失败"]);
                 }
+                /* 向 Folder 模型中写入默认文件夹结构 */
+                // 编写一条数据 笔记文件夹下 我的笔记 这个文件夹的uuid
+                $mynote_uuid = UUID::uuid4()->toString();
+                $folderData = [
+                    "uid" => $user["id"],
+                    "uuid"=> $uuid,
+                    "name"=> "根目录",
+                    "subfolder" => json_encode([
+                        ["uuid"=>$mynote_uuid],
+                    ]),
+                ];
+                $folder = new Folder();
+                if(!$folder->save($folderData)){
+                    // 创建默认笔记文件夹（保存）失败
+                    Db::rollback();
+                    return json(["code"=>1,"msg"=>"安装失败 - 创建默认笔记文件夹失败"]);
+                }
+
+                $folderData2 = [
+                    "uid" => $user["id"],
+                    "parent_uuid"=> $uuid,
+                    "uuid"=> $mynote_uuid,
+                    "name"=> "我的笔记",
+                    "subfolder" => json_encode([]),
+                ];
+                $folder2 = new Folder();
+                if(!$folder2->save($folderData2)){
+                    // 创建默认笔记文件夹（保存）失败
+                    Db::rollback();
+                    return json(["code"=>1,"msg"=>"安装失败 - 创建默认笔记文件夹失败"]);
+                }
+
+                Db::commit();
+                // 创建用户和创建默认文件夹都成功
+                session('login_auth', $user->getData());
+                return json(["code"=>0,"msg"=>"安装完成","goto"=>url("/index")->build()]);
             }catch (\Exception $e){
                 Db::rollback();
-                return json(["code"=>1,"msg"=>"安装失败","error"=>$e->getMessage()]);
+                return json(["code"=>1,"msg"=>"安装失败","error"=>array("msg"=>$e->getMessage(),"line"=>$e->getLine())]);
             }
-
-            return json(["code"=>1,"msg"=>"安装失败"]);
         }
         return json(["code"=>1,"msg"=>"用户名或密码不能为空"]);
 
