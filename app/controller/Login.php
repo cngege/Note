@@ -80,6 +80,7 @@ class Login extends BaseController
      * @Json:
      * 0 成功,goto跳转主页
      * 1 失败
+     * 2 没有安装
      */
     public function register(){
         //拿到邮箱密码
@@ -93,6 +94,11 @@ class Login extends BaseController
 
             // 验证用户是否存在
             $user = new User();
+            if(!$user->count()){
+                // 没有安装
+                return json(array("code" => 2, "goto"=>url("page/install")->build()));    // 2:未安装
+            }
+
             /*如果将要注册的用户已存在*/
             if($user->where("nickname" , $data["regUsername"])->count()){
                 return json(["code"=>1,"msg"=>"注册的用户已存在"]);
