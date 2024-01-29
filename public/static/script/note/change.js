@@ -231,3 +231,73 @@ $(".folder .folder_body_boxs .folder_tag").click(function(event) {
   }
   return false;
 });
+
+// 文件夹点击 获取当前文件夹下的所有笔记，并显示笔记列表
+$(".folder .folder_body_boxs .folder_name_box").click(function(event) {
+  /* Act on the event */
+  // 请求当前文件夹的笔记信息列表
+  let uuid = $(this).parent().data('uuid');
+  let parentDirName = $(this).children('.folder_name').children("span").text();
+  // TODO: 文件夹设置 hover效果
+  $.ajax({
+    url: '/index/getNoteInfo',
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {uuid: uuid},
+    success:function(e){
+      switch (e.code) {
+        case 0:     //成功
+          //将拿到的数据写入
+          // 克隆
+          if(e.note == null) return;
+          // 设置 N篇笔记
+          $(".notelist .notezap").children('p').text(e.note.length + " 篇笔记");
+          // 将列表中清空
+          $(".notelist .notetitlelist ul li:not(.template)").remove();
+          // 笔记添加到列表中
+          if(e.note.length){
+            $.each(e.note,(index,value)=>{
+              let template = $(".notelist .notetitlelist li.template").clone(true);
+              template.removeClass('template');
+              template.find(".noteTitleText p").text(value.title);
+              let timeDate = (new Date(value.create_time));
+              let time = timeDate.getFullYear() + "/" + (timeDate.getMonth() + 1) + "/" + timeDate.getDate();
+              template.find(".timedirinfo p.note_time").text(time).data('time', value.create_time)
+              // 添加内容描述
+              template.find(".Previewinfo p").text(value.description);
+              template.find(".timedirinfo p.note_sort").text(parentDirName);
+
+              // TODO: 添加图片
+              let firstImg = JSON.parse(value.img);
+              if(firstImg.length){
+                firstImg = firstImg[0];
+                template.find(".PreviewImg img").attr("src",firstImg);
+              }else{
+                template.find(".PreviewImg img").remove();
+              }
+              // 设置数据
+              template.data("uuid",value.uuid);
+              template.data("parent_uuid",value.uuid);
+
+              //template.find(".folder_tag_box").css("margin-left",30 + level*10 + "px");
+              $(".notelist .notetitlelist ul").append(template);
+            })
+          }
+
+          break;
+        case 1://未登录
+          Toast.noLogin(e.goto);
+          break;
+        case 2://错误
+          Toast.error("错误",e.msg);
+          break;
+      }
+    },
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
+    }
+  })
+
+  return false;
+});

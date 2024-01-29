@@ -74,10 +74,10 @@ class Index extends Login
         $notes = $user
             ->Notes()
             ->where("parent_uuid", $uuid)
-            ->field("parent_uuid,uuid,title")
+            ->field("parent_uuid,uuid,title,description,img,create_time")
             ->select();
 
-        return json(["code"=>0,"note"=>(count($notes))? array($notes) : array()]);
+        return json(["code"=>0,"note"=>(count($notes))? $notes : array()]);
     }
 
 }

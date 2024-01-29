@@ -130,7 +130,7 @@
 .scrollbar{
   overflow-x: hidden;
   overflow-y: auto;
-  
+
   scrollbar-color: transparent transparent;
   scrollbar-track-color: transparent;
   -ms-scrollbar-track-color: transparent;
@@ -305,7 +305,8 @@
 
 /* 图片Box */
 .notelist .PreviewImg{
-  width: 56px;
+  display: flex;
   height: 56px;
-  margin: auto;
+  margin: 15px auto;
+  justify-content: center;
 }
