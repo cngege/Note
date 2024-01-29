@@ -94,12 +94,33 @@
             </div>
           </div>
           <!-- 文件夹 -->
-          <div class="folder list_hover">
-            <div class="folder1 list">
+          <div class="folder">
+            <div class="folder1 list list_hover">
               <div class="file listicon"><i class="fa fa-file-text" aria-hidden="true"></i></div>
               <span class="listtext">文件夹</span>
               <div class="selecttag">
                 <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="folder_body_boxs root">
+              <!-- 当前div是存储底下文件夹的 每获取一个文件夹就加到这个div内部后面-->
+              <div class="folder_body template">    <!-- 有这个div表示内部一定有项目 可以占位40px -->
+                <div class="folder_name_box">
+                  <!-- 这个div要存储 左边的原点/箭头  文件夹名称 -->
+                  <div class="folder_tag_box">  <!-- 这是一个高40px的正方形 外左边距拉开 -->
+                    <!-- 当前div用来放点或者箭头 -->
+                    <div class="folder_tag">
+                      <i class="fa fa-circle" aria-hidden="true"></i>
+                      <!-- <i class="fa fa-angle-right" style="display: none" aria-hidden="true"></i> -->
+                    </div>
+                  </div>
+                  <div class="folder_name">
+                    <span>模板</span>
+                  </div>
+                </div>
+                <div class="folder_body_boxs">
+                  <!-- div是存储这个文件夹 下面所有文件夹的 -->
+                </div>
               </div>
             </div>
           </div>
@@ -586,7 +607,7 @@
     </div>
 
     <!-- 账户设置 面板 -->
-    <div class="account_setup_box">  <!-- 宽高撑满 以便里面有个点击取消显示的区域 -->
+    <div class="account_setup_box hide">  <!-- 宽高撑满 以便里面有个点击取消显示的区域 -->
       <div id="account_close" class="account_close"></div>
       <div class="account_setup">
         <!-- 左边的选择页 部分最外层 -->

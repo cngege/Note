@@ -11,7 +11,8 @@ body{
 }
 
 
-.hide{
+.hide,
+.template{
   display: none;
 }
 

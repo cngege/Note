@@ -3,12 +3,14 @@
 $(".bardoing .Username i").click(function(event) {
   /* Act on the event */
   $(".bardoing .Username .setupselect").css('display', 'inline');
+  $(".note .bar .bardoing").addClass('hover');
 });
 
 //USER SETUP页面其他地方被点击 则关闭显示
 $(".bardoing .Username .setupselect .selectback").click(function(event) {
   /* Act on the event */
   $(".bardoing .Username .setupselect").css('display', 'none');
+  $(".note .bar .bardoing").removeClass('hover');
 });
 
 //账户设置按钮被点击
@@ -17,6 +19,7 @@ $(".bardoing .Username .setupselect ul #UserSetup").click(function(event) {
   //alert("账户设置");
   $(".bardoing .Username .setupselect").css('display', 'none');
   $("div.account_setup_box").css("display","inline");
+  $(".note .bar .bardoing").removeClass('hover');
 });
 
 //退出登录按钮被点击
@@ -192,4 +195,39 @@ $(".body_account_setup .account_setup_box .setup_deleteaccess_box .morebtn").cli
   }
 
 
+});
+
+$(".folder1").click(function(event) {
+  /* Act on the event */
+  let icon = $(this).find('.selecttag i');
+  if(icon.hasClass('fa-angle-down')){
+    // 请求 拿到笔记文件夹列表
+
+    // 拿到后展开
+    $(this).next(".folder_body_boxs").css("height","auto");
+    icon.removeClass('fa-angle-down').addClass('fa-angle-up')
+  }
+  else if(icon.hasClass('fa-angle-up')){
+    $(this).next(".folder_body_boxs").css("height","0");
+    icon.removeClass('fa-angle-up').addClass('fa-angle-down')
+  }
+  return false;
+});
+
+// 子文件夹展开
+$(".folder .folder_body_boxs .folder_tag").click(function(event) {
+  /* Act on the event */
+  let icon = $(this).children('i');
+  if(icon.hasClass('fa-angle-right')){
+    // 请求 拿到笔记文件夹列表
+
+    // 拿到后展开
+    $(this).parent().parent().next(".folder_body_boxs").css("height","auto");
+    icon.removeClass('fa-angle-right').addClass('fa-angle-down')
+  }
+  else if(icon.hasClass('fa-angle-down')){
+    $(this).parent().parent().next(".folder_body_boxs").css("height","0");
+    icon.removeClass('fa-angle-down').addClass('fa-angle-right')
+  }
+  return false;
 });

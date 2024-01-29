@@ -60,13 +60,31 @@ $(document).ready(function () {
 
 function getNoteFolder($uuid){
   $.ajax({
-    url: '/index/getNoteInfo',
+    url: '/index/getFolderInfo',
     type: 'POST',
     dataType: 'json',
     data: {uuid: $uuid},
     success:function(e){
       switch (e.code) {
         case 0:     //成功
+          //将拿到的数据写入
+          // 克隆
+          let subfolder = JSON.parse(e.folder.subfolder);
+          if(subfolder.length){
+            // 展开元素
+            $(".folder .folder_body_boxs.root").css("height","auto");
+            $(".folder .folder1 .selecttag i").removeClass('fa-angle-down').addClass('fa-angle-up')
+
+            $.each(subfolder,(index,value)=>{
+              let template = $(".folder .folder_body_boxs.root .folder_body.template").clone(true);
+              template.removeClass('template');
+              template.find(".folder_name span").text(value.name);
+              template.data("uuid",value.uuid);
+              $(".folder .folder_body_boxs.root").append(template);
+              addFolder(template, value.uuid, 1);
+            })
+          }
+
           break;
         case 1://未登录
           Toast.noLogin(e.goto);
@@ -82,6 +100,50 @@ function getNoteFolder($uuid){
   })
 }
 
+
+function addFolder(JQdom, uuid, level){
+  $.ajax({
+    url: '/index/getFolderInfo',
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {uuid: uuid},
+    success:function(e){
+      switch (e.code) {
+        case 0:     //成功
+          //将拿到的数据写入
+          // 克隆
+          if(e.folder == null) return;
+          JQdom.find(".folder_name span").text(e.folder.name);
+          let subfolder = JSON.parse(e.folder.subfolder);
+          if(subfolder.length){
+            let tag = JQdom.find(".folder_tag i");  // 这里理论可以直接find找，因为内部还没有填充，不会找到其他
+            tag.removeClass('fa-circle').addClass('fa-angle-right');
+            $.each(subfolder,(index,value)=>{
+              let template = $(".folder .folder_body_boxs.root .folder_body.template").clone(true);
+              template.removeClass('template');
+              //template.find(".folder_name span").text(value.name);
+              template.data("uuid",value.uuid);
+              template.find(".folder_tag_box").css("margin-left",30 + level*10 + "px");
+              JQdom.children('.folder_body_boxs').append(template);
+              addFolder(template, value.uuid, level+1);
+            })
+          }
+
+          break;
+        case 1://未登录
+          Toast.noLogin(e.goto);
+          break;
+        case 2://错误
+          Toast.error("错误",e.msg);
+          break;
+      }
+    },
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
+    }
+  })
+}
 
 
 // 在表层更新用户信息到页面
