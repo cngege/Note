@@ -148,6 +148,10 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box.focus{
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* 以下四个是 关于图标（点或箭头）的样式 */
 .notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box{
   position: relative;

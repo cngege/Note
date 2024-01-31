@@ -239,6 +239,10 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
   let uuid = $(this).parent().data('uuid');
   let parentDirName = $(this).children('.folder_name').children("span").text();
   // TODO: 文件夹设置 hover效果
+  // focus // 点TODO: 点击近期笔记 - 我的分享时也要运行下面的取消 focus
+  $(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
+  $(this).addClass('focus');
+
   $.ajax({
     url: '/index/getNoteInfo',
     type: 'POST',

@@ -111,7 +111,6 @@ class Login extends BaseController
             $salt = mt_randStr();
             $uuid = UUID::uuid4()->toString();
             $regData = [
-                "id"=>4,
                 "nickname" => $data["regUsername"],
                 "email"    => $data["regEmail"],
                 "password" => thinkUcenterMd5($data["regPassword"],$salt),
