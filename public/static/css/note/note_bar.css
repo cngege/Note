@@ -68,7 +68,11 @@
 
 /* 退出登录 账户设置按钮最外层的总box */
 .bardoing .Username .setupselect{
-  display: none;
+
+}
+
+/* 弹窗相关css */
+.popup-win_div{
   position: fixed;
   top: 0;
   left: 0;
@@ -78,8 +82,8 @@
   background-color: transparent;
 }
 
-/* 退出登录 账户设置box 全屏可点击box 点击后按钮消失 */
-.bardoing .Username .setupselect .selectback{
+/* 弹窗全屏可点击box 点击后div消失 */
+.popup-win_div .popup_win_close{
   position:absolute;
   left: 0;
   top: 0;
@@ -88,9 +92,13 @@
   z-index: -1;
 }
 
+.popup-win_div .popup-win{
+  position: absolute;
+}
+
  /* 账户设置 退出登录的按钮box */
 .bardoing .Username .setupselect .selectbtn{
-  position: absolute;
+  /* position: absolute; */
   top: 60px;
   left: 80px;
   width: 100px;
@@ -124,23 +132,15 @@
 
 /* 账户设置面板区域样式 */
 /* 最外层box 撑开 */
-div.account_setup_box,div.account_setup_box div.account_close{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  /* background: #000; */
-}
+/* 不需要了 集成到了popup-win_div */
 
 /* 点击后可以关闭的部分 */
-div.account_setup_box .account_close{
+div.account_setup_box .popup_win_close{
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 div.account_setup_box .account_setup{
-  position: absolute;
+  /* position: absolute; */
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);

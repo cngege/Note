@@ -17,18 +17,17 @@
     <link rel="stylesheet" href="static/css/note/edit.css">
     <!-- 账户设置部分所有样式 -->
     <link rel="stylesheet" href="static/css/note/note_bar_account.css">
-
     <!-- 加载动画的样式 -->
     <link rel="stylesheet" href="static/css/note/loadinganim.css">
     <script type="text/javascript" src="static/script/jquery.min.js"></script>
-    <!-- jquery.cookie-1.4.1.min.js https://github.com/carhartl/jquery-cookie -->
-    <script type="text/javascript" src="static/script/jquery.cookie-1.4.1.min.js"></script>
     <script type="text/javascript" src="static/script/note/config.js"></script>
     <!-- toast插件 -->
     <link rel="stylesheet" href="static/toast/jquery.toast.min.css">
     <script src="static/toast/jquery.toast.min.js" charset="utf-8"></script>
     <!-- 公共方法 -->
     <script type="text/javascript" src="static/script/publicMethod.js" charset="utf-8"></script>
+    <!-- 弹窗相关方法 -->
+    <script type="text/javascript" src="static/script/popup-win.js" charset="utf-8"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -48,9 +47,8 @@
               </div>
               <div class="Username">
                 <span>未登录</span><i class="fa fa-angle-down" aria-hidden="true"></i>
-                <div class="setupselect">
-                  <div class="selectback"></div>
-                  <div class="selectbtn">
+                <div class="popup-win_div setupselect" style="display: none" onClose="$('.note .bar .bardoing').removeClass('hover');"> <!-- 这就是最外层div -->
+                  <div class="popup-win selectbtn">
                     <ul>
                       <li id="UserSetup">账户设置</li>
                       <li id="WebSetup" style="display:none">系统管理</li>
@@ -609,9 +607,9 @@
     </div>
 
     <!-- 账户设置 面板 -->
-    <div class="account_setup_box hide">  <!-- 宽高撑满 以便里面有个点击取消显示的区域 -->
-      <div id="account_close" class="account_close"></div>
-      <div class="account_setup">
+    <div class="popup-win_div account_setup_box hide">  <!-- 宽高撑满 以便里面有个点击取消显示的区域 -->
+      <!-- <div id="account_close" class="account_close"></div> -->
+      <div class="popup-win account_setup">
         <!-- 左边的选择页 部分最外层 -->
         <div class="optionbar">
           <div class="optionbar_padd">

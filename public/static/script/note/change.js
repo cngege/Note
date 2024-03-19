@@ -6,12 +6,6 @@ $(".bardoing .Username i").click(function(event) {
   $(".note .bar .bardoing").addClass('hover');
 });
 
-//USER SETUP页面其他地方被点击 则关闭显示
-$(".bardoing .Username .setupselect .selectback").click(function(event) {
-  /* Act on the event */
-  $(".bardoing .Username .setupselect").css('display', 'none');
-  $(".note .bar .bardoing").removeClass('hover');
-});
 
 //账户设置按钮被点击
 $(".bardoing .Username .setupselect ul #UserSetup").click(function(event) {
@@ -131,10 +125,11 @@ $("div.account_setup_box .optionbar .optionbar_padd ul div.List").click(function
 });
 
 // 和 账户设置窗口有关的动态交互
-$("#account_close").click(function(event) {
-  /* 关闭 */
-  $("div.account_setup_box").css("display","none");
-});
+//不需要了 集成到了popup
+// $("#account_close").click(function(event) {
+//   /* 关闭 */
+//   $("div.account_setup_box").css("display","none");
+// });
 
 
 // 点击上传头像部分时，将点击传递到 input中
