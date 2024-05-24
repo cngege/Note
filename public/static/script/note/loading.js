@@ -69,7 +69,7 @@ function getNoteFolder($uuid){
         case 0:     //成功
           //将拿到的数据写入
           // 克隆
-          let subfolder = JSON.parse(e.folder.subfolder);
+          let subfolder = e.folder.subfolder;
           if(subfolder.length){
             // 展开元素
             $(".folder .folder_body_boxs.root").css("height","auto");
@@ -80,6 +80,7 @@ function getNoteFolder($uuid){
               template.removeClass('template');
               template.find(".folder_name span").text(value.name);
               template.data("uuid",value.uuid);
+              template.data("level",0);
               $(".folder .folder_body_boxs.root").append(template);
               addFolder(template, value.uuid, 1);
             })
@@ -115,7 +116,7 @@ function addFolder(JQdom, uuid, level){
           // 克隆
           if(e.folder == null) return;
           JQdom.find(".folder_name span").text(e.folder.name);
-          let subfolder = JSON.parse(e.folder.subfolder);
+          let subfolder = e.folder.subfolder;
           if(subfolder.length){
             let tag = JQdom.find(".folder_tag i");  // 这里理论可以直接find找，因为内部还没有填充，不会找到其他
             tag.removeClass('fa-circle').addClass('fa-angle-right');
@@ -124,6 +125,7 @@ function addFolder(JQdom, uuid, level){
               template.removeClass('template');
               //template.find(".folder_name span").text(value.name);
               template.data("uuid",value.uuid);
+              template.data("level",level);
               template.find(".folder_tag_box").css("margin-left",30 + level*10 + "px");
               JQdom.children('.folder_body_boxs').append(template);
               addFolder(template, value.uuid, level+1);

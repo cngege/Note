@@ -6,6 +6,7 @@ $(".popup-win_div").each(function(index, el) {
   close.click(function(event) {
     $(this).parent().hide();
   });
+  close.on('contextmenu',e=>e.preventDefault())
   $(el).prepend(close);
 
   let onClose = $(el).attr("onClose");

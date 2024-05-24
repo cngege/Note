@@ -93,6 +93,30 @@
           </div>
           <!-- 文件夹 -->
           <div class="folder">
+            <!-- 根文件夹右键弹窗 root -->
+            <div class="popup-win_div root-dir-popup" style="display: none" onClose="//jscode">
+              <div class="popup-win root-dir-popuplist">
+            	<!-- ... -->
+                <ul>
+                  <li class="makedir"><span>新建文件夹</span></li>
+                </ul>
+              </div>
+            </div>
+            <!-- 子文件夹右键弹窗 -->
+            <div class="popup-win_div child-dir-popup" style="display: none" onClose="//jscode">
+              <div class="popup-win child-dir-popuplist">
+            	<!-- ... -->
+                <ul>
+                  <li class="makedir"><span>新建子文件夹</span></li>
+                  <li class="rename"><span>重命名</span></li>
+                  <li class="delete"><span>删除</span></li>
+                  <li class="moveup"><span>向上移动</span></li>
+                  <li class="movedown"><span>向下移动</span></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 最外层显示的“文件夹” -->
             <div class="folder1 list list_hover">
               <div class="file listicon"><i class="fa fa-file-text" aria-hidden="true"></i></div>
               <span class="listtext">文件夹</span>
@@ -104,17 +128,22 @@
               <!-- 当前div是存储底下文件夹的 每获取一个文件夹就加到这个div内部后面-->
               <div class="folder_body template">    <!-- 有这个div表示内部一定有项目 可以占位40px -->
                 <div class="folder_name_box"> <!-- 点击监控 -->
-                  <!-- 这个div要存储 左边的原点/箭头  文件夹名称 -->
-                  <div class="folder_tag_box">  <!-- 这是一个高40px的正方形 外左边距拉开 -->
-                    <!-- 当前div用来放点或者箭头 -->
-                    <div class="folder_tag">
-                      <i class="fa fa-circle" aria-hidden="true"></i>
-                      <!-- <i class="fa fa-angle-right" style="display: none" aria-hidden="true"></i> -->
+                    <!-- 这个div要存储 左边的原点/箭头  文件夹名称 -->
+                    <div class="folder_tag_box">  <!-- 这是一个高40px的正方形 外左边距拉开 -->
+                      <!-- 当前div用来放点或者箭头 -->
+                      <div class="folder_tag">
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-angle-right" style="display: none" aria-hidden="true"></i> -->
+                      </div>
                     </div>
-                  </div>
-                  <div class="folder_name">
-                    <span>模板</span>
-                  </div>
+                    <div class="folder_input_box hide">
+                      <div class="folder_input_box2">
+                        <input type="text">
+                      </div>
+                    </div>
+                    <div class="folder_name">
+                      <span>模板</span>
+                    </div>
                 </div>
                 <div class="folder_body_boxs">
                   <!-- div是存储这个文件夹 下面所有文件夹的 -->
@@ -732,6 +761,7 @@
 
     <script type="text/javascript" src="static/script/note/loading.js"></script>
     <script type="text/javascript" src="static/script/note/change.js"></script>
+    <script type="text/javascript" src="static/script/note/notedir.js"></script>
     <script type="text/javascript" src="static/script/note/editor.js"></script>
 
     <!-- NetWork JS -->

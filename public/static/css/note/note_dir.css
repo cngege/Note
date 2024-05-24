@@ -134,6 +134,13 @@
   overflow: hidden;
 }
 
+/* 最外层的文件夹容器样式 */
+.notedir .dirlist .folder_body_boxs.root{
+  /* 溢出显示滚动条 */
+  max-height: calc(40px*13);
+  overflow-y: auto;
+}
+
 .notedir .dirlist .folder_body_boxs .folder_body{
   width: 100%;
   min-height: 40px;
@@ -185,6 +192,34 @@
   font-size: 7px;
 }
 
+/* 文件夹模板输入框部分样式 =========================================================*/
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_input_box{
+  position: relative;
+  float: left;  /* 要让文件夹名称显示在右边 */
+  height: 40px;
+  width: calc(100% - 40px - 40px);
+  border-radius: 5px;
+}
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_input_box2{
+  position: absolute;
+  width: 100%;
+  height: 85%;
+  border: solid 1px #448aff;
+  background-color: #f4f6f9;
+}
+
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_input_box input{
+  border: none;
+  position: absolute;
+  outline: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #f4f6f9;
+  width: 95%;
+}
+
+
 /* 关于文件夹名称的样式 */
 .notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_name{
   /* width: 100%; */
@@ -222,4 +257,49 @@
 
 .notedir .dirlist .trash .trash1 .trashicon{
   color: #fec75c;
+}
+
+/* 文件夹右键菜单 */
+.notedir .dirlist .folder .root-dir-popuplist,
+.notedir .dirlist .folder .child-dir-popuplist{
+  height: auto;                                    /*自动设置高度，使自适应列表数量*/
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.notedir .dirlist .folder .root-dir-popuplist ul,
+.notedir .dirlist .folder .child-dir-popuplist ul{
+  margin: 0;
+  padding:5px 0;
+  width: 100%;
+  height: 90%;
+  text-align: center;
+}
+
+.notedir .dirlist .folder .root-dir-popuplist ul li,
+.notedir .dirlist .folder .child-dir-popuplist ul li{
+  list-style-type:none;
+  color: #000;
+  line-height: 25px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* li中的文字样式 */
+.notedir .dirlist .folder .root-dir-popuplist ul li span,
+.notedir .dirlist .folder .child-dir-popuplist ul li span{
+  margin: auto 15px;
+}
+
+.notedir .dirlist .folder .root-dir-popuplist ul li:hover,
+.notedir .dirlist .folder .child-dir-popuplist ul li:hover
+{
+  cursor: pointer;
+  background: rgba(80, 95, 121, 0.08);
+}
+
+.notedir .dirlist .folder .child-dir-popuplist ul li.delete{
+  color: red;
 }
