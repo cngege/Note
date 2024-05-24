@@ -8,6 +8,7 @@ use app\Model\Folder;
 use app\Model\Notes;
 use Ramsey\Uuid\Uuid;
 use think\db\Where;
+use think\Exception;
 use think\facade\Db;
 use think\facade\Filesystem;
 
@@ -157,7 +158,7 @@ class Index extends Login
             // 首先在父文件夹里移除自己
             $current = $user->Folder()->where("uuid", $uuid)->find();
             if(!$current){
-                return json(array("code" => 3, "msg"=>"不存在此文件夹"));
+                throw new Exception("找不到传入文件夹的uuid");
             }
             $parentUUID = $current->parent_uuid;
             if($parentUUID){
@@ -170,7 +171,9 @@ class Index extends Login
                     });
                     $filteredArray = array_values($filteredArray);
                     $parentFolder->subfolder = $filteredArray;
-                    $parentFolder->save();
+                    if(!$parentFolder->save()){
+                        throw new Exception("父文件夹中的子文件夹数据修改后保存失败");
+                    }
                 }
             }
             // 拿到所有子文件夹 递归删除
