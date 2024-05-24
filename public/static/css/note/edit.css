@@ -250,7 +250,7 @@
 
 .notetext .notetextbody .editor-iframe{
   margin:20px 35px;
-  min-height: 300px;
+  min-height: 100vh;
   /* height: 100%; */
   outline: 0;
 }
