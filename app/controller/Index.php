@@ -130,6 +130,47 @@ class Index extends Login
     }
 
     /**
+     * Desc: 重命名文件夹
+     * @return \think\response\Json
+     * @input uuid 要重命名文件夹的uuid
+     * @input name 要重命名文件夹的名称
+     */
+    public function renameFolder(): \think\response\Json
+    {
+        if(!LOGIN){
+            return json(array("code" => 1, "goto"=>url("page/login")->build()));
+        }
+        $uuid = input("post.uuid");
+        if(!$uuid){
+            return json(array("code" => 2, "msg"=>"参数错误,uuid参数不可为空"));
+        }
+        $name = input("post.name");
+        if(!$name){
+            return json(array("code" => 2, "msg"=>"参数错误,name参数不可为空"));
+        }
+        try {
+            $user = User::find(UID);
+            $folders = $user
+                ->Folder()
+                ->where("uuid", $uuid)
+                ->find();
+            if(!$folders){
+                throw new Exception("该文件夹不存在");
+            }
+            if($folders->name == $name){
+                return json(array("code" => 0, "data"=>["name"=>$name]));
+            }
+            $folders->name = $name;
+            if(!$folders->save()){
+                throw new Exception("保存数据错误");
+            }
+            return json(array("code" => 0, "data"=>["name"=>$name]));
+        }catch (\Exception $e){
+            return json(array("code" => 3, "msg"=>"异常:".$e->getMessage()));
+        }
+    }
+
+    /**
      * 删除笔记文件夹 支持递归
      * @access public
      * @return \think\response\Json

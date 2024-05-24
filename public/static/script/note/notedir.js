@@ -73,13 +73,14 @@ $(".notedir .dirlist .folder .root-dir-popuplist li.makedir").click(function(eve
   input.focus();
   input.data("inputype","makefolder");
   // 当输入框失去焦点
-  input.blur(function(event) {
+  let blur = function(event) {
     /* Act on the event */
     // 当内容为空 则取消新建文件夹
     if($(this).val() == ""){
       template.remove();
       return;
     }
+    input.off("blur",blur);
     // 请求后端创建文件夹
     let folderName = $(this).val();
 
@@ -108,44 +109,8 @@ $(".notedir .dirlist .folder .root-dir-popuplist li.makedir").click(function(eve
           break;
       }
     })
-
-/*
-    $.ajax({
-      url: '/index/addFolder',
-      type: 'POST',
-      dataType: 'json',
-      async: false,
-      data: {uuid: window.config.rClickFolderuuid,name: folderName},
-      success:function(e){
-        switch (e.code) {
-          case 0:     //成功
-            // 变为非输入模式
-            input_box.addClass('hide');
-            folder_name.removeClass('hide');
-            // 写入uuid数据
-            template.data("uuid",e.data.uuid);
-            // 写入名称
-            template.find(".folder_name span").text(e.data.name);
-            break;
-          case 1://未登录
-            Toast.noLogin(e.goto);
-            break;
-          case 2://错误
-            Toast.error("参数错误",e.msg);
-            template.remove();
-            break;
-          case 3://错误
-            Toast.error("错误",e.msg);
-            template.remove();
-            break;
-        }
-      },
-      error: function (jqXHR) {
-        console.htmldebug(jqXHR);
-      }
-    })
-*/
-  });
+  }
+  input.on('blur',blur);
 });
 
 if(isAtom()){
@@ -202,12 +167,13 @@ $(".notedir .dirlist .folder .child-dir-popuplist li.makedir").click(function(ev
   // 优化当层级过高的情况下 输入框错位的问题
   template.find(".folder_input_box").css("width",'calc(100% - 40px - 40px - '+ (level + 1)*10 +'px)')
   input.focus();
-  input.blur(function(event) {
+  let blur = function(event) {
     // 当内容为空 则取消新建文件夹
     if($(this).val() == ""){
       template.remove();
       return;
     }
+    input.off("blur",blur);
     // 请求后端创建文件夹
     let folderName = $(this).val();
 
@@ -243,7 +209,8 @@ $(".notedir .dirlist .folder .child-dir-popuplist li.makedir").click(function(ev
           break;
       }
     })
-  });
+  }
+  input.on("blur",blur);
 
 });
 
@@ -252,7 +219,65 @@ $(".notedir .dirlist .folder .child-dir-popuplist li.rename").click(function(eve
   /* Act on the event */
   // 首先 将弹窗关闭掉
   $(".notedir .dirlist .folder .child-dir-popup").css('display', 'none');
-  //
+
+  let input_box = window.config.rClickFolder.find(".folder_input_box");
+  input_box.removeClass('hide');
+
+  let folder_name_box = window.config.rClickFolder.children('.folder_name_box');
+
+  let folder_input_box = folder_name_box.find(".folder_input_box");
+  folder_input_box.removeClass('hide');
+
+  let folder_name = folder_name_box.find(".folder_name");
+  folder_name.addClass('hide');
+  // 拿到input
+  let input = folder_input_box.find('input');
+  // 写入type为 rename
+  input.focus();
+  input.data("inputype","renamefolder");
+  // 写入input内容
+  input.val(folder_name.find('span').text());
+
+  let blur = function(event){
+    if($(this).val() == ""){
+      folder_input_box.addClass('hide');
+      folder_name.removeClass('hide');
+      return;
+    }
+    input.off("blur",blur);
+
+    // 网络请求
+    $.ajax({
+      url: '/index/renameFolder',
+      type: 'POST',
+      dataType: 'json',
+      async: false,
+      data: {uuid: window.config.rClickFolderuuid,name: input.val()},
+      success:function(e){
+        folder_input_box.addClass('hide');
+        folder_name.removeClass('hide');
+        switch (e.code) {
+          case 0:     //成功
+            folder_name.find('span').text(e.data.name);
+            break;
+          case 1://未登录
+            Toast.noLogin(e.goto);
+            break;
+          case 2://错误
+            Toast.error("参数错误",e.msg);
+            break;
+          case 3://错误
+            Toast.error("错误",e.msg);
+            break;
+        }
+      },
+      error: function (jqXHR) {
+        console.htmldebug(jqXHR);
+      }
+    })
+  }
+  input.on("blur",blur);
+
 });
 
 // 当子文件夹菜单点击删除
