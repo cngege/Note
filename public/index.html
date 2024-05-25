@@ -24,6 +24,8 @@
     <!-- toast插件 -->
     <link rel="stylesheet" href="static/toast/jquery.toast.min.css">
     <script src="static/toast/jquery.toast.min.js" charset="utf-8"></script>
+    <!-- JS过滤插件 -->
+    <script src="static/DOMPurify/purify.min.js" charset="utf-8"></script>
     <!-- 公共方法 -->
     <script type="text/javascript" src="static/script/publicMethod.js" charset="utf-8"></script>
     <!-- 弹窗相关方法 -->
@@ -228,7 +230,7 @@
                     </div>
                   </div>
                   <!-- 预览图片 如果没有图片则这个div不显示 -->
-                  <div class="PreviewImg">
+                  <div class="PreviewImg" style="display:none">
                     <img width="56px" src="https://fs-im-kefu.7moor-fs1.com/29397395/4d2c3f00-7d4c-11e5-af15-41bf63ae4ea0/1706525752761/38010cc0-c7e2-11e9-a7bd-1bd14b54fa6e.png" alt="">
                   </div>
                 </div>
@@ -262,7 +264,7 @@
                   </div>
                   <!-- 预览图片 如果没有图片则这个div不显示 -->
                   <div class="PreviewImg">
-                    <img width="56px" src="https://kshttps0.wiz.cn/ks/note/abstract/7dc5e240-c737-11e9-8e38-4f4aade711f2/38010cc0-c7e2-11e9-a7bd-1bd14b54fa6e?clientType=web&amp;clientVersion=3.0.0&amp;apiVersion=10&amp;lang=zh-cn&amp;1596530226076" alt="">
+                    <img width="56px" src="" alt="">
                   </div>
                 </div>
               </div>
@@ -601,34 +603,34 @@
 
         </header>
         <div class="notetextbody0" style="position: relative; height: 80%;">
-        <div class="notetextbody" style="overflow-y: scroll">
-          <div class="editor-iframe" contenteditable="false">
+          <div class="notetextbody" style="overflow-y: scroll">
+            <div class="editor-iframe" contenteditable="false">
 
 
-          </div>
-          <!-- 笔记编辑区 备注 -->
-          <div class="remark">
-            <p class="remark-p">没有备注</p>
-            <div class="remark-inputbox">
-              <div class="remark-userimg">
-                <img src="static/img/akari.jpg" alt="UserImage" title="CNGEGE">
-              </div>
-              <div class="remark-input">
-                <div class="textinput">
-                  <textarea placeholder="输入备注" rows="1" style="display: block; position: absolute; top: 0px; left: 0px; box-sizing: border-box; background-color: rgb(255, 255, 255); width: 100%; font-family: inherit; font-size: 14px; letter-spacing: inherit; height: 100%; bottom: 0px; overflow: hidden; resize: none; margin: 0px; padding:7px; outline: currentcolor none 0px; border: 1px solid rgb(224, 224, 224); border-radius: 4px; line-height: 1.4; appearance: none;"></textarea>
+            </div>
+            <!-- 笔记编辑区 备注 -->
+            <div class="remark">
+              <p class="remark-p">没有备注</p>
+              <div class="remark-inputbox">
+                <div class="remark-userimg">
+                  <img src="static/img/akari.jpg" alt="UserImage" title="CNGEGE">
                 </div>
-                <div class="applebtnbox">
-                  <div class="kongwei"></div>
-                  <div class="applebtn">
-                    <button class="btnBase-root btn-root" type="button" name="button">
-                      <span>添加</span>
-                    </button>
+                <div class="remark-input">
+                  <div class="textinput">
+                    <textarea placeholder="输入备注" rows="1" style="display: block; position: absolute; top: 0px; left: 0px; box-sizing: border-box; background-color: rgb(255, 255, 255); width: 100%; font-family: inherit; font-size: 14px; letter-spacing: inherit; height: 100%; bottom: 0px; overflow: hidden; resize: none; margin: 0px; padding:7px; outline: currentcolor none 0px; border: 1px solid rgb(224, 224, 224); border-radius: 4px; line-height: 1.4; appearance: none;"></textarea>
+                  </div>
+                  <div class="applebtnbox">
+                    <div class="kongwei"></div>
+                    <div class="applebtn">
+                      <button class="btnBase-root btn-root" type="button" name="button">
+                        <span>添加</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
 
       </div>
@@ -762,6 +764,7 @@
     <script type="text/javascript" src="static/script/note/loading.js"></script>
     <script type="text/javascript" src="static/script/note/change.js"></script>
     <script type="text/javascript" src="static/script/note/notedir.js"></script>
+    <script type="text/javascript" src="static/script/note/notelist.js"></script>
     <script type="text/javascript" src="static/script/note/editor.js"></script>
 
     <!-- NetWork JS -->

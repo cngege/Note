@@ -26,5 +26,10 @@ return [
           'url'         => '/userData',
           'visibility'  => 'public',
         ],
+        'noteData' => [
+            'type'        => 'local',
+            'root'        => app()->getRootPath() . 'noteData',
+            'visibility'  => 'public',
+        ],
     ],
 ];

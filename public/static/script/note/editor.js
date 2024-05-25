@@ -19,8 +19,6 @@ $(window).resize(function(event) {
 $(".notetext header .titlebtn .notecontrolbtn .editbtn button").click(function(event) {
   /* Act on the event */
 
-
-
   if(!config.iseditor){             //如果不是编辑模式
     config.iseditor = true;         //标识改为编辑模式
     $(this).find(".btn-label span").text('保存');     //改内文字为：保存
@@ -31,13 +29,49 @@ $(".notetext header .titlebtn .notecontrolbtn .editbtn button").click(function(e
     $(".notetext .notetextbody .remark").hide();                      //隐藏添加备注部分
     $(".notetext .notetextbody .editor-iframe").attr("contenteditable","true");
   }else{  //后面将这里做请求，请求成功才执行
-    config.iseditor = false;
-    $(this).find(".btn-label span").text('编辑');
-    $(this).css({"background-color":"#448aff","color":"#fff"});
-    $(".notetext header .addtagbox").show();
-    $(".notetext header .editbtnbox").css("display","none");
-    $(".notetext .notetextbody .remark").show();
-    $(".notetext .notetextbody .editor-iframe").attr("contenteditable","false");
+    let btn = $(this);
+    let htmlStr = window.btoa(unescape(encodeURIComponent($(".notetext .notetextbody .editor-iframe").html())));
+    let safeHtmlStr = DOMPurify.sanitize(htmlStr);
+
+    let des = $(".notetext .notetextbody .editor-iframe").text().substring(0,50);
+
+    $.ajax({
+      url: '/index/updateNoteData',
+      type: 'POST',
+      dataType: 'json',
+      async: false,
+      data: {uuid: window.config.noteuuid,noteData: safeHtmlStr,noteDescription:des},
+      success:function(e){
+        switch (e.code) {
+          case 0:     //成功
+            config.iseditor = false;
+            btn.find(".btn-label span").text('编辑');
+            btn.css({"background-color":"#448aff","color":"#fff"});
+            $(".notetext header .addtagbox").show();
+            $(".notetext header .editbtnbox").css("display","none");
+            $(".notetext .notetextbody .remark").show();
+            $(".notetext .notetextbody .editor-iframe").attr("contenteditable","false");
+
+            if(window.config.noteItem){
+              window.config.noteItem.find(".noteTitleBox .PreviewinfoBox .PreviewinfoBox2 .Previewinfo p").text(e.description.substring(0,50));
+            }
+            break;
+          case 1://未登录
+            Toast.noLogin(e.goto);
+            break;
+          case 2://错误
+            Toast.error("参数错误",e.msg);
+            break;
+          case 3://错误
+            Toast.error("异常错误",e.msg);
+            break;
+        }
+      },
+      error: function (jqXHR) {
+        console.htmldebug(jqXHR);
+      }
+    });
+
   }
 
   //Height:刷新可滑动页区域的高度

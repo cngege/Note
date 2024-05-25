@@ -380,6 +380,10 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
   if(!uuid){
     return;
   }
+  window.config.noteItem = null;
+  window.config.rClickFolderuuid = uuid;
+  window.config.rClickFolder = $(this).parent();
+  // 笔记的夫文件夹名称 也就是当前文件夹名字
   let parentDirName = $(this).children('.folder_name').children("span").text();
   // TODO: 文件夹设置 hover效果
   // focus // 点TODO: 点击近期笔记 - 我的分享时也要运行下面的取消 focus
@@ -399,6 +403,7 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
           // 克隆
           if(e.note == null) return;
           // 设置 N篇笔记
+          $(".notelist .notezap").children('p').data("noteCount",e.note.length);
           $(".notelist .notezap").children('p').text(e.note.length + " 篇笔记");
           // 将列表中清空
           $(".notelist .notetitlelist ul li:not(.template)").remove();
@@ -416,12 +421,11 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
               template.find(".timedirinfo p.note_sort").text(parentDirName);
 
               // TODO: 添加图片
-              let firstImg = JSON.parse(value.img);
+              let firstImg = value.img || [];
               if(firstImg.length){
                 firstImg = firstImg[0];
+                template.find(".PreviewImg").show();
                 template.find(".PreviewImg img").attr("src",firstImg);
-              }else{
-                template.find(".PreviewImg img").remove();
               }
               // 设置数据
               template.data("uuid",value.uuid);
@@ -447,4 +451,64 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
   })
 
   return false;
+});
+
+
+// 点击新建笔记
+$(".notedir .newnotebox .literal").click(function(event) {
+  // 首先判断当前是否选中了文件夹 是否存在uuid
+  let folder_uuid = window.config.rClickFolderuuid;
+  if(!folder_uuid) return;
+  $.ajax({
+    url: '/index/newNote',
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {uuid: folder_uuid},
+    success:function(e){
+      switch (e.code) {
+        case 0:     //成功
+          //将拿到的数据写入
+          // 克隆
+          let template = $(".notelist .notetitlelist li.template").clone(true);
+          template.removeClass('template');
+          // 设置显示笔记标题
+          template.find(".noteTitleText p").text(e.data.title);
+          // 设置显示笔记创建时间
+          let timeDate = (new Date(e.data.create_time));
+          let time = timeDate.getFullYear() + "/" + (timeDate.getMonth() + 1) + "/" + timeDate.getDate();
+          template.find(".timedirinfo p.note_time").text(time).data('time', e.data.create_time)
+          // 添加内容描述
+          template.find(".Previewinfo p").text("简述...");
+          // 获取添加父文件夹名称
+          let parentDirName = window.config.rClickFolder.children('.folder_name_box').find(".folder_name span").text();
+          template.find(".timedirinfo p.note_sort").text(parentDirName);
+          // 保存数据 笔记uuid 父文件夹uuid
+          template.data("uuid",e.data.uuid);
+          template.data("parent_uuid",folder_uuid);
+
+          $(".notelist .notetitlelist ul").append(template);
+
+          // 设置 N篇笔记
+          let count = $(".notelist .notezap").children('p').data("noteCount");
+          count++;
+          $(".notelist .notezap").children('p').data("noteCount",count);
+          $(".notelist .notezap").children('p').text(count + " 篇笔记");
+
+          break;
+        case 1://未登录
+          Toast.noLogin(e.goto);
+          break;
+        case 2://错误
+          Toast.error("参数错误",e.msg);
+          break;
+        case 3://错误
+          Toast.error("异常错误",e.msg);
+          break;
+      }
+    },
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
+    }
+  })
 });

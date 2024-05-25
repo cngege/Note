@@ -188,6 +188,10 @@
   overflow: hidden;
 }
 
+.notelist .notetitlelist ul li.focus{
+  background: white;
+}
+
 /* 缩进 */
 .notelist .notetitlelist ul li .noteTitleBox{
   width: auto;
