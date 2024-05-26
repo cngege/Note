@@ -281,7 +281,7 @@ class Index extends Login
         $user = User::find(UID);
         $notes = $user
             ->Notes()
-            ->where("parent_uuid", $uuid)
+            ->where(["parent_uuid" => $uuid, "recovered" => 0])
             ->field("parent_uuid,uuid,title,description,img,create_time")
             ->select();
 
@@ -515,6 +515,55 @@ class Index extends Login
                 "name"=>$notes->title,
             ]);
         }catch (\Exception $e){
+            return json(array("code" => 3, "msg"=>"发生异常:".$e->getMessage()));
+        }
+    }
+
+
+    public function getTrashNote(){
+        //检查登陆状态
+        if(!LOGIN){
+            return json(array("code" => 1, "goto"=>url("page/login")->build()));    // 1:未登录
+        }
+        try {
+            $user = User::find(UID);
+            $notes = $user->Notes()->where("recovered", 1)->field("uuid,title,description,recovered,img,create_time")->select();
+            if(!$notes){
+                // 本不存在
+                throw new Exception("查询时发生错误");
+            }
+            return json(["code"=>0,"notes"=>$notes]);
+        }catch (\Exception $e){
+            return json(array("code" => 3, "msg"=>"发生异常:".$e->getMessage()));
+        }
+    }
+
+    public function deleteTrashNote(){
+        //检查登陆状态
+        if(!LOGIN){
+            return json(array("code" => 1, "goto"=>url("page/login")->build()));    // 1:未登录
+        }
+        $uuid = input("post.uuid");
+        if(!$uuid){
+            return json(["code"=>2,"msg"=>"参数错误，uuid不能为空"]);
+        }
+        Db::startTrans();
+        try {
+            $user = User::find(UID);
+            $note = $user->Notes()->where(["uuid"=>$uuid,"recovered"=>1])->find();
+            if(!$note){
+                throw new Exception("未在数据库中找到此笔记");
+            }
+            $file = $note->filename;
+            if(!$note->delete()){
+                throw new Exception("在数据库中删除此笔记失败");
+            }
+            // 删除附带文件夹
+            Filesystem::disk("noteData")->deleteDirectory($file);
+            Db::commit();
+            return json(["code"=>0]);
+        }catch (\Exception $e){
+            Db::rollback();
             return json(array("code" => 3, "msg"=>"发生异常:".$e->getMessage()));
         }
     }

@@ -146,21 +146,25 @@
   min-height: 40px;
 }
 
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box,
+.notedir .dirlist .trashlist_box .trashlist_item{
   width: 100%;
   cursor: pointer;
 }
 
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box:hover{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box:hover,
+.notedir .dirlist .trashlist_box .trashlist_item:hover{
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box.focus{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box.focus,
+.notedir .dirlist .trashlist_box .trashlist_item.focus{
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* 以下四个是 关于图标（点或箭头）的样式 */
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box,
+.notedir .dirlist .trashlist_box .trashlist_item .trashitem_tag_box{
   position: relative;
   float: left;  /* 要让文件夹名称显示在右边 */
   width: 40px;
@@ -168,7 +172,8 @@
   margin-left: 30px;
 }
 
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box .folder_tag{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box .folder_tag,
+.notedir .dirlist .trashlist_box .trashlist_item .trashitem_tag_box .trashitem_tag{
   position: absolute;
   width: 20px;
   height: 20px;
@@ -177,7 +182,8 @@
   transform: translate(-50%,-50%);
 }
 
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box .folder_tag i{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_tag_box .folder_tag i,
+.notedir .dirlist .trashlist_box .trashlist_item .trashitem_tag_box i{
   display: block;
   font-weight: bold;
   color: #88b5ff;
@@ -221,14 +227,16 @@
 
 
 /* 关于文件夹名称的样式 */
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_name{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_name,
+.notedir .dirlist .trashlist_box .trashlist_item .trashlist_item_name{
   /* width: 100%; */
   height: 40px;
   overflow: hidden;
   /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
-.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_name span{
+.notedir .dirlist .folder_body_boxs .folder_body .folder_name_box .folder_name span,
+.notedir .dirlist .trashlist_box .trashlist_item .trashlist_item_name span{
   display: block;
   color: #172b4d;
   font-size: 14px;
@@ -255,8 +263,20 @@
   color: #88b5ff;
 }
 
+/* 回收站部分 */
 .notedir .dirlist .trash .trash1 .trashicon{
   color: #fec75c;
+}
+
+.notedir .dirlist .trashlist_box{
+  height: 0;
+  overflow: hidden;
+}
+
+/* 回收站 tag圆号的样式 */
+.notedir .dirlist .trashlist_box .trashlist_item .trashitem_tag_box i{
+  color: #fbc531;
+  font-size: 8px;
 }
 
 /* 文件夹右键菜单 */

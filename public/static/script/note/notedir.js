@@ -389,6 +389,9 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
   // focus // 点TODO: 点击近期笔记 - 我的分享时也要运行下面的取消 focus
   $(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
   $(this).addClass('focus');
+  // 将回收站中的focus也都取消
+  // 把回收站中的focus全取消
+  $(".notedir .dirlist .trashlist_box .trashlist_item").removeClass('focus');
 
   $.ajax({
     url: '/index/getNoteInfo',
@@ -430,6 +433,7 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
               // 设置数据
               template.data("uuid",value.uuid);
               template.data("parent_uuid",value.uuid);
+              template.data("isTrash",false);
 
               //template.find(".folder_tag_box").css("margin-left",30 + level*10 + "px");
               $(".notelist .notetitlelist ul").append(template);
@@ -511,4 +515,95 @@ $(".notedir .newnotebox .literal").click(function(event) {
       console.htmldebug(jqXHR);
     }
   })
+});
+
+// 点击回收站 展开收起
+$(".notedir .dirlist .trash").click(function(event) {
+  let tagSelect = $(this).find(".selecttag i");
+  if(tagSelect.hasClass('fa-angle-down')){
+    // 展开
+    tagSelect.removeClass('fa-angle-down').addClass('fa-angle-up')
+    $(".notedir .dirlist .trashlist_box").css('height', 'auto');
+  }else{
+    tagSelect.removeClass('fa-angle-up').addClass('fa-angle-down')
+    $(".notedir .dirlist .trashlist_box").css('height', '0');
+  }
+});
+
+// 点击回收站 - 笔记回收站
+$(".notedir .dirlist .trashlist_box .trashlist_item.note_trash").click(function(event) {
+  // 把文件夹中的 focus 全部取消
+  $(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
+  // 把回收站中的focus全取消
+  $(".notedir .dirlist .trashlist_box .trashlist_item").removeClass('focus');
+  // 设置 focus
+  $(this).addClass('focus')
+  // 清除公共配置标记
+  window.config.noteItem = null;
+  window.config.rClickFolderuuid = null;
+  window.config.rClickFolder = null;
+  // 网络请求
+  $.ajax({
+    url: '/index/getTrashNote',
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {},
+    success:function(e){
+      switch (e.code) {
+        case 0:     //成功
+        // 设置 N篇笔记
+        $(".notelist .notezap").children('p').data("noteCount",e.notes.length);
+        $(".notelist .notezap").children('p').text(e.notes.length + " 篇笔记");
+        // 将列表中清空
+        $(".notelist .notetitlelist ul li:not(.template)").remove();
+        // 笔记添加到列表中
+        if(e.notes.length){
+          $.each(e.notes,(index,value)=>{
+            let template = $(".notelist .notetitlelist li.template").clone(true);
+            template.removeClass('template');
+            template.find(".noteTitleText p").text(value.title);
+            let timeDate = (new Date(value.create_time));
+            let time = timeDate.getFullYear() + "/" + (timeDate.getMonth() + 1) + "/" + timeDate.getDate();
+            template.find(".timedirinfo p.note_time").text(time).data('time', value.create_time)
+            // 添加内容描述
+            template.find(".Previewinfo p").text(value.description);
+            template.find(".timedirinfo p.note_sort").text('回收站');
+
+            let firstImg = value.img || [];
+            if(firstImg.length){
+              firstImg = firstImg[0];
+              template.find(".PreviewImg").show();
+              template.find(".PreviewImg img").attr("src",firstImg);
+            }
+            // 设置数据
+            template.data("uuid",value.uuid);
+            template.data("parent_uuid",null);
+            template.data("isTrash",true);
+
+            //template.find(".folder_tag_box").css("margin-left",30 + level*10 + "px");
+            $(".notelist .notetitlelist ul").append(template);
+          })
+        }
+          break;
+        case 1://未登录
+          Toast.noLogin(e.goto);
+          break;
+        case 2://错误
+          Toast.error("参数错误",e.msg);
+          break;
+        case 3://错误
+          Toast.error("异常错误",e.msg);
+          break;
+      }
+    },
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
+    }
+  })
+});
+
+// 点击回收站 - 附件回收站
+$(".notedir .dirlist .trashlist_box .trashlist_item.annex_trash").click(function(event) {
+  // 这个点击不设置 focus
 });
