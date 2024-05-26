@@ -78,3 +78,60 @@ $(".notetext header .titlebtn .notecontrolbtn .editbtn button").click(function(e
   $(".notetextbody0").css("height",$(window).height() - $("header")[0].clientHeight - 20)
 
 });
+
+// 点击标题变为输入框 可进行修改标题
+$(".notetext .titlebtn .title_box > p").click(function(event) {
+  let text = $(this).text();
+  $(".notetext .titlebtn .title_box > p").addClass('hide');
+  let input = $(".notetext header .titlebtn .title_box .title_editor_box input");
+  input.parent().show();
+  input.val(text);
+  input.focus();
+});
+
+
+// 标题输入框 失去焦点时的事件
+$(".notetext header .titlebtn .title_box .title_editor_box input").blur(function(event) {
+  let uuid = window.config.noteuuid;
+  let input = $(this);
+  if(input.val() == $(".notetext .titlebtn .title_box > p").text() ||
+     input.val() == "" ||
+     !uuid){
+    $(".notetext .titlebtn .title_box > p").removeClass('hide');
+    input.parent().hide();
+    return;
+  }
+  $.ajax({
+    url: '/index/renameNote',
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {uuid: uuid,name:input.val()},
+    success:function(e){
+      switch (e.code) {
+        case 0:     //成功
+          // 将输入框改回p标签
+          $(".notetext .titlebtn .title_box > p").removeClass('hide');
+          $(".notetext .titlebtn .title_box > p").text(e.name);
+          input.parent().hide();
+
+          if(window.config.noteItem){
+            window.config.noteItem.find(".noteTitleText > p").text(e.name);
+          }
+          break;
+        case 1://未登录
+          Toast.noLogin(e.goto);
+          break;
+        case 2://错误
+          Toast.error("参数错误",e.msg);
+          break;
+        case 3://错误
+          Toast.error("异常错误",e.msg);
+          break;
+      }
+    },
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
+    }
+  });
+});

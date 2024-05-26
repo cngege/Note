@@ -73,7 +73,7 @@ $(".notelist .notetitlelist li").click(function(event) {
       switch (e.code) {
         case 0:     //成功
           // 写入笔记区标题
-          $(".notetext .titlebtn").children('p').text(e.headerData.title);
+          $(".notetext .titlebtn .title_box > p").text(e.headerData.title);
           // 写入笔记区内容 // 这里切记要进行js过滤
           // 编码: window.btoa(unescape(encodeURIComponent(data))
           // 解码

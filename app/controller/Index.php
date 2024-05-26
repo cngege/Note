@@ -479,4 +479,43 @@ class Index extends Login
             return json(array("code" => 3, "msg"=>"发生异常:".$e->getMessage()));
         }
     }
+
+
+    public function renameNote()
+    {
+        //检查登陆状态
+        if(!LOGIN){
+            return json(array("code" => 1, "goto"=>url("page/login")->build()));    // 1:未登录
+        }
+        $uuid = input("post.uuid");
+        if(!$uuid){
+            return json(["code"=>2,"msg"=>"参数错误，uuid不能为空"]);
+        }
+        $notename = input("post.name");
+        if(!$notename){
+            return json(["code"=>2,"msg"=>"参数错误，name不能为空"]);
+        }
+        try {
+            $user = User::find(UID);
+            $notes = $user->Notes()->where("uuid", $uuid)->find();
+            if(!$notes){
+                // 本不存在
+                throw new Exception("数据库中未找到此笔记信息");
+            }
+            if($notes->recovered){
+                // 回收站中的笔记不准看详情
+                throw new Exception("请先从回收站中恢复");
+            }
+            $notes->title = $notename;
+            if(!$notes->save()){
+                throw new Exception("标题保存失败");
+            }
+            return json([
+                "code"=>0,
+                "name"=>$notes->title,
+            ]);
+        }catch (\Exception $e){
+            return json(array("code" => 3, "msg"=>"发生异常:".$e->getMessage()));
+        }
+    }
 }
