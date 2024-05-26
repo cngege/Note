@@ -14,6 +14,12 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- 导出 note 的数据库结构
+DROP DATABASE IF EXISTS `note`;
+CREATE DATABASE IF NOT EXISTS `note` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `note`;
+
 -- 导出  表 note.note_folder 结构
 DROP TABLE IF EXISTS `note_folder`;
 CREATE TABLE IF NOT EXISTS `note_folder` (
@@ -33,11 +39,12 @@ CREATE TABLE IF NOT EXISTS `note_folder` (
 DROP TABLE IF EXISTS `note_notes`;
 CREATE TABLE IF NOT EXISTS `note_notes` (
   `uid` int unsigned NOT NULL COMMENT '所属用户id',
-  `parent_uuid` varchar(40) COLLATE utf8mb4_general_ci NOT NULL COMMENT '父文件夹uuid',
+  `parent_uuid` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '父文件夹uuid',
   `uuid` varchar(40) COLLATE utf8mb4_general_ci NOT NULL COMMENT '笔记uuid',
   `title` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '未命名' COMMENT '笔记标题',
-  `filename` varchar(40) COLLATE utf8mb4_general_ci NOT NULL COMMENT '笔记文件名称',
+  `filename` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '笔记文件名称',
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '笔记内容的前50个字',
+  `recovered` tinyint(1) DEFAULT '0' COMMENT '笔记是否移动到回收站中',
   `img` json DEFAULT NULL COMMENT '笔记当中的图片资源',
   `remark` json DEFAULT NULL COMMENT '备注',
   `attachment` json DEFAULT NULL COMMENT '附件名单',
