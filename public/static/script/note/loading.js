@@ -22,6 +22,87 @@ if(loading.css('display') != "none"){
 }
 
 $(document).ready(function () {
+
+  function getNoteFolder($uuid){
+    $.ajax({
+      url: '/index/getFolderInfo',
+      type: 'POST',
+      dataType: 'json',
+      data: {uuid: $uuid},
+      success:function(e){
+        switch (e.code) {
+          case 0:     //成功
+            //将拿到的数据写入
+            // 克隆
+            let subfolder = e.folder.subfolder;
+            if(subfolder.length){
+              // 展开元素
+              $(".folder .folder_body_boxs.root").css("height","auto");
+              $(".folder .folder1 .selecttag i").removeClass('fa-angle-down').addClass('fa-angle-up')
+
+              $.each(subfolder,(index,value)=>{
+                addFolder($(".folder .folder_body_boxs.root"),value.uuid);
+              })
+            }
+
+            break;
+          case 1://未登录
+            Toast.noLogin(e.goto);
+            break;
+          case 2://错误
+            Toast.error("错误",e.msg);
+            break;
+        }
+      },
+      error: function (jqXHR) {
+        console.htmldebug(jqXHR);
+      }
+    })
+  }
+
+  // 这个函数的基础目的就是把当前文件夹添加进去，附带添加子文件夹
+  // JQdom： 父文件夹的JQ节点
+  // uuid： 当前文件夹的uuid
+  function addFolder(JQdom, uuid){
+    // 首先要获取到当前文件夹的数据
+    // 所以要网络请求
+    $.ajax({
+      url: '/index/getFolderInfo',
+      type: 'POST',
+      dataType: 'json',
+      async: false,
+      data: {uuid: uuid},
+      success:function(e){
+        switch (e.code) {
+          case 0:     //成功
+            // 拿到数据之后 开始处理节点
+            // 克隆
+            if(e.folder == null) return;
+            let subfolder = e.folder.subfolder;
+            let currentFolderDom = addFolderToDom(JQdom,{
+              name: e.folder.name,
+              uuid: uuid
+            },!subfolder.length)
+
+            $.each(subfolder,(index,value)=>{
+              addFolder(currentFolderDom, value.uuid);
+            })
+            break;
+          case 1://未登录
+            Toast.noLogin(e.goto);
+            break;
+          case 2://错误
+            Toast.error("错误",e.msg);
+            break;
+        }
+      },
+      error: function (jqXHR) {
+        console.htmldebug(jqXHR);
+      }
+    })
+  }
+
+
   //向服务器请求用户和笔记的数据，如果登录信息不对 则跳转到登录页面
   $.ajax({
     url: '/index/getUserInfo',
@@ -38,8 +119,12 @@ $(document).ready(function () {
           updateUserData();
           // 函数2 拿到uuid读取文件夹结构
           getNoteFolder($.User.getUuid());
+          // 点击 近期笔记
+          window.config.autoOpenNote++;
+          $(".notedir .dirlist .recent").click();
           // TODO 获取笔记信息 并关掉加载div
           loading.css('display', 'none');
+
           break;
         case 1://未登录
           Toast.noLogin(e.goto);
@@ -56,97 +141,6 @@ $(document).ready(function () {
     }
   })
 });
-
-
-function getNoteFolder($uuid){
-  $.ajax({
-    url: '/index/getFolderInfo',
-    type: 'POST',
-    dataType: 'json',
-    data: {uuid: $uuid},
-    success:function(e){
-      switch (e.code) {
-        case 0:     //成功
-          //将拿到的数据写入
-          // 克隆
-          let subfolder = e.folder.subfolder;
-          if(subfolder.length){
-            // 展开元素
-            $(".folder .folder_body_boxs.root").css("height","auto");
-            $(".folder .folder1 .selecttag i").removeClass('fa-angle-down').addClass('fa-angle-up')
-
-            $.each(subfolder,(index,value)=>{
-              let template = $(".folder .folder_body_boxs.root .folder_body.template").clone(true);
-              template.removeClass('template');
-              template.find(".folder_name span").text(value.name);
-              template.data("uuid",value.uuid);
-              template.data("level",0);
-              $(".folder .folder_body_boxs.root").append(template);
-              addFolder(template, value.uuid, 1);
-            })
-          }
-
-          break;
-        case 1://未登录
-          Toast.noLogin(e.goto);
-          break;
-        case 2://错误
-          Toast.error("错误",e.msg);
-          break;
-      }
-    },
-    error: function (jqXHR) {
-      console.htmldebug(jqXHR);
-    }
-  })
-}
-
-
-function addFolder(JQdom, uuid, level){
-  $.ajax({
-    url: '/index/getFolderInfo',
-    type: 'POST',
-    dataType: 'json',
-    async: false,
-    data: {uuid: uuid},
-    success:function(e){
-      switch (e.code) {
-        case 0:     //成功
-          //将拿到的数据写入
-          // 克隆
-          if(e.folder == null) return;
-          JQdom.find(".folder_name span").text(e.folder.name);
-          let subfolder = e.folder.subfolder;
-          if(subfolder.length){
-            let tag = JQdom.find(".folder_tag i");  // 这里理论可以直接find找，因为内部还没有填充，不会找到其他
-            tag.removeClass('fa-circle').addClass('fa-angle-right');
-            $.each(subfolder,(index,value)=>{
-              let template = $(".folder .folder_body_boxs.root .folder_body.template").clone(true);
-              template.removeClass('template');
-              //template.find(".folder_name span").text(value.name);
-              template.data("uuid",value.uuid);
-              template.data("level",level);
-              template.find(".folder_tag_box").css("margin-left",30 + level*10 + "px");
-              JQdom.children('.folder_body_boxs').append(template);
-              addFolder(template, value.uuid, level+1);
-            })
-          }
-
-          break;
-        case 1://未登录
-          Toast.noLogin(e.goto);
-          break;
-        case 2://错误
-          Toast.error("错误",e.msg);
-          break;
-      }
-    },
-    error: function (jqXHR) {
-      console.htmldebug(jqXHR);
-    }
-  })
-}
-
 
 // 在表层更新用户信息到页面
 function updateUserData(){

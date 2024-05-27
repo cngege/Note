@@ -282,10 +282,55 @@ class Index extends Login
         $notes = $user
             ->Notes()
             ->where(["parent_uuid" => $uuid, "recovered" => 0])
-            ->field("parent_uuid,uuid,title,description,img,create_time")
+            ->field("parent_uuid,uuid,title,description,img,update_time,create_time")
             ->select();
 
         return json(["code"=>0,"note"=>(count($notes))? $notes : array()]);
+    }
+
+
+    /**
+     * Desc: 获取近期笔记
+     * @return \think\response\Json
+     */
+    public function getRecentNotes() : \think\response\Json
+    {
+        //检查登陆状态
+        if(!LOGIN){
+            return json(array("code" => 1, "goto"=>url("page/login")->build()));    // 1:未登录
+        }
+        try {
+            $user = User::find(UID);
+            $notes = $user
+                ->Notes()
+                ->where("recovered" , 0)
+                ->order('update_time', 'desc')
+                ->limit(70)
+                ->field("parent_uuid,uuid,title,description,img,recovered,update_time,create_time")
+                ->select();
+            // 转为数组
+            $resultsWithNames = [];
+            foreach ($notes as $item){
+                $folder = $user->Folder()->where("uuid", $item->parent_uuid)->find();
+                if($folder){
+                    $resultsWithNames[] = [
+                        "parent_uuid" => $item->parent_uuid,
+                        "uuid" => $item->uuid,
+                        "title" => $item->title,
+                        "description" => $item->description,
+                        "img" => $item->img,
+                        "recovered" => $item->recovered,
+                        "update_time" => $item->update_time,
+                        "create_time" => $item->create_time,
+                        "parentDirName" => $folder->name,
+                    ];
+                }
+            }
+
+            return json(["code"=>0,"notes"=>$resultsWithNames]);
+        }catch (\Exception $e){
+            return json(array("code" => 3, "msg"=>"发生异常:".$e->getMessage()));
+        }
     }
 
 
@@ -330,6 +375,7 @@ class Index extends Login
             $retData = [
                 "uuid" => $makeuuid,
                 "title" => $note->title,
+                "update_time" => $note->update_time,
                 "create_time" => $note->create_time,
             ];
             return json(["code"=>0,"data"=>$retData]);
@@ -407,6 +453,7 @@ class Index extends Login
                 "title" => $notes->title,               // 笔记标题
                 "description" => $notes->description,   // 笔记简要描述
                 "remark" => $notes->remark,             // 笔记备注
+                "update_time" => $notes->update_time,   // 笔记更新时间
                 "create_time" => $notes->create_time,   // 笔记创建时间
             ];
             // 读取文件中的数据
@@ -527,7 +574,7 @@ class Index extends Login
         }
         try {
             $user = User::find(UID);
-            $notes = $user->Notes()->where("recovered", 1)->field("uuid,title,description,recovered,img,create_time")->select();
+            $notes = $user->Notes()->where("recovered", 1)->field("uuid,title,description,recovered,img,update_time,create_time")->select();
             if(!$notes){
                 // 本不存在
                 throw new Exception("查询时发生错误");

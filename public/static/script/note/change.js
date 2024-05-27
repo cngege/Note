@@ -2,7 +2,8 @@
 //头像旁用户名下拉箭头被点击 显示菜单
 $(".bardoing .Username i").click(function(event) {
   /* Act on the event */
-  $(".bardoing .Username .setupselect").css('display', 'inline');
+  // $(".bardoing .Username .setupselect").css('display', 'inline');
+  PopupShow(".bardoing .Username .setupselect");
   $(".note .bar .bardoing").addClass('hover');
 });
 

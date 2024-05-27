@@ -14,8 +14,57 @@ function RequestAddFolder(uuid,name,success_fun){
 }
 
 
+// 近期笔记点击
+$(".notedir .dirlist .recent").click(function(event) {
+  if($(this).hasClass('focus')){
+    return;
+  }
+  $(this).addClass('focus');
+
+  folderUnFocus();
+  trashUnFocus();
 
 
+  $.ajax({
+    url: '/index/getRecentNotes',
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {},
+    success:function(e){
+      switch (e.code) {
+        case 0:     //成功
+          let notes = [];
+          $.each(e.notes,function(index, value) {
+            notes.push({
+              title: value.title,
+              update_time: value.update_time,
+              create_time: value.create_time,
+              description: value.description,
+              parentDirName: value.parentDirName,
+              img: value.img,
+              uuid: value.uuid,
+              isTrash: false
+            })
+          });
+          setNodesToDom(notes);
+          break;
+        case 1://未登录
+          Toast.noLogin(e.goto);
+          break;
+        case 2://错误
+          Toast.error("错误",e.msg);
+          break;
+      }
+    },
+    error: function (jqXHR) {
+      console.htmldebug(jqXHR);
+    }
+  })
+});
+
+
+// 最外层显示的文件夹
 $(".folder1").click(function(event) {
   /* Act on the event */
   let icon = $(this).find('.selecttag i');
@@ -36,11 +85,12 @@ $(".folder1").click(function(event) {
 // 根文件夹 右键时显示 新建文件夹
 $(".folder1").on("contextmenu", function(e){
     e.preventDefault(); // 阻止默认的右键点击行为
-    $(".notedir .dirlist .folder .root-dir-popup").css('display', 'inline');
+    PopupShow(".notedir .dirlist .folder .root-dir-popup",e);
+    /*$(".notedir .dirlist .folder .root-dir-popup").css('display', 'inline');
     $(".notedir .dirlist .folder .root-dir-popuplist").css({
       left : e.pageX+"px",
       top : e.pageY+"px"
-    });
+    });*/
     window.config.rClickFolderuuid = $.User.getUuid();
 });
 
@@ -338,12 +388,12 @@ $(".notedir .dirlist .folder_body_boxs .folder_body .folder_name_box").on("conte
     if(!$(this).hasClass('focus')){
       $(this).click();
     }
-
-    $(".notedir .dirlist .folder .child-dir-popup").css('display', 'inline');
+    PopupShow(".notedir .dirlist .folder .child-dir-popup",e);
+    /*$(".notedir .dirlist .folder .child-dir-popup").css('display', 'inline');
     $(".notedir .dirlist .folder .child-dir-popuplist").css({
       left : e.pageX+"px",
       top : e.pageY+"px"
-    });
+    });*/
     window.config.rClickFolderuuid = $(this).parent().data("uuid");
     window.config.rClickFolder = $(this).parent();
 });
@@ -355,8 +405,6 @@ $(".folder .folder_body_boxs .folder_tag").click(function(event) {
   /* Act on the event */
   let icon = $(this).children('i');
   if(icon.hasClass('fa-angle-right')){
-    // 请求 拿到笔记文件夹列表
-
     // 拿到后展开
     $(this).parent().parent().next(".folder_body_boxs").css("height","auto");
     icon.removeClass('fa-angle-right').addClass('fa-angle-down')
@@ -380,19 +428,21 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
   if(!uuid){
     return;
   }
-  window.config.noteItem = null;
-  window.config.rClickFolderuuid = uuid;
-  window.config.rClickFolder = $(this).parent();
+  // 近期笔记取消焦点样式
+  recentrUnFocus();
   // 笔记的夫文件夹名称 也就是当前文件夹名字
   let parentDirName = $(this).children('.folder_name').children("span").text();
-  // TODO: 文件夹设置 hover效果
-  // focus // 点TODO: 点击近期笔记 - 我的分享时也要运行下面的取消 focus
-  $(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
+  // 文件夹设置 hover效果
+  folderUnFocus();
+  //$(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
   $(this).addClass('focus');
   // 将回收站中的focus也都取消
   // 把回收站中的focus全取消
-  $(".notedir .dirlist .trashlist_box .trashlist_item").removeClass('focus');
-
+  trashUnFocus();
+  //$(".notedir .dirlist .trashlist_box .trashlist_item").removeClass('focus');
+  window.config.noteItem = null;
+  window.config.rClickFolderuuid = uuid;
+  window.config.rClickFolder = $(this).parent();
   $.ajax({
     url: '/index/getNoteInfo',
     type: 'POST',
@@ -402,8 +452,23 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
     success:function(e){
       switch (e.code) {
         case 0:     //成功
+          let notes = [];
+          $.each(e.note,function(index, value) {
+            notes.push({
+              title: value.title,
+              update_time: value.update_time,
+              create_time: value.create_time,
+              description: value.description,
+              parentDirName: parentDirName,
+              img: value.img,
+              uuid: value.uuid,
+              isTrash: value.recovered
+            })
+          });
+          setNodesToDom(notes);
           //将拿到的数据写入
           // 克隆
+          /*
           if(e.note == null) return;
           // 设置 N篇笔记
           $(".notelist .notezap").children('p').data("noteCount",e.note.length);
@@ -420,7 +485,7 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
               let time = timeDate.getFullYear() + "/" + (timeDate.getMonth() + 1) + "/" + timeDate.getDate();
               template.find(".timedirinfo p.note_time").text(time).data('time', value.create_time)
               // 添加内容描述
-              template.find(".Previewinfo p").text(value.description);
+              template.find(".Previewinfo p").text(value.description || "简述...");
               template.find(".timedirinfo p.note_sort").text(parentDirName);
 
               // TODO: 添加图片
@@ -439,7 +504,7 @@ $(".folder .folder_body_boxs .folder_name_box").click(function(event) {
               $(".notelist .notetitlelist ul").append(template);
             })
           }
-
+          */
           break;
         case 1://未登录
           Toast.noLogin(e.goto);
@@ -472,32 +537,43 @@ $(".notedir .newnotebox .literal").click(function(event) {
     success:function(e){
       switch (e.code) {
         case 0:     //成功
-          //将拿到的数据写入
-          // 克隆
-          let template = $(".notelist .notetitlelist li.template").clone(true);
-          template.removeClass('template');
-          // 设置显示笔记标题
-          template.find(".noteTitleText p").text(e.data.title);
-          // 设置显示笔记创建时间
-          let timeDate = (new Date(e.data.create_time));
-          let time = timeDate.getFullYear() + "/" + (timeDate.getMonth() + 1) + "/" + timeDate.getDate();
-          template.find(".timedirinfo p.note_time").text(time).data('time', e.data.create_time)
-          // 添加内容描述
-          template.find(".Previewinfo p").text("简述...");
-          // 获取添加父文件夹名称
-          let parentDirName = window.config.rClickFolder.children('.folder_name_box').find(".folder_name span").text();
-          template.find(".timedirinfo p.note_sort").text(parentDirName);
-          // 保存数据 笔记uuid 父文件夹uuid
-          template.data("uuid",e.data.uuid);
-          template.data("parent_uuid",folder_uuid);
+          let noteDom = addNoteToDom({
+            title: e.data.title,
+            uuid: e.data.uuid,
+            description: "简述...",
+            parentDirName: window.config.rClickFolder.children('.folder_name_box').find(".folder_name span").text(),
+            update_time: e.data.update_time,
+            create_time: e.data.create_time
+          },true);
+          noteDom.click();
 
-          $(".notelist .notetitlelist ul").append(template);
-
-          // 设置 N篇笔记
-          let count = $(".notelist .notezap").children('p').data("noteCount");
-          count++;
-          $(".notelist .notezap").children('p').data("noteCount",count);
-          $(".notelist .notezap").children('p').text(count + " 篇笔记");
+          // return;
+          // //将拿到的数据写入
+          // // 克隆
+          // let template = $(".notelist .notetitlelist li.template").clone(true);
+          // template.removeClass('template');
+          // // 设置显示笔记标题
+          // template.find(".noteTitleText p").text(e.data.title);
+          // // 设置显示笔记创建时间
+          // let timeDate = (new Date(e.data.create_time));
+          // let time = timeDate.getFullYear() + "/" + (timeDate.getMonth() + 1) + "/" + timeDate.getDate();
+          // template.find(".timedirinfo p.note_time").text(time).data('time', e.data.create_time)
+          // // 添加内容描述
+          // template.find(".Previewinfo p").text("简述...");
+          // // 获取添加父文件夹名称
+          // let parentDirName = window.config.rClickFolder.children('.folder_name_box').find(".folder_name span").text();
+          // template.find(".timedirinfo p.note_sort").text(parentDirName);
+          // // 保存数据 笔记uuid 父文件夹uuid
+          // template.data("uuid",e.data.uuid);
+          // template.data("parent_uuid",folder_uuid);
+          //
+          // $(".notelist .notetitlelist ul").append(template);
+          //
+          // // 设置 N篇笔记
+          // let count = $(".notelist .notezap").children('p').data("noteCount");
+          // count++;
+          // $(".notelist .notezap").children('p').data("noteCount",count);
+          // $(".notelist .notezap").children('p').text(count + " 篇笔记");
 
           break;
         case 1://未登录
@@ -532,16 +608,20 @@ $(".notedir .dirlist .trash").click(function(event) {
 
 // 点击回收站 - 笔记回收站
 $(".notedir .dirlist .trashlist_box .trashlist_item.note_trash").click(function(event) {
+  // 近期笔记的焦点样式取消
+  recentrUnFocus();
   // 把文件夹中的 focus 全部取消
-  $(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
+  folderUnFocus();
+  //$(".folder .folder_body_boxs .folder_name_box").removeClass('focus');
   // 把回收站中的focus全取消
-  $(".notedir .dirlist .trashlist_box .trashlist_item").removeClass('focus');
+  trashUnFocus();
+  //$(".notedir .dirlist .trashlist_box .trashlist_item").removeClass('focus');
   // 设置 focus
   $(this).addClass('focus')
   // 清除公共配置标记
   window.config.noteItem = null;
-  window.config.rClickFolderuuid = null;
-  window.config.rClickFolder = null;
+  //window.config.rClickFolderuuid = null;
+  //window.config.rClickFolder = null;
   // 网络请求
   $.ajax({
     url: '/index/getTrashNote',
@@ -552,6 +632,22 @@ $(".notedir .dirlist .trashlist_box .trashlist_item.note_trash").click(function(
     success:function(e){
       switch (e.code) {
         case 0:     //成功
+        let notes = [];
+        $.each(e.notes,function(index, value) {
+          notes.push({
+            title: value.title,
+            update_time: value.update_time,
+            create_time: value.create_time,
+            description: value.description,
+            parentDirName: "回收站",
+            img: value.img,
+            uuid: value.uuid,
+            isTrash: true
+          })
+        });
+        setNodesToDom(notes);
+
+        /*
         // 设置 N篇笔记
         $(".notelist .notezap").children('p').data("noteCount",e.notes.length);
         $(".notelist .notezap").children('p').text(e.notes.length + " 篇笔记");
@@ -585,6 +681,7 @@ $(".notedir .dirlist .trashlist_box .trashlist_item.note_trash").click(function(
             $(".notelist .notetitlelist ul").append(template);
           })
         }
+        */
           break;
         case 1://未登录
           Toast.noLogin(e.goto);

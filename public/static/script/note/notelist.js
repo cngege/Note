@@ -28,7 +28,7 @@ function deleteNoteToTrash(JQDOM){
           count--;
           $(".notelist .notezap").children('p').data("noteCount",count);
           $(".notelist .notezap").children('p').text(count + " 篇笔记");
-
+          Toast.show("笔记移至回收站");
           break;
         case 1://未登录
           Toast.noLogin(e.goto);
@@ -152,5 +152,4 @@ $(".notelist .notetitlelist li").click(function(event) {
       console.htmldebug(jqXHR);
     }
   });
-
 });

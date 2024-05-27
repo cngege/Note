@@ -157,6 +157,7 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.notedir .dirlist .recent.focus,    /* 近期笔记的焦点样式 */
 .notedir .dirlist .folder_body_boxs .folder_body .folder_name_box.focus,
 .notedir .dirlist .trashlist_box .trashlist_item.focus{
   background-color: rgba(0, 0, 0, 0.2);
